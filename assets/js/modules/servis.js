@@ -679,66 +679,11 @@ function renderPagination(totalPages, totalItems) {
 }
 
 // ======================
-// PREVIEW SERVIS
-// ======================
-function showPreview() {
-  const { total, items } = calculateTotal();
-  const customerInput = document.getElementById("customerInput");
-  const customerId = document.getElementById("customerSelect").value;
-  const tanggal = document.getElementById("tanggal").value;
-  
-  // Validation
-  let errors = [];
-  
-  if (!tanggal) errors.push("• Tanggal belum dipilih");
-  const today = new Date().toISOString().split('T')[0];
-  if (tanggal < today) errors.push("• Tidak dapat memilih tanggal yang sudah lewat");
-  if (!customerId) errors.push("• Pelanggan belum dipilih");
-  if (items.length === 0) errors.push("• Minimal satu item servis harus ditambahkan");
-  
-  if (errors.length > 0) {
-    alert("Validasi Gagal:\n" + errors.join("\n"));
-    return false;
-  }
-  
-  // Show preview
-  const customers = getData(CUSTOMER_KEY);
-  const customer = customers.find(c => c.id == customerId);
-  
-  const previewModal = new bootstrap.Modal(document.getElementById("modalPreview"));
-  document.getElementById("previewCustomer").textContent = customer ? customer.name : "-";
-  document.getElementById("previewPolice").textContent = customer ? (customer.policeNumber || "-") : "-";
-  document.getElementById("previewDate").textContent = formatDate(tanggal);
-  
-  const previewItems = document.getElementById("previewItems");
-  previewItems.innerHTML = items.map(item => `
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <div>
-        <strong>${sanitizeHTML(item.name)}</strong>
-        <small class="d-block text-muted">${formatCurrency(item.price)} x ${item.qty}</small>
-      </div>
-      <span class="badge bg-primary rounded-pill">${formatCurrency(item.price * item.qty)}</span>
-    </li>
-  `).join('');
-  
-  document.getElementById("previewTotal").textContent = formatCurrency(total);
-  
-  // Show catatan
-  const catatan = document.getElementById("catatan").value;
-  const previewCatatan = document.getElementById("previewCatatan");
-  previewCatatan.textContent = catatan || "-";
-  
-  previewModal.show();
-  return true;
-}
-
-// ======================
 // EVENT
 // ======================
 function setupEvent() {
   const btnSave = document.getElementById("saveServis");
   const btnAddItem = document.getElementById("addItem");
-  const btnPreview = document.getElementById("previewServis");
   const table = document.getElementById("servisTable");
   const btnClearCustomer = document.getElementById("clearCustomer");
   
@@ -775,12 +720,8 @@ function setupEvent() {
   // Add item
   btnAddItem.addEventListener("click", addItemRow);
   
-  // Preview
-  btnPreview.addEventListener("click", showPreview);
-  
-  // Save with preview confirmation
+  // Save with confirmation
   btnSave.addEventListener("click", () => {
-    // First show preview for confirmation
     const { total, items } = calculateTotal();
     const customerInput = document.getElementById("customerInput");
     const customerId = document.getElementById("customerSelect").value;
