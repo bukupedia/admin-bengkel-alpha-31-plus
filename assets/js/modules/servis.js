@@ -1270,6 +1270,8 @@ function showDetail(id) {
   
   document.getElementById("detailCustomer").textContent = customer ? customer.name : "-";
   document.getElementById("detailPoliceNumber").textContent = customer ? (customer.policeNumber || "-") : "-";
+  document.getElementById("detailVehicleBrand").textContent = customer ? (customer.vehicleBrand || "-") : "-";
+  document.getElementById("detailVehicleName").textContent = customer ? (customer.vehicleName || "-") : "-";
   document.getElementById("detailTanggal").textContent = formatDate(servis.tanggal);
   const statusText = servis.status === "selesai" ? "Selesai" : (servis.status === "servicing" ? "Diproses" : (servis.status === "dibatalkan" ? "Dibatalkan" : "Menunggu"));
   document.getElementById("detailStatus").textContent = statusText;
