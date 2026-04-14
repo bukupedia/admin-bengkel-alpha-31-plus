@@ -1,0 +1,224 @@
+/* Main Styles for Bengkel App */
+
+/* Table Responsive */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.875rem;
+  }
+  
+  .table th, 
+  .table td {
+    padding: 0.5rem;
+    white-space: nowrap;
+  }
+  
+  .btn-sm {
+    padding: 0.25rem 0.4rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Card Improvements */
+.card {
+  border-radius: 8px;
+  border: none;
+}
+
+.card-header {
+  border-bottom: 1px solid #eee;
+  font-weight: 600;
+}
+
+/* Modal Improvements */
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+}
+
+.modal-header .btn-close {
+  padding: 0.5rem;
+  margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  padding: 0.5rem 0.75rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+  border-color: #dc3545;
+}
+
+.form-control.is-invalid:focus,
+.form-select.is-invalid:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Button Improvements */
+.btn {
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+}
+
+/* Empty State */
+.empty-state {
+  padding: 2rem;
+  text-align: center;
+}
+
+.empty-state .icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  margin-bottom: 0.25rem;
+}
+
+.empty-state small {
+  color: #6c757d;
+}
+
+/* Navbar */
+.navbar {
+  padding: 0.75rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+}
+
+/* Card Summary on Dashboard */
+.card-summary {
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.card-summary:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Badges */
+.badge {
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.dropdown-item {
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Item Row in Servis Form */
+.item-row {
+  background-color: #f8f9fa;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+/* Container spacing */
+.container {
+  max-width: 1200px;
+}
+
+/* Page header */
+h3 {
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Table styles */
+.table thead th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+  color: #495057;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Footer */
+.footer-text {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
