@@ -2,17 +2,48 @@
 
 Codebase: alpha-30
 
-**Halaman Servis (servis.html):**
+### Added
+
+#### Halaman Servis (servis.html)
 - Added "Batal" button in "Tambah Servis" modal
+- Added "Merek Kendaraan" information in Detail Servis modal
+- Added "Nama Kendaraan" information in Detail Servis modal
 
-**Halaman Pelanggan (pelanggan.html):**
-- Added "Vehicle Brand" input (placeholder: "Contoh: Honda, Yamaha, Suzuki...")
-- Added "Vehicle Name" input (placeholder: "Contoh: Beat, Mio, Nex...")
-- Added "Batal" button in "Tambah Pelanggan" modal
+#### Halaman Pelanggan (pelanggan.html)
 - Added new "Edit Pelanggan" modal with "Batal" button
-- Updated pelanggan.js to handle new fields and separate edit modal
+- Added "Vehicle Brand" input field with placeholder "Merek Kendaraan: Honda, Yamaha, Suzuki..."
+- Added "Vehicle Name" input field with placeholder "Nama Kendaraan: Beat, Mio, Nex..."
+- Added "Batal" button in "Tambah Pelanggan" modal
 
-**Halaman Sparepart (sparepart.html):**
+#### Halaman Sparepart (sparepart.html)
 - Added "Batal" button in "Tambah Sparepart" modal
 - Added new "Edit Sparepart" modal with "Batal" button
-- Updated sparepart.js to handle separate edit modal
+
+### Changed
+
+#### Halaman Servis (servis.html, servis.js)
+- Updated Detail Servis modal to display vehicle brand and vehicle name from customer data
+- Updated placeholders for vehicle input fields in Pelanggan modals
+
+#### Halaman Pelanggan (pelanggan.html, pelanggan.js)
+- Modified pelanggan.js to handle vehicle fields (vehicleBrand, vehicleName)
+- Modified edit function to use separate edit modal instead of reusing same modal
+- Updated clearForm and clearEditForm functions for new fields
+
+#### Halaman Sparepart (sparepart.js)
+- Modified sparepart.js to handle separate edit modal
+- Updated clearForm and clearEditForm functions for edit modal
+
+### Removed
+
+#### Halaman Servis (servis.html, servis.js)
+- Removed "Pratinjau" button from "Tambah Servis" modal
+- Removed entire "Pratinjau Servis" modal (modalPreview)
+- Removed showPreview() function from servis.js
+- Removed preview-related event listeners and variables
+
+### Fixed
+
+#### General
+- Fixed modal structure to properly separate edit and add forms
+- Fixed JavaScript to properly handle new vehicle fields
