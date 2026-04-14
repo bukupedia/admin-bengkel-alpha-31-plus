@@ -46,10 +46,36 @@
       <div class="modal-body">
         <input id="namaPelanggan" class="form-control mb-2" placeholder="Nama" required>
         <input id="noHp" class="form-control mb-2" placeholder="No HP" type="tel" pattern="[0-9+\-\s\(\)]*">
-        <input id="nomorPolisi" class="form-control" placeholder="Nomor Polisi Kendaraan">
+        <input id="nomorPolisi" class="form-control mb-2" placeholder="Nomor Polisi Kendaraan">
+        <input id="vehicleBrand" class="form-control mb-2" placeholder="Contoh: Honda, Yamaha, Suzuki...">
+        <input id="vehicleName" class="form-control" placeholder="Contoh: Beat, Mio, Nex...">
       </div>
       <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
         <button class="btn btn-primary" id="savePelanggan">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEditPelanggan">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Edit Pelanggan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editPelangganId">
+        <input id="editNamaPelanggan" class="form-control mb-2" placeholder="Nama" required>
+        <input id="editNoHp" class="form-control mb-2" placeholder="No HP" type="tel" pattern="[0-9+\-\s\(\)]*">
+        <input id="editNomorPolisi" class="form-control mb-2" placeholder="Nomor Polisi Kendaraan">
+        <input id="editVehicleBrand" class="form-control mb-2" placeholder="Contoh: Honda, Yamaha, Suzuki...">
+        <input id="editVehicleName" class="form-control" placeholder="Contoh: Beat, Mio, Nex...">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn btn-primary" id="saveEditPelanggan">Simpan</button>
       </div>
     </div>
   </div>

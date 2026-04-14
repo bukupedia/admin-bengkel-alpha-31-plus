@@ -49,7 +49,29 @@
         <input id="hargaPart" type="number" class="form-control" placeholder="Harga" min="0" required>
       </div>
       <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
         <button class="btn btn-primary" id="savePart">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEditPart">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Edit Sparepart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editPartId">
+        <input id="editNamaPart" class="form-control mb-2" placeholder="Nama Part" required>
+        <input id="editQtyPart" type="number" class="form-control mb-2" placeholder="Quantity" min="0" value="0">
+        <input id="editHargaPart" type="number" class="form-control" placeholder="Harga" min="0" required>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn btn-primary" id="saveEditPart">Simpan</button>
       </div>
     </div>
   </div>

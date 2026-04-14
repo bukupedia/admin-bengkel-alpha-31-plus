@@ -65,6 +65,7 @@ function renderTable(searchQuery = "") {
 // SETUP EVENT
 function setupEvent() {
   const btnSave = document.getElementById("savePelanggan");
+  const btnSaveEdit = document.getElementById("saveEditPelanggan");
   const table = document.getElementById("pelangganTable");
   const searchInput = document.getElementById("searchPelanggan");
 
@@ -76,6 +77,15 @@ function setupEvent() {
     delete document.getElementById("savePelanggan").dataset.editId;
   });
 
+  // Reset edit modal when closed
+  const modalEditPelanggan = document.getElementById("modalEditPelanggan");
+  if (modalEditPelanggan) {
+    modalEditPelanggan.addEventListener("hidden.bs.modal", () => {
+      clearEditForm();
+      delete document.getElementById("saveEditPelanggan").dataset.editId;
+    });
+  }
+
   // Search functionality with debounce
   let searchTimeout;
   searchInput.addEventListener("input", (e) => {
@@ -86,14 +96,19 @@ function setupEvent() {
     }, 300);
   });
 
+  // Save new customer
   btnSave.addEventListener("click", () => {
     const nameInput = document.getElementById("namaPelanggan");
     const phoneInput = document.getElementById("noHp");
     const policeInput = document.getElementById("nomorPolisi");
+    const vehicleBrandInput = document.getElementById("vehicleBrand");
+    const vehicleNameInput = document.getElementById("vehicleName");
     
     const name = nameInput.value.trim();
     const phone = phoneInput.value.trim();
     const policeNumber = policeInput.value.trim();
+    const vehicleBrand = vehicleBrandInput.value.trim();
+    const vehicleName = vehicleNameInput.value.trim();
 
     // Validation - ensure required fields are filled
     if (!name || name.length === 0) {
@@ -114,13 +129,77 @@ function setupEvent() {
     const sanitizedName = name.substring(0, 100).replace(/[<>]/g, "");
     const sanitizedPhone = phone ? phone.substring(0, 20) : "";
     const sanitizedPolice = policeNumber ? policeNumber.substring(0, 15) : "";
+    const sanitizedVehicleBrand = vehicleBrand ? vehicleBrand.substring(0, 50) : "";
+    const sanitizedVehicleName = vehicleName ? vehicleName.substring(0, 50) : "";
 
-    // Check if editing or adding
-    const editId = btnSave.dataset.editId;
-    const data = getData(KEY);
+    // Add new
+    const newCustomer = {
+      id: generateId(),
+      name: sanitizedName,
+      phone: sanitizedPhone,
+      policeNumber: sanitizedPolice,
+      vehicleBrand: sanitizedVehicleBrand,
+      vehicleName: sanitizedVehicleName
+    };
     
-    if (editId) {
+    // Check for duplicate name
+    const data = getData(KEY);
+    const exists = data.some(c => c.name.toLowerCase() === sanitizedName.toLowerCase());
+    if (exists) {
+      alert("Nama pelanggan sudah ada!");
+      return;
+    }
+    
+    data.push(newCustomer);
+    saveData(KEY, data);
+
+    clearForm();
+    renderTable();
+    closeModal();
+  });
+
+  // Save edited customer
+  if (btnSaveEdit) {
+    btnSaveEdit.addEventListener("click", () => {
+      const editId = btnSaveEdit.dataset.editId;
+      if (!editId) return;
+
+      const nameInput = document.getElementById("editNamaPelanggan");
+      const phoneInput = document.getElementById("editNoHp");
+      const policeInput = document.getElementById("editNomorPolisi");
+      const vehicleBrandInput = document.getElementById("editVehicleBrand");
+      const vehicleNameInput = document.getElementById("editVehicleName");
+      
+      const name = nameInput.value.trim();
+      const phone = phoneInput.value.trim();
+      const policeNumber = policeInput.value.trim();
+      const vehicleBrand = vehicleBrandInput.value.trim();
+      const vehicleName = vehicleNameInput.value.trim();
+
+      // Validation - ensure required fields are filled
+      if (!name || name.length === 0) {
+        nameInput.classList.add("is-invalid");
+        return;
+      }
+      nameInput.classList.remove("is-invalid");
+
+      // Validate phone format (allow digits, spaces, dashes, parentheses)
+      const phoneRegex = /^[\d\s\-\(\)]+$/;
+      if (phone && !phoneRegex.test(phone)) {
+        phoneInput.classList.add("is-invalid");
+        return;
+      }
+      phoneInput.classList.remove("is-invalid");
+
+      // Additional sanitization: trim and limit length
+      const sanitizedName = name.substring(0, 100).replace(/[<>]/g, "");
+      const sanitizedPhone = phone ? phone.substring(0, 20) : "";
+      const sanitizedPolice = policeNumber ? policeNumber.substring(0, 15) : "";
+      const sanitizedVehicleBrand = vehicleBrand ? vehicleBrand.substring(0, 50) : "";
+      const sanitizedVehicleName = vehicleName ? vehicleName.substring(0, 50) : "";
+
       // Update existing
+      const data = getData(KEY);
       const index = data.findIndex(c => c.id == editId);
       if (index !== -1) {
         // Check for duplicate name (excluding current)
@@ -132,33 +211,16 @@ function setupEvent() {
         data[index].name = sanitizedName;
         data[index].phone = sanitizedPhone;
         data[index].policeNumber = sanitizedPolice;
+        data[index].vehicleBrand = sanitizedVehicleBrand;
+        data[index].vehicleName = sanitizedVehicleName;
         saveData(KEY, data);
       }
-      delete btnSave.dataset.editId;
-    } else {
-      // Add new
-      const newCustomer = {
-        id: generateId(),
-        name: sanitizedName,
-        phone: sanitizedPhone,
-        policeNumber: sanitizedPolice
-      };
-      
-      // Check for duplicate name
-      const exists = data.some(c => c.name.toLowerCase() === sanitizedName.toLowerCase());
-      if (exists) {
-        alert("Nama pelanggan sudah ada!");
-        return;
-      }
-      
-      data.push(newCustomer);
-      saveData(KEY, data);
-    }
 
-    clearForm();
-    renderTable();
-    closeModal();
-  });
+      clearEditForm();
+      renderTable();
+      closeEditModal();
+    });
+  }
   
   // Table events
   table.addEventListener("click", (e) => {
@@ -199,19 +261,19 @@ function editCustomer(id) {
   const customer = data.find(c => c.id == id);
   if (!customer) return;
 
-  // Set values to form
-  document.getElementById("namaPelanggan").value = customer.name;
-  document.getElementById("noHp").value = customer.phone || "";
-  document.getElementById("nomorPolisi").value = customer.policeNumber || "";
+  // Set values to edit form
+  document.getElementById("editPelangganId").value = id;
+  document.getElementById("editNamaPelanggan").value = customer.name || "";
+  document.getElementById("editNoHp").value = customer.phone || "";
+  document.getElementById("editNomorPolisi").value = customer.policeNumber || "";
+  document.getElementById("editVehicleBrand").value = customer.vehicleBrand || "";
+  document.getElementById("editVehicleName").value = customer.vehicleName || "";
   
   // Set edit ID
-  document.getElementById("savePelanggan").dataset.editId = id;
+  document.getElementById("saveEditPelanggan").dataset.editId = id;
   
-  // Update modal title
-  document.querySelector("#modalPelanggan .modal-header h5").textContent = "Edit Pelanggan";
-  
-  // Show modal
-  const modal = new bootstrap.Modal(document.getElementById("modalPelanggan"));
+  // Show edit modal
+  const modal = new bootstrap.Modal(document.getElementById("modalEditPelanggan"));
   modal.show();
 }
 
@@ -220,6 +282,8 @@ function clearForm() {
   document.getElementById("namaPelanggan").value = "";
   document.getElementById("noHp").value = "";
   document.getElementById("nomorPolisi").value = "";
+  document.getElementById("vehicleBrand").value = "";
+  document.getElementById("vehicleName").value = "";
   
   // Remove validation classes
   document.getElementById("namaPelanggan").classList.remove("is-invalid");
@@ -227,6 +291,20 @@ function clearForm() {
   
   // Reset modal title
   document.querySelector("#modalPelanggan .modal-header h5").textContent = "Tambah Pelanggan";
+}
+
+// CLEAR EDIT FORM
+function clearEditForm() {
+  document.getElementById("editPelangganId").value = "";
+  document.getElementById("editNamaPelanggan").value = "";
+  document.getElementById("editNoHp").value = "";
+  document.getElementById("editNomorPolisi").value = "";
+  document.getElementById("editVehicleBrand").value = "";
+  document.getElementById("editVehicleName").value = "";
+  
+  // Remove validation classes
+  document.getElementById("editNamaPelanggan").classList.remove("is-invalid");
+  document.getElementById("editNoHp").classList.remove("is-invalid");
 }
 
 // CLOSE MODAL
@@ -243,4 +321,20 @@ function closeModal() {
   
   // Remove edit ID
   delete document.getElementById("savePelanggan").dataset.editId;
+}
+
+// CLOSE EDIT MODAL
+function closeEditModal() {
+  const modal = bootstrap.Modal.getInstance(
+    document.getElementById("modalEditPelanggan")
+  );
+  if (modal) {
+    modal.hide();
+  }
+  
+  // Reset form when modal is closed
+  clearEditForm();
+  
+  // Remove edit ID
+  delete document.getElementById("saveEditPelanggan").dataset.editId;
 }
