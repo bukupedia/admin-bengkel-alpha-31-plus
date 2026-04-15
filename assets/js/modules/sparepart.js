@@ -95,6 +95,7 @@ function renderTable(searchQuery = "") {
 // ======================
 function setupEvent() {
   const btnSave = document.getElementById("savePart");
+  const btnSaveEdit = document.getElementById("saveEditPart");
   const table = document.getElementById("partTable");
   const searchInput = document.getElementById("searchPart");
 
@@ -106,6 +107,15 @@ function setupEvent() {
     delete document.getElementById("savePart").dataset.editId;
   });
 
+  // Reset edit modal when closed
+  const modalEditPart = document.getElementById("modalEditPart");
+  if (modalEditPart) {
+    modalEditPart.addEventListener("hidden.bs.modal", () => {
+      clearEditForm();
+      delete document.getElementById("saveEditPart").dataset.editId;
+    });
+  }
+
   // Search functionality with debounce
   let searchTimeout;
   searchInput.addEventListener("input", (e) => {
@@ -116,6 +126,7 @@ function setupEvent() {
     }, 300);
   });
 
+  // Save new part
   btnSave.addEventListener("click", () => {
     const nameInput = document.getElementById("namaPart");
     const qtyInput = document.getElementById("qtyPart");
@@ -161,12 +172,82 @@ function setupEvent() {
     // Additional sanitization: trim and limit length
     const sanitizedName = name.substring(0, 100).replace(/[<>]/g, "");
 
-    // Check if editing or adding
-    const editId = btnSave.dataset.editId;
-    const data = getData(KEY);
+    // Add new
+    const newPart = {
+      id: generateId(),
+      name: sanitizedName,
+      qty,
+      price
+    };
     
-    if (editId) {
+    // Check for duplicate name
+    const data = getData(KEY);
+    const exists = data.some(p => p.name.toLowerCase() === sanitizedName.toLowerCase());
+    if (exists) {
+      alert("Nama sparepart sudah ada!");
+      return;
+    }
+    
+    data.push(newPart);
+    saveData(KEY, data);
+
+    clearForm();
+    renderTable(searchInput.value.toLowerCase());
+    closeModal();
+  });
+
+  // Save edited part
+  if (btnSaveEdit) {
+    btnSaveEdit.addEventListener("click", () => {
+      const editId = btnSaveEdit.dataset.editId;
+      if (!editId) return;
+
+      const nameInput = document.getElementById("editNamaPart");
+      const qtyInput = document.getElementById("editQtyPart");
+      const priceInput = document.getElementById("editHargaPart");
+      
+      const name = nameInput.value.trim();
+      const qty = parseInt(qtyInput.value) || 0;
+      const price = parseInt(priceInput.value);
+
+      // Validation - ensure numeric fields have valid positive numbers
+      if (!name || name.length === 0) {
+        nameInput.classList.add("is-invalid");
+        return;
+      }
+      nameInput.classList.remove("is-invalid");
+      
+      // Validate price is a positive number
+      if (!price || price <= 0 || isNaN(price)) {
+        priceInput.classList.add("is-invalid");
+        return;
+      }
+      priceInput.classList.remove("is-invalid");
+      
+      // Also ensure price is an integer
+      if (!Number.isInteger(price)) {
+        priceInput.classList.add("is-invalid");
+        return;
+      }
+
+      // Validate quantity is a non-negative integer
+      if (qty < 0 || isNaN(qty)) {
+        qtyInput.classList.add("is-invalid");
+        return;
+      }
+      qtyInput.classList.remove("is-invalid");
+      
+      // Also ensure quantity is an integer
+      if (!Number.isInteger(qty)) {
+        qtyInput.classList.add("is-invalid");
+        return;
+      }
+
+      // Additional sanitization: trim and limit length
+      const sanitizedName = name.substring(0, 100).replace(/[<>]/g, "");
+
       // Update existing
+      const data = getData(KEY);
       const index = data.findIndex(p => p.id == editId);
       if (index !== -1) {
         // Check for duplicate name (excluding current)
@@ -180,31 +261,12 @@ function setupEvent() {
         data[index].price = price;
         saveData(KEY, data);
       }
-      delete btnSave.dataset.editId;
-    } else {
-      // Add new
-      const newPart = {
-        id: generateId(),
-        name: sanitizedName,
-        qty,
-        price
-      };
-      
-      // Check for duplicate name
-      const exists = data.some(p => p.name.toLowerCase() === sanitizedName.toLowerCase());
-      if (exists) {
-        alert("Nama sparepart sudah ada!");
-        return;
-      }
-      
-      data.push(newPart);
-      saveData(KEY, data);
-    }
 
-    clearForm();
-    renderTable(searchInput.value.toLowerCase());
-    closeModal();
-  });
+      clearEditForm();
+      renderTable(searchInput.value.toLowerCase());
+      closeEditModal();
+    });
+  }
   
   // Table events
   table.addEventListener("click", (e) => {
@@ -257,19 +319,17 @@ function editPart(id) {
   const part = data.find(p => p.id == id);
   if (!part) return;
 
-  // Set values to form
-  document.getElementById("namaPart").value = part.name;
-  document.getElementById("qtyPart").value = part.qty || 0;
-  document.getElementById("hargaPart").value = part.price;
+  // Set values to edit form
+  document.getElementById("editPartId").value = id;
+  document.getElementById("editNamaPart").value = part.name;
+  document.getElementById("editQtyPart").value = part.qty || 0;
+  document.getElementById("editHargaPart").value = part.price;
   
   // Set edit ID
-  document.getElementById("savePart").dataset.editId = id;
+  document.getElementById("saveEditPart").dataset.editId = id;
   
-  // Update modal title
-  document.querySelector("#modalPart .modal-header h5").textContent = "Edit Sparepart";
-  
-  // Show modal
-  const modal = new bootstrap.Modal(document.getElementById("modalPart"));
+  // Show edit modal
+  const modal = new bootstrap.Modal(document.getElementById("modalEditPart"));
   modal.show();
 }
 
@@ -290,6 +350,18 @@ function clearForm() {
   document.querySelector("#modalPart .modal-header h5").textContent = "Tambah Sparepart";
 }
 
+function clearEditForm() {
+  document.getElementById("editPartId").value = "";
+  document.getElementById("editNamaPart").value = "";
+  document.getElementById("editQtyPart").value = "";
+  document.getElementById("editHargaPart").value = "";
+  
+  // Remove validation classes
+  document.getElementById("editNamaPart").classList.remove("is-invalid");
+  document.getElementById("editQtyPart").classList.remove("is-invalid");
+  document.getElementById("editHargaPart").classList.remove("is-invalid");
+}
+
 function closeModal() {
   const modal = bootstrap.Modal.getInstance(
     document.getElementById("modalPart")
@@ -303,4 +375,19 @@ function closeModal() {
   
   // Remove edit ID
   delete document.getElementById("savePart").dataset.editId;
+}
+
+function closeEditModal() {
+  const modal = bootstrap.Modal.getInstance(
+    document.getElementById("modalEditPart")
+  );
+  if (modal) {
+    modal.hide();
+  }
+  
+  // Reset form when modal is closed
+  clearEditForm();
+  
+  // Remove edit ID
+  delete document.getElementById("saveEditPart").dataset.editId;
 }

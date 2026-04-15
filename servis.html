@@ -106,11 +106,11 @@
   <!-- TOTAL -->
   <div class="d-flex justify-content-between align-items-center">
     <h5>Total: <span id="totalDisplay">Rp 0</span></h5>
-    <button class="btn btn-info btn-sm" id="previewServis">Pratinjau</button>
   </div>
 
 </div>
       <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
         <button class="btn btn-primary" id="saveServis">Simpan</button>
       </div>
     </div>
@@ -129,6 +129,8 @@
       <div class="modal-body">
         <p><strong>Pelanggan:</strong> <span id="detailCustomer"></span></p>
         <p><strong>No. Polisi:</strong> <span id="detailPoliceNumber"></span></p>
+        <p><strong>Merek Kendaraan:</strong> <span id="detailVehicleBrand"></span></p>
+        <p><strong>Nama Kendaraan:</strong> <span id="detailVehicleName"></span></p>
         <p><strong>Tanggal:</strong> <span id="detailTanggal"></span></p>
         <p><strong>Status:</strong> <span id="detailStatus"></span></p>
 
@@ -143,40 +145,6 @@
         <p id="detailCatatan" class="text-muted fst-italic"></p>
 
         <h5>Total: <span id="detailTotal"></span></h5>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-  <!-- Modal Preview -->
-  <div class="modal fade" id="modalPreview">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      
-      <div class="modal-header">
-        <h5>Pratinjau Servis</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-body">
-        <p><strong>Pelanggan:</strong> <span id="previewCustomer"></span></p>
-        <p><strong>No. Polisi:</strong> <span id="previewPolice"></span></p>
-        <p><strong>Tanggal:</strong> <span id="previewDate"></span></p>
-
-        <hr>
-
-        <h6>Item:</h6>
-        <ul id="previewItems" class="list-group mb-3"></ul>
-
-        <h6>Catatan:</h6>
-        <p id="previewCatatan" class="text-muted fst-italic"></p>
-
-        <h5>Total: <span id="previewTotal"></span></h5>
       </div>
 
       <div class="modal-footer">
