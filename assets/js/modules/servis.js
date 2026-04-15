@@ -531,16 +531,38 @@ function renderTable(searchQuery = "", statusFilter = "") {
     };
     const statusInfo = statusMap[item.status] || statusMap.menunggu;
     
-    // WhatsApp message based on status
+    // Get customer vehicle info
+    const customerVehicleBrand = customer ? (customer.vehicleBrand || "") : "";
+    const customerVehicleName = customer ? (customer.vehicleName || "") : "";
+    const customerPoliceNumberVal = customer ? (customer.policeNumber || "") : "";
+    
+    // Check if vehicle info is complete (both brand and name are provided)
+    const hasVehicleInfo = customerVehicleBrand.trim() !== "" && customerVehicleName.trim() !== "";
+    
+    // WhatsApp message based on status and vehicle info availability
     let waMessage = "";
-    if (item.status === "menunggu") {
-      waMessage = "Kendaraan Anda akan segera kami tangani. Harap menunggu. Informasi status kendaraan Anda akan dikirimkan melalui nomor ini. Terimakasih";
-    } else if (item.status === "servicing") {
-      waMessage = "Pelanggan yang terhormat, Terimakasih sudah menunggu. Kendaraan Anda sedang ditangani oleh mekanik kami";
-    } else if (item.status === "selesai") {
-      waMessage = "Terimakasih sudah menunggu. Kendaraan Anda sudah selesai kami tangani.";
-    } else if (item.status === "dibatalkan") {
-      waMessage = "Status servis kendaraan Anda telah Dibatalkan. Berikan Saran dan Kritik Anda melalui nomor ini. Saran dan Kritik yang Anda berikan akan membantu kami untuk menjadi lebih baik. Terimakasih telah berkunjung ke Bengkel Kami!. Hormat Kami.";
+    if (hasVehicleInfo) {
+      // Messages WITH vehicle info
+      if (item.status === "menunggu") {
+        waMessage = `Kendaraan Anda ${customerVehicleBrand} ${customerVehicleName} dengan No. Polisi ${customerPoliceNumberVal} akan segera kami tangani. Harap menunggu. Informasi status kendaraan Anda akan dikirimkan melalui nomor ini. Terimakasih`;
+      } else if (item.status === "servicing") {
+        waMessage = `Pelanggan yang terhormat, Terimakasih sudah menunggu. Kendaraan Anda ${customerVehicleBrand} ${customerVehicleName} dengan No. Polisi ${customerPoliceNumberVal} sedang ditangani oleh mekanik kami`;
+      } else if (item.status === "selesai") {
+        waMessage = `Terimakasih sudah menunggu. Kendaraan Anda ${customerVehicleBrand} ${customerVehicleName} dengan No. Polisi ${customerPoliceNumberVal} sudah selesai kami tangani.`;
+      } else if (item.status === "dibatalkan") {
+        waMessage = `Status servis kendaraan Anda ${customerVehicleBrand} ${customerVehicleName} dengan No. Polisi ${customerPoliceNumberVal} telah Dibatalkan. Berikan Saran dan Kritik Anda melalui nomor ini. Saran dan Kritik yang Anda berikan akan membantu kami untuk menjadi lebih baik. Terimakasih telah berkunjung ke Bengkel Kami!. Hormat Kami.`;
+      }
+    } else {
+      // Fallback messages WITHOUT vehicle info (when vehicle brand or name is not provided)
+      if (item.status === "menunggu") {
+        waMessage = "Kendaraan Anda akan segera kami tangani. Harap menunggu. Informasi status kendaraan Anda akan dikirimkan melalui nomor ini. Terimakasih";
+      } else if (item.status === "servicing") {
+        waMessage = "Pelanggan yang terhormat, Terimakasih sudah menunggu. Kendaraan Anda sedang ditangani oleh mekanik kami";
+      } else if (item.status === "selesai") {
+        waMessage = "Terimakasih sudah menunggu. Kendaraan Anda sudah selesai kami tangani.";
+      } else if (item.status === "dibatalkan") {
+        waMessage = "Status servis kendaraan Anda telah Dibatalkan. Berikan Saran dan Kritik Anda melalui nomor ini. Saran dan Kritik yang Anda berikan akan membantu kami untuk menjadi lebih baik. Terimaksih telah berkunjung ke Bengkel Kami!. Hormat Kami.";
+      }
     }
     
     // WhatsApp - send to customer's phone number
