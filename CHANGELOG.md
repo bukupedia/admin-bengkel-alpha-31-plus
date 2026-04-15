@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [alpha-31]
+## [alpha-31] - 2025-04-14
+
+Codebase: alpha-30
 
 ### Added
 
@@ -13,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Batal" button in "Tambah Servis" modal
 - Added "Merek Kendaraan" information in Detail Servis modal
 - Added "Nama Kendaraan" information in Detail Servis modal
-- Added dynamic WhatsApp messages based on vehicle info availability
 
 #### Halaman Pelanggan (pelanggan.html)
 - Added new "Edit Pelanggan" modal with "Batal" button
@@ -30,8 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Halaman Servis (servis.html, servis.js)
 - Updated Detail Servis modal to display vehicle brand and vehicle name from customer data
 - Updated placeholders for vehicle input fields in Pelanggan modals
-- Updated WhatsApp auto messages with vehicle information (Merek, Nama, No. Polisi)
-- Updated WhatsApp auto messages fallback when vehicle brand or name is not provided
 
 #### Halaman Pelanggan (pelanggan.html, pelanggan.js)
 - Modified pelanggan.js to handle vehicle fields (vehicleBrand, vehicleName)
@@ -55,9 +54,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### General
 - Fixed modal structure to properly separate edit and add forms
 - Fixed JavaScript to properly handle new vehicle fields
-- Fixed WhatsApp message variable naming conflict
 
 ## [alpha-32] - 2025-04-15
+
+Codebase: alpha-31
 
 ### Added
 
