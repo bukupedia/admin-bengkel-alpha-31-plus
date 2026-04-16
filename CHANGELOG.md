@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+#### Halaman Pelanggan (pelanggan.html, pelanggan.js)
+- Added required field validation for Nama, No. HP, and Nomor Polisi Kendaraan in "Tambah Pelanggan" modal
+- Added pagination with 10 records per page
+- Added "Detail" button (👁️) to view customer details
+- Added "WhatsApp" button (💬) to send WhatsApp message to customer
+- Added "Detail Pelanggan" modal to display complete customer information including servis history
+- Added required attribute to Nama, No. HP, and Nomor Polisi input fields in HTML
+
+### Changed
+
+#### Halaman Pelanggan (pelanggan.js)
+- Modified renderTable() to support pagination
+- Modified search functionality to reset to first page on new search
+- Updated clearForm() and clearEditForm() to reset validation classes for all required fields
+
 ## [alpha-31] - 2025-04-14
 
 Codebase: alpha-30

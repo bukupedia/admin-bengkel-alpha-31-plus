@@ -13,6 +13,9 @@ Sistem manajemen bengkel sederhana berbasis web menggunakan LocalStorage untuk m
 - Tambah, edit, dan hapus data pelanggan
 - Data pelanggan: Nama, Nomor HP, Alamat, Nomor Polisi, Merek Kendaraan, Nama Kendaraan
 - Pencarian pelanggan
+- **Validasi wajib diisi**: Nama, No. HP, dan Nomor Polisi Kendaraan wajib diisi
+- **Paginasi**: Tampilkan 10 record per halaman
+- **Tombol aksi**: Detail pelanggan dan Kirim pesan WhatsApp
 
 ### Halaman Servis
 - Tambah dan kelola data servis

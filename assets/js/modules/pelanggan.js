@@ -6,6 +6,9 @@ import { generateId, sanitizeHTML } from "../utils.js";
 const KEY = "customers";
 const SERVIS_KEY = "servis";
 
+let currentPage = 1;
+const ITEMS_PER_PAGE = 10;
+
 // INIT PAGE
 export function initPelangganPage() {
   renderTable();
@@ -29,24 +32,35 @@ function renderTable(searchQuery = "") {
     });
   }
 
+  // Pagination
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedData = filteredData.slice(startIndex, endIndex);
+
   table.innerHTML = "";
 
   if (filteredData.length === 0) {
-    table.innerHTML = `<tr><td colspan="4" class="text-center py-4">
+    table.innerHTML = `<tr><td colspan="5" class="text-center py-4">
       <div class="text-muted">
         <p class="mb-1">📋</p>
         <p>${searchQuery ? "Tidak ada hasil pencarian" : "Belum ada data pelanggan"}</p>
         <small>${searchQuery ? "Coba kata kunci lain" : "Klik tombol 'Tambah' untuk menambahkan pelanggan"}</small>
       </div>
     </td></tr>`;
+    renderPagination(0, 0, totalPages);
     return;
   }
 
-  filteredData.forEach((item) => {
+  paginatedData.forEach((item) => {
     // Sanitize user input before rendering
     const safeName = sanitizeHTML(item.name);
     const safePhone = sanitizeHTML(item.phone);
     const safePolice = sanitizeHTML(item.policeNumber || '-');
+    
+    // Format WhatsApp URL
+    const phoneNumber = item.phone ? item.phone.replace(/[^0-9]/g, '') : '';
+    const waUrl = phoneNumber ? `https://wa.me/${phoneNumber}` : '#';
     
     table.innerHTML += `
       <tr>
@@ -54,11 +68,100 @@ function renderTable(searchQuery = "") {
         <td>${safePhone}</td>
         <td>${safePolice}</td>
         <td>
+          <button class="btn btn-info btn-sm btn-detail" data-id="${item.id}" title="Detail">👁️</button>
+          <a href="${waUrl}" target="_blank" class="btn btn-success btn-sm btn-whatsapp" data-phone="${item.phone}" title="Kirim WhatsApp" ${!phoneNumber ? 'style="display:none"' : ''}>💬</a>
           <button class="btn btn-warning btn-sm btn-edit" data-id="${item.id}" title="Edit">✏️</button>
           <button class="btn btn-danger btn-sm btn-delete" data-id="${item.id}" title="Hapus">🗑</button>
         </td>
       </tr>
     `;
+  });
+
+  renderPagination(totalPages);
+}
+
+// RENDER PAGINATION
+function renderPagination(totalPages) {
+  // Get or create pagination container
+  let paginationContainer = document.getElementById("paginationContainer");
+  if (!paginationContainer) {
+    const tableWrapper = document.querySelector(".table-responsive");
+    if (tableWrapper) {
+      paginationContainer = document.createElement("div");
+      paginationContainer.id = "paginationContainer";
+      paginationContainer.className = "d-flex justify-content-between align-items-center mt-3";
+      paginationContainer.innerHTML = `
+        <div id="paginationInfo" class="text-muted"></div>
+        <nav><ul class="pagination mb-0" id="paginationList"></ul></nav>
+      `;
+      tableWrapper.appendChild(paginationContainer);
+    }
+  }
+  
+  const paginationList = document.getElementById("paginationList");
+  const paginationInfo = document.getElementById("paginationInfo");
+  
+  if (totalPages <= 1) {
+    paginationList.innerHTML = "";
+    paginationInfo.textContent = "";
+    return;
+  }
+  
+  // Get current filtered data
+  const searchQuery = document.getElementById("searchPelanggan")?.value.toLowerCase() || "";
+  const data = getData(KEY);
+  let filteredData = data;
+  
+  if (searchQuery) {
+    filteredData = data.filter(item => {
+      const name = item.name.toLowerCase();
+      const phone = item.phone ? item.phone.toLowerCase() : "";
+      const police = item.policeNumber ? item.policeNumber.toLowerCase() : "";
+      return name.includes(searchQuery) || phone.includes(searchQuery) || police.includes(searchQuery);
+    });
+  }
+  
+  const totalItems = filteredData.length;
+  const start = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+  const end = Math.min(currentPage * ITEMS_PER_PAGE, totalItems);
+  
+  paginationInfo.textContent = `Menampilkan ${start} - ${end} dari ${totalItems} data`;
+  
+  let paginationHTML = "";
+  
+  // Previous button
+  paginationHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+    <a class="page-link" href="#" data-page="${currentPage - 1}">Sebelumnya</a>
+  </li>`;
+  
+  // Page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+      paginationHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+        <a class="page-link" href="#" data-page="${i}">${i}</a>
+      </li>`;
+    } else if (i === currentPage - 2 || i === currentPage + 2) {
+      paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+    }
+  }
+  
+  // Next button
+  paginationHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+    <a class="page-link" href="#" data-page="${currentPage + 1}">Selanjutnya</a>
+  </li>`;
+  
+  paginationList.innerHTML = paginationHTML;
+  
+  // Add click handlers
+  paginationList.querySelectorAll(".page-link").forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const page = parseInt(e.target.dataset.page);
+      if (page >= 1 && page <= totalPages && page !== currentPage) {
+        currentPage = page;
+        renderTable(searchQuery);
+      }
+    });
   });
 }
 
@@ -91,6 +194,7 @@ function setupEvent() {
   searchInput.addEventListener("input", (e) => {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
+      currentPage = 1; // Reset to first page on search
       const query = e.target.value.toLowerCase();
       renderTable(query);
     }, 300);
@@ -113,9 +217,26 @@ function setupEvent() {
     // Validation - ensure required fields are filled
     if (!name || name.length === 0) {
       nameInput.classList.add("is-invalid");
+      alert("Nama wajib diisi");
       return;
     }
     nameInput.classList.remove("is-invalid");
+
+    // Validate phone is required
+    if (!phone || phone.length === 0) {
+      phoneInput.classList.add("is-invalid");
+      alert("No. HP wajib diisi");
+      return;
+    }
+    phoneInput.classList.remove("is-invalid");
+
+    // Validate police number is required
+    if (!policeNumber || policeNumber.length === 0) {
+      policeInput.classList.add("is-invalid");
+      alert("Nomor Polisi Kendaraan wajib diisi");
+      return;
+    }
+    policeInput.classList.remove("is-invalid");
 
     // Validate phone format (allow digits, spaces, dashes, parentheses)
     const phoneRegex = /^[\d\s\-\(\)]+$/;
@@ -179,9 +300,26 @@ function setupEvent() {
       // Validation - ensure required fields are filled
       if (!name || name.length === 0) {
         nameInput.classList.add("is-invalid");
+        alert("Nama wajib diisi");
         return;
       }
       nameInput.classList.remove("is-invalid");
+
+      // Validate phone is required
+      if (!phone || phone.length === 0) {
+        phoneInput.classList.add("is-invalid");
+        alert("No. HP wajib diisi");
+        return;
+      }
+      phoneInput.classList.remove("is-invalid");
+
+      // Validate police number is required
+      if (!policeNumber || policeNumber.length === 0) {
+        policeInput.classList.add("is-invalid");
+        alert("Nomor Polisi Kendaraan wajib diisi");
+        return;
+      }
+      policeInput.classList.remove("is-invalid");
 
       // Validate phone format (allow digits, spaces, dashes, parentheses)
       const phoneRegex = /^[\d\s\-\(\)]+$/;
@@ -232,6 +370,11 @@ function setupEvent() {
     if (e.target.classList.contains("btn-edit")) {
       const id = e.target.dataset.id;
       editCustomer(id);
+    }
+    
+    if (e.target.classList.contains("btn-detail")) {
+      const id = e.target.dataset.id;
+      showCustomerDetail(id);
     }
   });
 }
@@ -288,6 +431,7 @@ function clearForm() {
   // Remove validation classes
   document.getElementById("namaPelanggan").classList.remove("is-invalid");
   document.getElementById("noHp").classList.remove("is-invalid");
+  document.getElementById("nomorPolisi").classList.remove("is-invalid");
   
   // Reset modal title
   document.querySelector("#modalPelanggan .modal-header h5").textContent = "Tambah Pelanggan";
@@ -305,6 +449,7 @@ function clearEditForm() {
   // Remove validation classes
   document.getElementById("editNamaPelanggan").classList.remove("is-invalid");
   document.getElementById("editNoHp").classList.remove("is-invalid");
+  document.getElementById("editNomorPolisi").classList.remove("is-invalid");
 }
 
 // CLOSE MODAL
@@ -337,4 +482,74 @@ function closeEditModal() {
   
   // Remove edit ID
   delete document.getElementById("saveEditPelanggan").dataset.editId;
+}
+
+// SHOW CUSTOMER DETAIL
+function showCustomerDetail(id) {
+  const data = getData(KEY);
+  const customer = data.find(c => c.id == id);
+  if (!customer) return;
+
+  // Get servis history for this customer
+  const servisData = getData(SERVIS_KEY);
+  const customerServis = servisData.filter(s => s.customerId == id);
+
+  const detailContent = document.getElementById("detailContent");
+  if (!detailContent) return;
+
+  detailContent.innerHTML = `
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Nama</label>
+        <p class="mb-0">${sanitizeHTML(customer.name)}</p>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">No. HP</label>
+        <p class="mb-0">${sanitizeHTML(customer.phone || '-')}</p>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Nomor Polisi</label>
+        <p class="mb-0">${sanitizeHTML(customer.policeNumber || '-')}</p>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Merek Kendaraan</label>
+        <p class="mb-0">${sanitizeHTML(customer.vehicleBrand || '-')}</p>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Nama Kendaraan</label>
+        <p class="mb-0">${sanitizeHTML(customer.vehicleName || '-')}</p>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Total Servis</label>
+        <p class="mb-0">${customerServis.length} kali</p>
+      </div>
+    </div>
+    ${customerServis.length > 0 ? `
+    <hr>
+    <h6 class="fw-bold">Riwayat Servis:</h6>
+    <div class="table-responsive">
+      <table class="table table-sm table-bordered">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Jenis Servis</th>
+            <th>Total Biaya</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${customerServis.map(s => `
+            <tr>
+              <td>${s.date || '-'}</td>
+              <td>${sanitizeHTML(s.serviceType || '-')}</td>
+              <td>${s.totalCost ? 'Rp ' + parseInt(s.totalCost).toLocaleString('id-ID') : '-'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+    ` : '<p class="text-muted mt-3">Belum ada riwayat servis</p>'}
+  `;
+
+  const modal = new bootstrap.Modal(document.getElementById("modalDetailPelanggan"));
+  modal.show();
 }

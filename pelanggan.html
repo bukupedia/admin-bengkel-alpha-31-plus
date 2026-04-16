@@ -45,8 +45,8 @@
       </div>
       <div class="modal-body">
         <input id="namaPelanggan" class="form-control mb-2" placeholder="Nama" required>
-        <input id="noHp" class="form-control mb-2" placeholder="No HP" type="tel" pattern="[0-9+\-\s\(\)]*">
-        <input id="nomorPolisi" class="form-control mb-2" placeholder="Nomor Polisi Kendaraan">
+        <input id="noHp" class="form-control mb-2" placeholder="No HP" type="tel" required>
+        <input id="nomorPolisi" class="form-control mb-2" placeholder="Nomor Polisi Kendaraan" required>
         <input id="vehicleBrand" class="form-control mb-2" placeholder="Merek Kendaraan: Honda, Yamaha, Suzuki...">
         <input id="vehicleName" class="form-control" placeholder="Nama Kendaraan: Beat, Mio, Nex...">
       </div>
@@ -76,6 +76,23 @@
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
         <button class="btn btn-primary" id="saveEditPelanggan">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalDetailPelanggan">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Detail Pelanggan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="detailContent"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>
