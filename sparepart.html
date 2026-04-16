@@ -26,6 +26,8 @@
       <thead class="table-light">
         <tr>
           <th>Nama</th>
+          <th>Supplier</th>
+          <th>Telepon</th>
           <th>Quantity</th>
           <th>Harga</th>
           <th>Aksi</th>
@@ -34,6 +36,11 @@
       <tbody id="partTable"></tbody>
     </table>
   </div>
+  
+  <!-- Pagination -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center mt-3" id="pagination"></ul>
+  </nav>
 </div>
 
 <div class="modal fade" id="modalPart">
@@ -45,8 +52,24 @@
       </div>
       <div class="modal-body">
         <input id="namaPart" class="form-control mb-2" placeholder="Nama Part" required>
-        <input id="qtyPart" type="number" class="form-control mb-2" placeholder="Quantity" min="0" value="0">
-        <input id="hargaPart" type="number" class="form-control" placeholder="Harga" min="0" required>
+        <input id="deskripsiPart" class="form-control mb-2" placeholder="Deskripsi/Keterangan Produk">
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <input id="supplierPart" class="form-control" placeholder="Nama Supplier/Sales Person" required>
+          </div>
+          <div class="col-md-6 mb-2">
+            <input id="perusahaanPart" class="form-control" placeholder="Nama Perusahaan Supplier">
+          </div>
+        </div>
+        <input id="telpSupplierPart" class="form-control mb-2" placeholder="Nomor Telepon Supplier" required>
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <input id="qtyPart" type="number" class="form-control" placeholder="Quantity" min="0" value="0">
+          </div>
+          <div class="col-md-6 mb-2">
+            <input id="hargaPart" type="number" class="form-control" placeholder="Harga" min="0" required>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -66,12 +89,43 @@
       <div class="modal-body">
         <input type="hidden" id="editPartId">
         <input id="editNamaPart" class="form-control mb-2" placeholder="Nama Part" required>
-        <input id="editQtyPart" type="number" class="form-control mb-2" placeholder="Quantity" min="0" value="0">
-        <input id="editHargaPart" type="number" class="form-control" placeholder="Harga" min="0" required>
+        <input id="editDeskripsiPart" class="form-control mb-2" placeholder="Deskripsi/Keterangan Produk">
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <input id="editSupplierPart" class="form-control" placeholder="Nama Supplier/Sales Person" required>
+          </div>
+          <div class="col-md-6 mb-2">
+            <input id="editPerusahaanPart" class="form-control" placeholder="Nama Perusahaan Supplier">
+          </div>
+        </div>
+        <input id="editTelpSupplierPart" class="form-control mb-2" placeholder="Nomor Telepon Supplier" required>
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <input id="editQtyPart" type="number" class="form-control" placeholder="Quantity" min="0" value="0">
+          </div>
+          <div class="col-md-6 mb-2">
+            <input id="editHargaPart" type="number" class="form-control" placeholder="Harga" min="0" required>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
         <button class="btn btn-primary" id="saveEditPart">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalDetailPart">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Detail Sparepart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="detailPartBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>

@@ -27,7 +27,10 @@ Sistem manajemen bengkel sederhana berbasis web menggunakan LocalStorage untuk m
 
 ### Halaman Sparepart
 - Tambah, edit, dan hapus data sparepart
-- Informasi stok dan harga
+- Input fields: Nama, Deskripsi/Keterangan, Supplier, Nama Perusahaan, No. Telepon Supplier, Quantity, Harga
+- **Validasi wajib diisi**: Nama Part, Supplier, dan Nomor Telepon Supplier wajib diisi
+- **Paginasi**: Tampilkan 10 record per halaman
+- **Tombol aksi**: Detail sparepart (👁️) dan Kirim pesan WhatsApp ke supplier (📱)
 - Pengurangan stok otomatis saat servis selesai
 
 ## Teknologi

@@ -6,6 +6,10 @@ import { generateId, sanitizeHTML, formatCurrency } from "../utils.js";
 const KEY = "parts";
 const SERVIS_KEY = "servis";
 const LOW_STOCK_THRESHOLD = 5; // Alert when stock is below this
+const ITEMS_PER_PAGE = 10;
+
+let currentPage = 1;
+let filteredData = [];
 
 function getSearchQuery() {
   const searchInput = document.getElementById("searchPart");
@@ -35,6 +39,7 @@ function showLowStockWarning() {
 
 // INIT
 export function initSparepartPage() {
+  currentPage = 1;
   renderTable(getSearchQuery());
   setupEvent();
   showLowStockWarning();
@@ -45,49 +50,105 @@ export function initSparepartPage() {
 // ======================
 function renderTable(searchQuery = "") {
   const data = getData(KEY);
-  const table = document.getElementById("partTable");
-
-  let filteredData = data;
   
   // Filter by search query
   if (searchQuery) {
     filteredData = data.filter(item => {
-      const name = item.name.toLowerCase();
-      return name.includes(searchQuery);
+      const name = item.name ? item.name.toLowerCase() : "";
+      const supplier = item.supplier ? item.supplier.toLowerCase() : "";
+      const perusahaan = item.perusahaan ? item.perusahaan.toLowerCase() : "";
+      return name.includes(searchQuery) || supplier.includes(searchQuery) || perusahaan.includes(searchQuery);
     });
+  } else {
+    filteredData = [...data];
   }
 
+  const table = document.getElementById("partTable");
   table.innerHTML = "";
 
   if (filteredData.length === 0) {
-    table.innerHTML = `<tr><td colspan="4" class="text-center py-4">
+    table.innerHTML = `<tr><td colspan="6" class="text-center py-4">
       <div class="text-muted">
         <p class="mb-1">⚙️</p>
         <p>${searchQuery ? "Tidak ada hasil pencarian" : "Belum ada data sparepart"}</p>
         <small>${searchQuery ? "Coba kata kunci lain" : "Klik tombol 'Tambah' untuk menambahkan sparepart"}</small>
       </div>
     </td></tr>`;
+    renderPagination();
     return;
   }
 
-  filteredData.forEach(item => {
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredData.length);
+  const pageData = filteredData.slice(startIndex, endIndex);
+
+  pageData.forEach(item => {
     // Sanitize user input
-    const safeName = sanitizeHTML(item.name);
+    const safeName = sanitizeHTML(item.name || "");
+    const safeSupplier = sanitizeHTML(item.supplier || "-");
+    const safeTelp = item.telpSupplier ? sanitizeHTML(item.telpSupplier) : "-";
     const safeQty = item.qty !== undefined ? item.qty : 0;
-    const safePrice = formatCurrency(item.price);
+    const safePrice = formatCurrency(item.price || 0);
     
+    const whatsappLink = item.telpSupplier 
+      ? `https://wa.me/${item.telpSupplier.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(item.supplier || 'Supplier')},%20saya%20ingin%20memesan%20${encodeURIComponent(item.name)}`
+      : '#';
+
     table.innerHTML += `
       <tr>
         <td>${safeName}</td>
+        <td>${safeSupplier}</td>
+        <td>${safeTelp}</td>
         <td>${safeQty}</td>
         <td>${safePrice}</td>
         <td>
+          <button class="btn btn-info btn-sm btn-detail" data-id="${item.id}" title="Detail">👁️</button>
           <button class="btn btn-warning btn-sm btn-edit" data-id="${item.id}" title="Edit">✏️</button>
           <button class="btn btn-danger btn-sm btn-delete" data-id="${item.id}" title="Hapus">🗑</button>
+          ${item.telpSupplier ? `<a href="${whatsappLink}" target="_blank" class="btn btn-success btn-sm" title="WhatsApp">📱</a>` : ''}
         </td>
       </tr>
     `;
   });
+
+  renderPagination();
+}
+
+function renderPagination() {
+  const pagination = document.getElementById("pagination");
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+  
+  if (totalPages <= 1) {
+    pagination.innerHTML = "";
+    return;
+  }
+
+  let html = "";
+  
+  // Previous button
+  html += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+    <a class="page-link" href="#" data-page="${currentPage - 1}">‹</a>
+  </li>`;
+  
+  // Page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+      html += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+        <a class="page-link" href="#" data-page="${i}">${i}</a>
+      </li>`;
+    } else if (i === currentPage - 2 || i === currentPage + 2) {
+      html += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+    }
+  }
+  
+  // Next button
+  html += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+    <a class="page-link" href="#" data-page="${currentPage + 1}">›</a>
+  </li>`;
+  
+  pagination.innerHTML = html;
 }
 
 // ======================
@@ -98,6 +159,7 @@ function setupEvent() {
   const btnSaveEdit = document.getElementById("saveEditPart");
   const table = document.getElementById("partTable");
   const searchInput = document.getElementById("searchPart");
+  const pagination = document.getElementById("pagination");
 
   // Reset form when modal is closed (cancel or close without saving)
   const modalPart = document.getElementById("modalPart");
@@ -121,18 +183,39 @@ function setupEvent() {
   searchInput.addEventListener("input", (e) => {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
+      currentPage = 1;
       const query = e.target.value.toLowerCase();
       renderTable(query);
     }, 300);
   });
 
+  // Pagination click
+  pagination.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (e.target.tagName === 'A' && !e.target.parentElement.classList.contains('disabled')) {
+      const page = parseInt(e.target.dataset.page);
+      if (page >= 1 && page <= Math.ceil(filteredData.length / ITEMS_PER_PAGE)) {
+        currentPage = page;
+        renderTable(searchInput.value.toLowerCase());
+      }
+    }
+  });
+
   // Save new part
   btnSave.addEventListener("click", () => {
     const nameInput = document.getElementById("namaPart");
+    const deskripsiInput = document.getElementById("deskripsiPart");
+    const supplierInput = document.getElementById("supplierPart");
+    const perusahaanInput = document.getElementById("perusahaanPart");
+    const telpSupplierInput = document.getElementById("telpSupplierPart");
     const qtyInput = document.getElementById("qtyPart");
     const priceInput = document.getElementById("hargaPart");
     
     const name = nameInput.value.trim();
+    const deskripsi = deskripsiInput.value.trim();
+    const supplier = supplierInput.value.trim();
+    const perusahaan = perusahaanInput.value.trim();
+    const telpSupplier = telpSupplierInput.value.trim();
     const qty = parseInt(qtyInput.value) || 0;
     const price = parseInt(priceInput.value);
 
@@ -142,6 +225,20 @@ function setupEvent() {
       return;
     }
     nameInput.classList.remove("is-invalid");
+    
+    // Validate supplier (required)
+    if (!supplier || supplier.length === 0) {
+      supplierInput.classList.add("is-invalid");
+      return;
+    }
+    supplierInput.classList.remove("is-invalid");
+    
+    // Validate telpSupplier (required)
+    if (!telpSupplier || telpSupplier.length === 0) {
+      telpSupplierInput.classList.add("is-invalid");
+      return;
+    }
+    telpSupplierInput.classList.remove("is-invalid");
     
     // Validate price is a positive number
     if (!price || price <= 0 || isNaN(price)) {
@@ -176,6 +273,10 @@ function setupEvent() {
     const newPart = {
       id: generateId(),
       name: sanitizedName,
+      deskripsi: deskripsi.substring(0, 500).replace(/[<>]/g, ""),
+      supplier: supplier.substring(0, 100).replace(/[<>]/g, ""),
+      perusahaan: perusahaan.substring(0, 100).replace(/[<>]/g, ""),
+      telpSupplier: telpSupplier.replace(/[^0-9]/g, ""),
       qty,
       price
     };
@@ -203,10 +304,18 @@ function setupEvent() {
       if (!editId) return;
 
       const nameInput = document.getElementById("editNamaPart");
+      const deskripsiInput = document.getElementById("editDeskripsiPart");
+      const supplierInput = document.getElementById("editSupplierPart");
+      const perusahaanInput = document.getElementById("editPerusahaanPart");
+      const telpSupplierInput = document.getElementById("editTelpSupplierPart");
       const qtyInput = document.getElementById("editQtyPart");
       const priceInput = document.getElementById("editHargaPart");
       
       const name = nameInput.value.trim();
+      const deskripsi = deskripsiInput.value.trim();
+      const supplier = supplierInput.value.trim();
+      const perusahaan = perusahaanInput.value.trim();
+      const telpSupplier = telpSupplierInput.value.trim();
       const qty = parseInt(qtyInput.value) || 0;
       const price = parseInt(priceInput.value);
 
@@ -216,6 +325,20 @@ function setupEvent() {
         return;
       }
       nameInput.classList.remove("is-invalid");
+      
+      // Validate supplier (required)
+      if (!supplier || supplier.length === 0) {
+        supplierInput.classList.add("is-invalid");
+        return;
+      }
+      supplierInput.classList.remove("is-invalid");
+      
+      // Validate telpSupplier (required)
+      if (!telpSupplier || telpSupplier.length === 0) {
+        telpSupplierInput.classList.add("is-invalid");
+        return;
+      }
+      telpSupplierInput.classList.remove("is-invalid");
       
       // Validate price is a positive number
       if (!price || price <= 0 || isNaN(price)) {
@@ -257,6 +380,10 @@ function setupEvent() {
           return;
         }
         data[index].name = sanitizedName;
+        data[index].deskripsi = deskripsi.substring(0, 500).replace(/[<>]/g, "");
+        data[index].supplier = supplier.substring(0, 100).replace(/[<>]/g, "");
+        data[index].perusahaan = perusahaan.substring(0, 100).replace(/[<>]/g, "");
+        data[index].telpSupplier = telpSupplier.replace(/[^0-9]/g, "");
         data[index].qty = qty;
         data[index].price = price;
         saveData(KEY, data);
@@ -278,6 +405,11 @@ function setupEvent() {
     if (e.target.classList.contains("btn-edit")) {
       const id = e.target.dataset.id;
       editPart(id);
+    }
+    
+    if (e.target.classList.contains("btn-detail")) {
+      const id = e.target.dataset.id;
+      showDetail(id);
     }
   });
 }
@@ -321,9 +453,13 @@ function editPart(id) {
 
   // Set values to edit form
   document.getElementById("editPartId").value = id;
-  document.getElementById("editNamaPart").value = part.name;
+  document.getElementById("editNamaPart").value = part.name || "";
+  document.getElementById("editDeskripsiPart").value = part.deskripsi || "";
+  document.getElementById("editSupplierPart").value = part.supplier || "";
+  document.getElementById("editPerusahaanPart").value = part.perusahaan || "";
+  document.getElementById("editTelpSupplierPart").value = part.telpSupplier || "";
   document.getElementById("editQtyPart").value = part.qty || 0;
-  document.getElementById("editHargaPart").value = part.price;
+  document.getElementById("editHargaPart").value = part.price || 0;
   
   // Set edit ID
   document.getElementById("saveEditPart").dataset.editId = id;
@@ -334,15 +470,81 @@ function editPart(id) {
 }
 
 // ======================
+// DETAIL
+// ======================
+function showDetail(id) {
+  const data = getData(KEY);
+  const part = data.find(p => p.id == id);
+  if (!part) return;
+
+  const detailBody = document.getElementById("detailPartBody");
+  const whatsappLink = part.telpSupplier 
+    ? `https://wa.me/${part.telpSupplier.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(part.supplier || 'Supplier')},%20saya%20ingin%20memesan%20${encodeURIComponent(part.name)}`
+    : '#';
+  const whatsappButton = part.telpSupplier 
+    ? `<a href="${whatsappLink}" target="_blank" class="btn btn-success">📱 Kirim WhatsApp ke Supplier</a>`
+    : '<span class="text-muted">Nomor telepon supplier tidak tersedia</span>';
+
+  detailBody.innerHTML = `
+    <div class="container-fluid">
+      <div class="row mb-3">
+        <div class="col-md-4 fw-bold">Nama Sparepart:</div>
+        <div class="col-md-8">${sanitizeHTML(part.name || '-')}</div>
+      </div>
+      ${part.deskripsi ? `
+      <div class="row mb-3">
+        <div class="col-md-4 fw-bold">Deskripsi/Keterangan:</div>
+        <div class="col-md-8">${sanitizeHTML(part.deskripsi)}</div>
+      </div>
+      ` : ''}
+      <div class="row mb-3">
+        <div class="col-md-4 fw-bold">Nama Supplier:</div>
+        <div class="col-md-8">${sanitizeHTML(part.supplier || '-')}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4 fw-bold">Nama Perusahaan:</div>
+        <div class="col-md-8">${sanitizeHTML(part.perusahaan || '-')}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4 fw-bold">Nomor Telepon:</div>
+        <div class="col-md-8">${sanitizeHTML(part.telpSupplier || '-')}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4 fw-bold">Quantity:</div>
+        <div class="col-md-8">${part.qty || 0}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4 fw-bold">Harga:</div>
+        <div class="col-md-8">${formatCurrency(part.price || 0)}</div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">${whatsappButton}</div>
+      </div>
+    </div>
+  `;
+
+  const modal = new bootstrap.Modal(document.getElementById("modalDetailPart"));
+  modal.show();
+}
+
+// ======================
 // UTIL
 // ======================
 function clearForm() {
   document.getElementById("namaPart").value = "";
+  document.getElementById("deskripsiPart").value = "";
+  document.getElementById("supplierPart").value = "";
+  document.getElementById("perusahaanPart").value = "";
+  document.getElementById("telpSupplierPart").value = "";
   document.getElementById("qtyPart").value = "";
   document.getElementById("hargaPart").value = "";
   
   // Remove validation classes
   document.getElementById("namaPart").classList.remove("is-invalid");
+  document.getElementById("deskripsiPart").classList.remove("is-invalid");
+  document.getElementById("supplierPart").classList.remove("is-invalid");
+  document.getElementById("perusahaanPart").classList.remove("is-invalid");
+  document.getElementById("telpSupplierPart").classList.remove("is-invalid");
   document.getElementById("qtyPart").classList.remove("is-invalid");
   document.getElementById("hargaPart").classList.remove("is-invalid");
   
@@ -353,11 +555,19 @@ function clearForm() {
 function clearEditForm() {
   document.getElementById("editPartId").value = "";
   document.getElementById("editNamaPart").value = "";
+  document.getElementById("editDeskripsiPart").value = "";
+  document.getElementById("editSupplierPart").value = "";
+  document.getElementById("editPerusahaanPart").value = "";
+  document.getElementById("editTelpSupplierPart").value = "";
   document.getElementById("editQtyPart").value = "";
   document.getElementById("editHargaPart").value = "";
   
   // Remove validation classes
   document.getElementById("editNamaPart").classList.remove("is-invalid");
+  document.getElementById("editDeskripsiPart").classList.remove("is-invalid");
+  document.getElementById("editSupplierPart").classList.remove("is-invalid");
+  document.getElementById("editPerusahaanPart").classList.remove("is-invalid");
+  document.getElementById("editTelpSupplierPart").classList.remove("is-invalid");
   document.getElementById("editQtyPart").classList.remove("is-invalid");
   document.getElementById("editHargaPart").classList.remove("is-invalid");
 }

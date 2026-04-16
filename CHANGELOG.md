@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Halaman Sparepart (sparepart.html, sparepart.js)
+- Added "Deskripsi/Keterangan Produk" input field (optional)
+- Added "Nama Supplier/Sales Person" input field (required)
+- Added "Nama Perusahaan Supplier" input field (optional)
+- Added "Nomor Telepon Supplier" input field (required)
+- Added pagination with 10 records per page
+- Added "Detail" button (👁️) to view sparepart details
+- Added "WhatsApp" button (📱) to send WhatsApp message to supplier
+- Added "Detail Sparepart" modal to display complete sparepart information
+- Added required attribute to supplier and phone input fields in HTML
+
 #### Halaman Pelanggan (pelanggan.html, pelanggan.js)
 - Added required field validation for Nama, No. HP, and Nomor Polisi Kendaraan in "Tambah Pelanggan" modal
 - Added pagination with 10 records per page
@@ -18,6 +29,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added required attribute to Nama, No. HP, and Nomor Polisi input fields in HTML
 
 ### Changed
+
+#### Halaman Sparepart (sparepart.js)
+- Modified renderTable() to support pagination
+- Modified search functionality to reset to first page on new search
+- Updated clearForm() and clearEditForm() to reset validation classes for all required fields
+- Added new table columns: Supplier, Telepon
+- Added view detail modal functionality
 
 #### Halaman Pelanggan (pelanggan.js)
 - Modified renderTable() to support pagination
