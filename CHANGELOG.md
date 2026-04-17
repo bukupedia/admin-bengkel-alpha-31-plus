@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [alpha-32] - 2025-04-15
+## [alpha-32]
 
 Codebase: alpha-31
 
@@ -16,7 +16,7 @@ Codebase: alpha-31
 - Menambahkan fallback messages ketika vehicle brand atau name tidak diisi
 - Menambahkan fixed item untuk "Fixed WhatsApp message variable naming conflict"
 
-## [alpha-31] - 2025-04-14
+## [alpha-31]
 
 Codebase: alpha-30
 
