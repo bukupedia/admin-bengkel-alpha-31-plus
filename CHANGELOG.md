@@ -11,6 +11,9 @@ Codebase: alpha-33
 
 ### Added
 
+#### Dashboard (dashboard.html, dashboard.js)
+- Added "Pelanggan Teratas" section showing top 10 customers with most completed services (status "Selesai")
+
 #### Halaman Sparepart (sparepart.html, sparepart.js)
 - Added "Deskripsi/Keterangan Produk" input field (optional)
 - Added "Nama Supplier/Sales Person" input field (required)
@@ -23,6 +26,15 @@ Codebase: alpha-33
 - Added required attribute to supplier and phone input fields in HTML
 
 ### Changed
+
+#### Dashboard (dashboard.js)
+- Modified loadDashboardData() to call renderTopCustomers()
+
+#### Halaman Pelanggan (pelanggan.js)
+- Modified Total Servis calculation in "Detail Pelanggan" modal to count only services with status "Selesai"
+- Removed service history table from "Detail Pelanggan" modal
+- Fixed WhatsApp URL to use Indonesia country code (62) - format: https://wa.me/62xxxxxxxxx
+- Fixed WhatsApp country code issue: now properly adds Indonesia country code (62) and removes leading zero
 
 #### Halaman Sparepart (sparepart.js)
 - Modified renderTable() to support pagination

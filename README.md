@@ -8,6 +8,7 @@ Sistem manajemen bengkel sederhana berbasis web menggunakan LocalStorage untuk m
 - Ringkasan total pelanggan, servis, dan sparepart
 - Grafik servis berdasarkan status
 - Servis terbaru
+- **Pelanggan Teratas**: Daftar 10 pelanggan dengan Total Servis (status "Selesai") terbanyak
 
 ### Halaman Pelanggan
 - Tambah, edit, dan hapus data pelanggan
@@ -16,6 +17,7 @@ Sistem manajemen bengkel sederhana berbasis web menggunakan LocalStorage untuk m
 - **Validasi wajib diisi**: Nama, No. HP, dan Nomor Polisi Kendaraan wajib diisi
 - **Paginasi**: Tampilkan 10 record per halaman
 - **Tombol aksi**: Detail pelanggan dan Kirim pesan WhatsApp
+- **Modal Detail Pelanggan**: Menampilkan informasi lengkap pelanggan dengan Total Servis (hanya servis status "Selesai")
 
 ### Halaman Servis
 - Tambah dan kelola data servis

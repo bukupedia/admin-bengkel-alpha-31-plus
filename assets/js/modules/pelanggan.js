@@ -58,9 +58,11 @@ function renderTable(searchQuery = "") {
     const safePhone = sanitizeHTML(item.phone);
     const safePolice = sanitizeHTML(item.policeNumber || '-');
     
-    // Format WhatsApp URL
+    // Format WhatsApp URL - add Indonesia country code (62)
     const phoneNumber = item.phone ? item.phone.replace(/[^0-9]/g, '') : '';
-    const waUrl = phoneNumber ? `https://wa.me/${phoneNumber}` : '#';
+    // Remove leading 0 and add Indonesia country code 62
+    const waPhoneNumber = phoneNumber.replace(/^0/, '');
+    const waUrl = waPhoneNumber ? `https://wa.me/62${waPhoneNumber}` : '#';
     
     table.innerHTML += `
       <tr>
@@ -490,9 +492,9 @@ function showCustomerDetail(id) {
   const customer = data.find(c => c.id == id);
   if (!customer) return;
 
-  // Get servis history for this customer
+  // Get servis history for this customer - only count those with status "selesai"
   const servisData = getData(SERVIS_KEY);
-  const customerServis = servisData.filter(s => s.customerId == id);
+  const customerServis = servisData.filter(s => s.customerId == id && s.status === "selesai");
 
   const detailContent = document.getElementById("detailContent");
   if (!detailContent) return;
@@ -524,30 +526,6 @@ function showCustomerDetail(id) {
         <p class="mb-0">${customerServis.length} kali</p>
       </div>
     </div>
-    ${customerServis.length > 0 ? `
-    <hr>
-    <h6 class="fw-bold">Riwayat Servis:</h6>
-    <div class="table-responsive">
-      <table class="table table-sm table-bordered">
-        <thead>
-          <tr>
-            <th>Tanggal</th>
-            <th>Jenis Servis</th>
-            <th>Total Biaya</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${customerServis.map(s => `
-            <tr>
-              <td>${s.date || '-'}</td>
-              <td>${sanitizeHTML(s.serviceType || '-')}</td>
-              <td>${s.totalCost ? 'Rp ' + parseInt(s.totalCost).toLocaleString('id-ID') : '-'}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
-    ` : '<p class="text-muted mt-3">Belum ada riwayat servis</p>'}
   `;
 
   const modal = new bootstrap.Modal(document.getElementById("modalDetailPelanggan"));

@@ -88,6 +88,9 @@ function loadDashboardData() {
   renderTopSellingParts(allServisData);
   renderTopSellingPartsToday(allServisData);
   
+  // Render top customers
+  renderTopCustomers(allServisData, customerData);
+  
   // ======================
   // LOAD OVERALL DATA (Keseluruhan)
   // ======================
@@ -256,6 +259,70 @@ function renderLowStockParts(data) {
             </div>
             <div class="text-end">
               <span class="badge ${stock === 0 ? 'bg-danger' : 'bg-warning'}">Stok: ${stock}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ======================
+// RENDER TOP CUSTOMERS
+// ======================
+function renderTopCustomers(servisData, customerData) {
+  const container = document.getElementById("topCustomers");
+  if (!container) return;
+  
+  // Count services per customer (only completed ones)
+  const customerCount = {};
+  servisData.forEach(servis => {
+    if (servis.status === "selesai" && servis.customerId) {
+      if (!customerCount[servis.customerId]) {
+        customerCount[servis.customerId] = 0;
+      }
+      customerCount[servis.customerId]++;
+    }
+  });
+  
+  // Convert to array and sort by count (highest first), take top 10
+  const sortedCustomers = Object.entries(customerCount)
+    .map(([id, count]) => ({
+      id,
+      count
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+  
+  if (sortedCustomers.length === 0) {
+    container.innerHTML = `
+      <div class="text-center text-muted py-4">
+        <p class="mb-1">👑</p>
+        <p>Belum ada data pelanggan dengan servis</p>
+        <small>Data akan muncul setelah pelanggan menyelesaikan servis</small>
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = sortedCustomers.map((item, index) => {
+    const customer = customerData.find(c => c.id == item.id);
+    const customerName = customer ? sanitizeHTML(customer.name) : "-";
+    const policeNumber = customer ? sanitizeHTML(customer.policeNumber || "-") : "-";
+    const rankEmoji = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : '#' + (index + 1)));
+    
+    return `
+      <div class="card mb-2">
+        <div class="card-body py-2">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <span class="me-2">${rankEmoji}</span>
+              <strong>${customerName}</strong>
+              <br>
+              <small class="text-muted">${policeNumber}</small>
+            </div>
+            <div class="text-end">
+              <span class="badge bg-primary">${item.count} servis</span>
             </div>
           </div>
         </div>
