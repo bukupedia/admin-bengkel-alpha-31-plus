@@ -285,14 +285,14 @@ function renderTopCustomers(servisData, customerData) {
     }
   });
   
-  // Convert to array and sort by count (highest first), take top 10
+  // Convert to array and sort by count (highest first), take top 3
   const sortedCustomers = Object.entries(customerCount)
     .map(([id, count]) => ({
       id,
       count
     }))
     .sort((a, b) => b.count - a.count)
-    .slice(0, 10);
+    .slice(0, 3);
   
   if (sortedCustomers.length === 0) {
     container.innerHTML = `
@@ -369,7 +369,7 @@ function renderTopSellingParts(data) {
       price: info.price
     }))
     .sort((a, b) => b.qty - a.qty)
-    .slice(0, 5); // Top 5
+    .slice(0, 3); // Top 3
   
   if (sortedParts.length === 0) {
     container.innerHTML = `
@@ -445,7 +445,7 @@ function renderTopSellingPartsToday(data) {
       price: info.price
     }))
     .sort((a, b) => b.qty - a.qty)
-    .slice(0, 5); // Top 5
+    .slice(0, 3); // Top 3
   
   if (sortedParts.length === 0) {
     container.innerHTML = `

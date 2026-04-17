@@ -201,6 +201,16 @@ function setupEvent() {
       renderTable(query);
     }, 300);
   });
+  
+  // Clear search button
+  const clearSearchBtn = document.getElementById("clearSearchPelanggan");
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      currentPage = 1;
+      renderTable("");
+    });
+  }
 
   // Save new customer
   btnSave.addEventListener("click", () => {

@@ -6,6 +6,38 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-35
 
+### Added
+
+#### Semua Halaman (pelanggan.html, servis.html, sparepart.html, pelanggan.js, servis.js, sparepart.js)
+- Added "Clear" button (✕) to all search input fields to reset search and show all data
+
+#### Halaman Dashboard (dashboard.html, dashboard.js)
+- Added "Top Customer" section showing top 3 customers with most completed services
+- Added "Top Products/Spareparts (All Time)" section showing top 3 best-selling spareparts
+- Added "Top Products/Spareparts (Today)" section showing top 3 best-selling spareparts today
+
+#### Halaman Sparepart (sparepart.html, sparepart.js)
+- Added warning badge (⚠️) next to product name for items with low stock (< 5)
+- Added search by supplier/company name functionality
+
+### Changed
+
+#### Halaman Servis (servis.js)
+- Changed stock display color: red for low stock (< 5), green for sufficient stock (>= 5)
+- Updated WhatsApp fallback messages to include police number when vehicle brand or name is not filled:
+  - Status "Menunggu": "Kendaraan Anda dengan No. Polisi [No. Polisi] akan segera kami tangani..."
+  - Status "Diproses": "Pelanggan yang terhormat, Terimosih sudah menunggu. Kendaraan Anda dengan No. Polisi [No. Polisi] sedang ditangani..."
+  - Status "Selesai": "Terimosih sudah menunggu. Kendaraan Anda dengan No. Polisi [No. Polisi] sudah selesai kami tangani."
+  - Status "Dibatalkan": (unchanged)
+
+#### Halaman Dashboard (dashboard.html, dashboard.js)
+- Changed "Pelanggan Teratas (10 Teratas)" to "Top Customer" and limit to 3 items
+- Changed "Produk/Sparepart Terlaris (Semua Waktu)" to "Top Products/Spareparts (All Time)" and limit to 3 items
+- Changed "Produk/Sparepart Terlaris Hari Ini" to "Top Products/Spareparts (Today)" and limit to 3 items
+
+#### Halaman Sparepart (sparepart.html)
+- Changed search input placeholder from "Cari sparepart..." to "Cari sparepart/supplier..."
+
 ## [alpha-35]
 
 Codebase: alpha-34

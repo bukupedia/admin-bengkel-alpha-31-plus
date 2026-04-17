@@ -92,13 +92,16 @@ function renderTable(searchQuery = "") {
     const safeQty = item.qty !== undefined ? item.qty : 0;
     const safePrice = formatCurrency(item.price || 0);
     
+    // Add warning badge for low stock (< 5)
+    const lowStockWarning = safeQty < 5 ? `<span class="badge bg-warning text-dark ms-1" title="Stok rendah">⚠️</span>` : "";
+    
     const whatsappLink = item.telpSupplier 
       ? `https://wa.me/${item.telpSupplier.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(item.supplier || 'Supplier')},%20saya%20ingin%20memesan%20${encodeURIComponent(item.name)}`
       : '#';
 
     table.innerHTML += `
       <tr>
-        <td>${safeName}</td>
+        <td>${safeName}${lowStockWarning}</td>
         <td>${safeSupplier}</td>
         <td>${safeTelp}</td>
         <td>${safeQty}</td>
@@ -188,6 +191,16 @@ function setupEvent() {
       renderTable(query);
     }, 300);
   });
+  
+  // Clear search button
+  const clearSearchBtn = document.getElementById("clearSearchPart");
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      currentPage = 1;
+      renderTable("");
+    });
+  }
 
   // Pagination click
   pagination.addEventListener("click", (e) => {
