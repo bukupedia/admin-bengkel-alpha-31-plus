@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [alpha-34]
+
+Codebase: alpha-33
 
 ### Added
 
@@ -20,6 +22,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Detail Sparepart" modal to display complete sparepart information
 - Added required attribute to supplier and phone input fields in HTML
 
+### Changed
+
+#### Halaman Sparepart (sparepart.js)
+- Modified renderTable() to support pagination
+- Modified search functionality to reset to first page on new search
+- Updated clearForm() and clearEditForm() to reset validation classes for all required fields
+- Added new table columns: Supplier, Telepon
+- Added view detail modal functionality
+
+## [alpha-33]
+
+Codebase: alpha-32
+
+### Added
+
 #### Halaman Pelanggan (pelanggan.html, pelanggan.js)
 - Added required field validation for Nama, No. HP, and Nomor Polisi Kendaraan in "Tambah Pelanggan" modal
 - Added pagination with 10 records per page
@@ -30,19 +47,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-#### Halaman Sparepart (sparepart.js)
-- Modified renderTable() to support pagination
-- Modified search functionality to reset to first page on new search
-- Updated clearForm() and clearEditForm() to reset validation classes for all required fields
-- Added new table columns: Supplier, Telepon
-- Added view detail modal functionality
-
 #### Halaman Pelanggan (pelanggan.js)
 - Modified renderTable() to support pagination
 - Modified search functionality to reset to first page on new search
 - Updated clearForm() and clearEditForm() to reset validation classes for all required fields
 
-## [alpha-31] - 2025-04-14
+## [alpha-32]
+
+Codebase: alpha-31
+
+### Added
+
+- Menambahkan informasi tentang dynamic WhatsApp messages berdasarkan ketersediaan info kendaraan
+- Menambahkan perubahan pada WhatsApp auto messages dengan informasi kendaraan (Merek, Nama, No. Polisi)
+- Menambahkan fallback messages ketika vehicle brand atau name tidak diisi
+- Menambahkan fixed item untuk "Fixed WhatsApp message variable naming conflict"
+
+## [alpha-31]
 
 Codebase: alpha-30
 
@@ -91,14 +112,3 @@ Codebase: alpha-30
 #### General
 - Fixed modal structure to properly separate edit and add forms
 - Fixed JavaScript to properly handle new vehicle fields
-
-## [alpha-32] - 2025-04-15
-
-Codebase: alpha-31
-
-### Added
-
-- Menambahkan informasi tentang dynamic WhatsApp messages berdasarkan ketersediaan info kendaraan
-- Menambahkan perubahan pada WhatsApp auto messages dengan informasi kendaraan (Merek, Nama, No. Polisi)
-- Menambahkan fallback messages ketika vehicle brand atau name tidak diisi
-- Menambahkan fixed item untuk "Fixed WhatsApp message variable naming conflict"
