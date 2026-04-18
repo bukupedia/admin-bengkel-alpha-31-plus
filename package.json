@@ -1,0 +1,27 @@
+{
+  "name": "admin-bengkel-alpha-31-plus",
+  "version": "1.0.0",
+  "description": "Admin Bengkel Application - Unit Tests",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --coverage-report=html"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {},
+    "moduleFileExtensions": ["js", "mjs"],
+    "testMatch": ["**/__tests__/**/*.js", "**/*.test.js"],
+    "collectCoverageFrom": [
+      "assets/js/**/*.js",
+      "!assets/js/**/*.test.js"
+    ],
+    "testPathIgnorePatterns": ["/node_modules/", "./__tests__/test-utils.js", "./__tests__/setup.js"]
+  }
+}

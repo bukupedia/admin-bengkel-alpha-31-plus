@@ -6,6 +6,23 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-41
 
+### Added
+
+#### Unit Testing
+- Added Jest and JSDOM configuration for unit testing
+- Added package.json with test scripts (npm test, npm run test:watch, npm run test:coverage)
+- Added 8 test files covering all application features:
+  - `storage.test.js` - Testing localStorage getData and saveData functions
+  - `utils.test.js` - Testing utility functions (generateId, sanitizeHTML, formatCurrency, formatDate)
+  - `sparepart.test.js` - Testing sparepart CRUD, validation, search, filter, pagination
+  - `pelanggan.test.js` - Testing customer CRUD, multiple motorcycles management, search
+  - `servis.test.js` - Testing service CRUD, status management, layanan calculation
+  - `dashboard.test.js` - Testing dashboard data loading, statistics, date filtering
+  - `setting.test.js` - Testing settings management, default values, data reset
+  - `navbar.test.js` - Testing navigation, active page detection, logout
+- Test results: 101 tests passed, 8 test suites passed
+- Coverage: storage.js (70%), utils.js (100%)
+
 ## [alpha-41]
 
 Codebase: alpha-40
