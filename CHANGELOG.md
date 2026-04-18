@@ -6,6 +6,21 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-38
 
+### Added
+
+#### Dashboard (dashboard.html, dashboard.js)
+- Added "Pendapatan" section with 5 cards showing income details:
+  - Harian (daily income - today)
+  - Mingguan (weekly income - last 7 days)
+  - Bulanan (monthly income - current month)
+  - Tahunan (yearly income - current year)
+  - Total (total income - all time)
+- Added `getWeekDateRange()` function to get last 7 days date range
+- Added `getMonthDateRange()` function to get current month date range
+- Added `getYearDateRange()` function to get current year date range
+- Added `calculateIncomeByDateRange()` function to calculate income for a given date range
+- Added `loadPendapatanData()` function to load and display all income data
+
 ## [alpha-38]
 
 Codebase: alpha-37

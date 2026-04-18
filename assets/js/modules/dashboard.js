@@ -20,6 +20,88 @@ function getTodayString() {
 }
 
 // ======================
+// GET DATE RANGE FOR WEEKLY (LAST 7 DAYS)
+// ======================
+function getWeekDateRange() {
+  const today = new Date();
+  const weekAgo = new Date();
+  weekAgo.setDate(weekAgo.getDate() - 7);
+  return {
+    start: weekAgo.toISOString().split('T')[0],
+    end: today.toISOString().split('T')[0]
+  };
+}
+
+// ======================
+// GET DATE RANGE FOR MONTHLY (CURRENT MONTH)
+// ======================
+function getMonthDateRange() {
+  const today = new Date();
+  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+  const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  return {
+    start: firstDay.toISOString().split('T')[0],
+    end: lastDay.toISOString().split('T')[0]
+  };
+}
+
+// ======================
+// GET DATE RANGE FOR YEARLY (CURRENT YEAR)
+// ======================
+function getYearDateRange() {
+  const today = new Date();
+  const firstDay = new Date(today.getFullYear(), 0, 1);
+  const lastDay = new Date(today.getFullYear(), 11, 31);
+  return {
+    start: firstDay.toISOString().split('T')[0],
+    end: lastDay.toISOString().split('T')[0]
+  };
+}
+
+// ======================
+// CALCULATE INCOME BY DATE RANGE
+// ======================
+function calculateIncomeByDateRange(data, startDate, endDate) {
+  return data
+    .filter(s => s.status === "selesai" && s.tanggal >= startDate && s.tanggal <= endDate)
+    .reduce((sum, s) => sum + (s.total || 0), 0);
+}
+
+// ======================
+// LOAD PENDAPATAN DATA
+// ======================
+function loadPendapatanData(allServisData) {
+  const today = getTodayString();
+  
+  // Daily income (today)
+  const pendapatanHarian = calculateIncomeByDateRange(allServisData, today, today);
+  
+  // Weekly income (last 7 days)
+  const weekRange = getWeekDateRange();
+  const pendapatanMingguan = calculateIncomeByDateRange(allServisData, weekRange.start, weekRange.end);
+  
+  // Monthly income (current month)
+  const monthRange = getMonthDateRange();
+  const pendapatanBulanan = calculateIncomeByDateRange(allServisData, monthRange.start, monthRange.end);
+  
+  // Yearly income (current year)
+  const yearRange = getYearDateRange();
+  const pendapatanTahunan = calculateIncomeByDateRange(allServisData, yearRange.start, yearRange.end);
+  
+  // Total income (all time)
+  const pendapatanTotal = allServisData
+    .filter(s => s.status === "selesai")
+    .reduce((sum, s) => sum + (s.total || 0), 0);
+  
+  // Update UI
+  document.getElementById("pendapatanHarian").textContent = formatCurrency(pendapatanHarian);
+  document.getElementById("pendapatanMingguan").textContent = formatCurrency(pendapatanMingguan);
+  document.getElementById("pendapatanBulanan").textContent = formatCurrency(pendapatanBulanan);
+  document.getElementById("pendapatanTahunan").textContent = formatCurrency(pendapatanTahunan);
+  document.getElementById("pendapatanTotal").textContent = formatCurrency(pendapatanTotal);
+}
+
+// ======================
 // GET YESTERDAY'S DATE STRING
 // ======================
 function getYesterdayString() {
@@ -95,6 +177,11 @@ function loadDashboardData() {
   // LOAD OVERALL DATA (Keseluruhan)
   // ======================
   loadOverallData(allServisData, customerData, partData);
+  
+  // ======================
+  // LOAD PENDAPATAN DATA
+  // ======================
+  loadPendapatanData(allServisData);
 }
 
 // ======================
