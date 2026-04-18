@@ -19,3 +19,44 @@ export function saveData(key, data) {
     throw error;
   }
 }
+
+// ======================
+// EXPORT ALL DATA
+// ======================
+export function exportAllData() {
+  const keys = [
+    "customers",
+    "servis",
+    "parts",
+    "shop_settings",
+    "service_statuses",
+    "categories",
+    "vehicle_brands",
+    "activity_log"
+  ];
+  
+  const exportData = {};
+  keys.forEach(key => {
+    exportData[key] = getData(key);
+  });
+  
+  return {
+    version: "1.0.0",
+    exportedAt: new Date().toISOString(),
+    data: exportData
+  };
+}
+
+// ======================
+// IMPORT ALL DATA
+// ======================
+export function importAllData(importedData) {
+  if (!importedData || !importedData.data) {
+    throw new Error("Format data tidak valid");
+  }
+  
+  const keys = Object.keys(importedData.data);
+  keys.forEach(key => {
+    saveData(key, importedData.data[key]);
+  });
+}

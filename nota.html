@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#667eea">
+  <title>Cetak Nota - Bengkel App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+  <style>
+    @media print {
+      body { background: white; }
+      .no-print { display: none !important; }
+      .nota-container { 
+        border: none !important;
+        box-shadow: none !important;
+      }
+    }
+    .nota-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .nota-header {
+      text-align: center;
+      border-bottom: 2px dashed #333;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+    }
+    .nota-header h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .nota-items {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+    }
+    .nota-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.25rem 0;
+    }
+    .nota-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      font-size: 1.25rem;
+      padding: 1rem 0;
+      border-top: 2px solid #333;
+    }
+    .nota-footer {
+      text-align: center;
+      font-size: 0.875rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-4 no-print">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>🖨️ Cetak Nota</h3>
+    <a href="servis.html" class="btn btn-secondary">← Kembali</a>
+  </div>
+  
+  <div class="card">
+    <div class="card-body">
+      <p class="text-muted">Pilih servis yang akan dicetak nota:</p>
+      <select id="servisSelect" class="form-select mb-3">
+        <option value="">-- Pilih Servis --</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Nota Container (for print) -->
+<div class="nota-container mt-4" id="notaContent" style="display: none;">
+  <div class="nota-header">
+    <h1 id="notaShopName">🔧 Bengkel App</h1>
+    <p id="notaShopInfo" class="mb-0 text-muted"></p>
+  </div>
+  
+  <div class="nota-info mb-3">
+    <p class="mb-1"><strong>No:</strong> <span id="notaNumber"></span></p>
+    <p class="mb-1"><strong>Tanggal:</strong> <span id="notaDate"></span></p>
+    <p class="mb-1"><strong>Pelanggan:</strong> <span id="notaCustomer"></span></p>
+    <p class="mb-1"><strong>No. Polisi:</strong> <span id="notaPolice"></span></p>
+  </div>
+  
+  <div class="nota-items" id="notaItems">
+    <!-- Items will be inserted here -->
+  </div>
+  
+  <div class="nota-total">
+    <span>Total:</span>
+    <span id="notaTotal">Rp 0</span>
+  </div>
+  
+  <div class="nota-footer">
+    <p class="mb-1">Terima kasih telah mempercayakan</p>
+    <p class="mb-0">kendaraan Anda kepada kami</p>
+    <p class="mt-3 small">Note: Simpan nota ini sebagai bukti</p>
+  </div>
+</div>
+
+<div class="container mt-4 no-print">
+  <button class="btn btn-primary" id="printBtn" disabled>🖨️ Cetak Nota</button>
+  <button class="btn btn-success" id="downloadPdfBtn" disabled>📄 Download PDF</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module">
+import { getData } from "./assets/js/storage.js";
+
+const SERVIS_KEY = "servis";
+const CUSTOMER_KEY = "customers";
+const SETTING_KEY = "shop_settings";
+
+function formatCurrency(amount) {
+  return "Rp " + parseInt(amount || 0).toLocaleString("id-ID");
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return "-";
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+}
+
+function loadServisList() {
+  const servisData = getData(SERVIS_KEY);
+  const select = document.getElementById("servisSelect");
+  
+  // Filter only completed services
+  const completed = servisData
+    .filter(s => s.status === "selesai")
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+  completed.forEach(servis => {
+    const option = document.createElement("option");
+    option.value = servis.id;
+    option.textContent = servis.id.substring(0, 8) + " - " + servis.customerName + " - " + formatCurrency(servis.total) + " - " + formatDate(servis.date);
+    select.appendChild(option);
+  });
+}
+
+function loadShopSettings() {
+  const settings = getData(SETTING_KEY) || {};
+  document.getElementById("notaShopName").textContent = "🔧 " + (settings.name || "Bengkel App");
+  document.getElementById("notaShopInfo").textContent = (settings.phone || "") + (settings.address ? " | " + settings.address : "");
+}
+
+function renderNota(servisId) {
+  const servisData = getData(SERVIS_KEY);
+  const servis = servisData.find(s => s.id === servisId);
+  
+  if (!servis) return;
+  
+  // Update nota content
+  document.getElementById("notaNumber").textContent = servis.id.substring(0, 8).toUpperCase();
+  document.getElementById("notaDate").textContent = formatDate(servis.date);
+  document.getElementById("notaCustomer").textContent = servis.customerName;
+  document.getElementById("notaPolice").textContent = servis.vehicleNumber || "-";
+  document.getElementById("notaTotal").textContent = formatCurrency(servis.total);
+  
+  // Render items
+  const itemsContainer = document.getElementById("notaItems");
+  itemsContainer.innerHTML = servis.items.map(item => {
+    const qty = item.qty || 1;
+    const qtyLabel = qty > 1 ? "(x" + qty + ")" : "";
+    return '<div class="nota-item"><span>' + item.name + " " + qtyLabel + '</span><span>' + formatCurrency(item.price * qty) + "</span></div>";
+  }).join("");
+  
+  // Show nota
+  document.getElementById("notaContent").style.display = "block";
+  document.getElementById("printBtn").disabled = false;
+  document.getElementById("downloadPdfBtn").disabled = false;
+}
+
+// Event listeners
+document.getElementById("servisSelect").addEventListener("change", (e) => {
+  if (e.target.value) {
+    renderNota(e.target.value);
+  } else {
+    document.getElementById("notaContent").style.display = "none";
+    document.getElementById("printBtn").disabled = true;
+    document.getElementById("downloadPdfBtn").disabled = true;
+  }
+});
+
+document.getElementById("printBtn").addEventListener("click", () => {
+  window.print();
+});
+
+document.getElementById("downloadPdfBtn").addEventListener("click", async () => {
+  window.print();
+});
+
+// Initialize
+loadServisList();
+loadShopSettings();
+</script>
+</body>
+</html>

@@ -39,11 +39,23 @@ export function renderNavbar() {
             </li>
 
             <li class="nav-item">
-              <a class="nav-link ${currentPage === "sparepart" ? "active" : ""}" href="sparepart.html">⚙️ Sparepart</a>
+              <a class="nav-link ${currentPage === "sparepart" ? "active" : ""}" href="sparepart.html">🔩 Sparepart</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link ${currentPage === "setting" ? "active" : ""}" href="setting.html">🔧 Pengaturan</a>
+              <a class="nav-link ${currentPage === "riwayat" ? "active" : ""}" href="riwayat.html">📜 Riwayat</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link ${currentPage === "nota" ? "active" : ""}" href="nota.html">🧾 Nota</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link ${currentPage === "setting" ? "active" : ""}" href="setting.html">⚙️ Pengaturan</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="themeToggle" title="Ganti Tema">🌓</a>
             </li>
 
             <li class="nav-item dropdown">
@@ -69,4 +81,19 @@ export function renderNavbar() {
     e.preventDefault();
     logout();
   });
+  
+  // Setup theme toggle
+  const themeToggle = document.getElementById("themeToggle");
+  if (themeToggle) {
+    const currentTheme = localStorage.getItem("theme") || "light";
+    themeToggle.innerHTML = currentTheme === "dark" ? "☀️" : "🌓";
+    
+    themeToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      const newTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+      themeToggle.innerHTML = newTheme === "dark" ? "☀️" : "🌓";
+    });
+  }
 }

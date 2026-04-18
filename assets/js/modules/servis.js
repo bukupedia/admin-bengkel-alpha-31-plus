@@ -6,6 +6,7 @@ import { generateId, sanitizeHTML, formatCurrency, formatDate } from "../utils.j
 const KEY = "servis";
 const CUSTOMER_KEY = "customers";
 const PART_KEY = "parts";
+const ACTIVITY_KEY = "activity_log";
 
 // Date filter state
 let dateFilter = "all"; // "all", "today", "week", "month", or "custom"
@@ -17,6 +18,28 @@ const itemsPerPage = 10;
 
 // WhatsApp default number
 const DEFAULT_WHATSAPP_NUMBER = "0895332782122";
+
+// ======================
+// ACTIVITY LOGGING
+// ======================
+function logActivity(type, action, description, data = {}) {
+  const activities = getData(ACTIVITY_KEY) || [];
+  // Keep only last 100 activities
+  const activity = {
+    id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+    type,
+    action,
+    description,
+    data,
+    timestamp: new Date().toISOString()
+  };
+  activities.unshift(activity);
+  // Limit to 100 activities
+  if (activities.length > 100) {
+    activities.pop();
+  }
+  saveData(ACTIVITY_KEY, activities);
+}
 
 // ======================
 // GET TODAY'S DATE STRING
@@ -876,6 +899,10 @@ function setupEvent() {
     const data = getData(KEY);
     data.push(newServis);
     saveData(KEY, data);
+    
+    // Log activity
+    const customer = customers.find(c => c.id == customerId);
+    logActivity("servis", "create", "Servis baru: " + (customer ? customer.name : "-"), { servisId: newServis.id });
     
     resetForm();
     const searchInput = document.getElementById("searchServis");

@@ -6,6 +6,84 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-41
 
+### Added
+
+#### UI Components (assets/js/components/ui.js) - NEW FILE
+- Added "Toast Notifications" system with 4 types: success, error, warning, info
+- Added "Confirmation Dialog" for delete actions and important operations
+- Added "Loading Overlay" for page transitions
+- Added "Alert Dialog" helper function
+- Added "Form Validation" helper to validate required fields
+- Added "Clear Form" helper to reset form fields
+- Added "Debounce" helper for search inputs
+- Added "Theme Toggle" functions (initTheme, toggleTheme, getTheme)
+
+#### New Pages
+- Added **nota.html** - Print/cetak nota/kwitansi page:
+  - Select servis with status "selesai" to print
+  - Display shop name, phone, address from settings
+  - Display customer name, police number, date, items, total
+  - Print-friendly format with @media print CSS
+  - Download PDF via browser print
+- Added **riwayat.html** - Activity log/riwayat aktivitas page:
+  - Filter by date (all, today, week, month)
+  - Filter by type (servis, pelanggan, sparepart, setting)
+  - Paginated activity list with timestamp
+  - Icons for each activity type
+
+#### Navigation (navbar.js)
+- Added "Riwayat" link in navbar navigation
+- Added "Nota" link in navbar navigation
+- Added theme toggle button (🌓/☀️) for dark/light mode
+
+#### Activity Logging
+- Added activity_log key storage
+- Added logActivity() function to servis.js:
+  - Log servis create/update/delete actions
+  - Keep last 100 activities
+- Added logActivity() function to pelanggan.js:
+  - Log customer create/delete actions
+  - Keep last 100 activities
+
+#### Data Management (storage.js)
+- Added exportAllData() function:
+  - Export all data keys to JSON with version and timestamp
+  - Keys: customers, servis, parts, shop_settings, service_statuses, categories, vehicle_brands, activity_log
+- Added importAllData() function:
+  - Import data from JSON backup
+  - Validate data format before import
+
+### Changed
+
+#### Dashboard (dashboard.html)
+- Fixed invalid `<h3>` tag to proper heading structure
+- Changed dashboard title from `<h3>` to `<h2>`
+
+#### Style.css (assets/css/style.css)
+- Added loading spinner styles (.loading-spinner, .loading-spinner.sm, .loading-spinner.lg)
+- Added loading overlay (.loading-overlay) with animation
+- Added skeleton loading animation styles
+- Added toast notification styles (.toast-container, .toast.success, .toast.error, etc.)
+- Added confirmation modal styling (.confirm-modal-body, .confirm-modal-icon)
+- Added button loading state (.btn.loading)
+- Added dark mode support with [data-theme="dark"] attribute
+- Added status color styles (.status-menunggu, .status-servicing, etc.)
+- Added stagger animation for list items
+- Added responsive card grid
+- Added quick action button styles
+
+### Fixed
+
+#### Security
+- XSS Protection: All user inputs sanitized with sanitizeHTML() across all modules
+- Input validation improvements for all form submissions
+
+#### UX Improvements
+- Added proper input validation with .is-invalid class styling
+- Better modal scroll with max-height 70vh
+- Theme preference persisted to localStorage
+- Proper theme initialization on page load
+
 ## [alpha-41]
 
 Codebase: alpha-40

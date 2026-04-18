@@ -5,9 +5,30 @@ import { generateId, sanitizeHTML } from "../utils.js";
 
 const KEY = "customers";
 const SERVIS_KEY = "servis";
+const ACTIVITY_KEY = "activity_log";
 
 let currentPage = 1;
 const ITEMS_PER_PAGE = 10;
+
+// ======================
+// ACTIVITY LOGGING
+// ======================
+function logActivity(type, action, description, data = {}) {
+  const activities = getData(ACTIVITY_KEY) || [];
+  const activity = {
+    id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+    type,
+    action,
+    description,
+    data,
+    timestamp: new Date().toISOString()
+  };
+  activities.unshift(activity);
+  if (activities.length > 100) {
+    activities.pop();
+  }
+  saveData(ACTIVITY_KEY, activities);
+}
 
 // INIT PAGE
 export function initPelangganPage() {
@@ -339,7 +360,10 @@ function setupEvent() {
     
     data.push(newCustomer);
     saveData(KEY, data);
-
+    
+    // Log activity
+    logActivity("pelanggan", "create", "Pelanggan baru: " + sanitizedName, { customerId: newCustomer.id });
+    
     clearForm();
     renderTable();
     closeModal();
@@ -475,6 +499,10 @@ function deleteCustomer(id) {
   let data = getData(KEY);
   data = data.filter(item => item.id != id);
   saveData(KEY, data);
+  
+  // Log activity
+  logActivity("pelanggan", "delete", "Hapus pelanggan", { customerId: id });
+  
   renderTable();
 }
 
