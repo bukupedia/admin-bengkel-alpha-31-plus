@@ -6,6 +6,30 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-37
 
+### Added
+
+#### Semua Halaman HTML (index.html, dashboard.html, pelanggan.html, servis.html, sparepart.html)
+- Added noindex meta tags to prevent search engine indexing:
+  - `<meta name="robots" content="noindex, nofollow">` - Untuk semua crawler
+  - `<meta name="googlebot" content="noindex, nofollow">` - Untuk Google
+  - `<meta name="bingbot" content="noindex, nofollow">` - Untuk Bing
+  - `<meta name="yandex" content="noindex, nofollow">` - Untuk Yandex
+  - `<meta name="duckduckbot" content="noindex, nofollow">` - Untuk DuckDuckGo
+
+#### PWA (Progressive Web App)
+- Added `manifest.json` - Konfigurasi PWA untuk installable web app
+- Added `sw.js` - Service Worker untuk offline support dan caching
+- Added `assets/icons/` - 8 ukuran ikon PWA (72x72, 96x96, 128x128, 144x144, 152x152, 192x192, 384x384, 512x512)
+- Added PWA manifest link di semua halaman HTML
+- Added theme-color meta tag di semua halaman HTML
+- Added apple-touch-icon di semua halaman HTML
+- Added service worker registration di semua halaman HTML
+
+### Changed
+
+#### Semua Halaman HTML
+- Updated head section untuk menyertakan PWA tags dan manifest
+
 ## [alpha-37]
 
 Codebase: alpha-36
