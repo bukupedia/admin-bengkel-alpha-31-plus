@@ -6,21 +6,10 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-36
 
-Menambahkan fitur tampilan informasi stok dengan warna merah pada modal "Edit Servis" jika sparepart yang dipilih memiliki stok rendah (<5).
+### Changed
 
-**Perubahan yang dilakukan di `/workspace/project/admin-bengkel-alpha-31-plus/assets/js/modules/servis.js`:**
-
-1. **Lokasi pertama (baris ~1012)** - Saat menampilkan informasi stok untuk item yang sudah ada dalam servis:
-   - Sebelum: `stock > 0 ? "part-note small text-success mt-1" : "part-note small text-danger mt-1"`
-   - Sesudah: `stock >= 5 ? "part-note small text-success mt-1" : "part-note small text-danger mt-1"`
-
-2. **Lokasi kedua (baris ~1044)** - Saat user memilih sparepart dari datalist:
-   - Sebelum: `stock > 0 ? "part-note small text-success mt-1" : "part-note small text-danger mt-1"`
-   - Sesudah: `stock >= 5 ? "part-note small text-success mt-1" : "part-note small text-danger mt-1"`
-
-Sekarang:
-- **Warna hijau** (text-success) akan muncul jika stok >= 5
-- **Warna merah** (text-danger) akan muncul jika stok < 5 (stok rendah)
+#### Halaman Servis (servis.js)
+- Changed stock display color: red for low stock (< 5), green for sufficient stock (>= 5) in "Edit Servis" modal
 
 ## [alpha-36]
 
