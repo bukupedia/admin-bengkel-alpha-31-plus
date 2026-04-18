@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="bingbot" content="noindex, nofollow">
+  <meta name="yandex" content="noindex, nofollow">
+  <meta name="duckduckbot" content="noindex, nofollow">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#667eea">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+  <title>Pengaturan - Bengkel App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="setting">
+
+<div id="navbar"></div>
+
+<div class="container mt-4">
+  <h3>⚙️ Pengaturan</h3>
+
+  <!-- Shop Information -->
+  <div class="card border-0 shadow-sm mt-4">
+    <div class="card-header bg-white">
+      <h5 class="mb-0">🏪 Informasi Toko</h5>
+    </div>
+    <div class="card-body">
+      <form id="formShopInfo">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="shopName" class="form-label">Nama Bengkel</label>
+            <input type="text" class="form-control" id="shopName" placeholder="Nama Bengkel Anda">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="shopPhone" class="form-label">Nomor Telepon</label>
+            <input type="tel" class="form-control" id="shopPhone" placeholder="Contoh: 0812-3456-7890">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="shopAddress" class="form-label">Alamat</label>
+            <textarea class="form-control" id="shopAddress" rows="2" placeholder="Alamat Bengkel"></textarea>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="shopEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="shopEmail" placeholder="email@bengkel.com">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="shopDescription" class="form-label">Deskripsi</label>
+          <textarea class="form-control" id="shopDescription" rows="2" placeholder="Deskripsi singkat tentang bengkel"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">💾 Simpan Informasi Toko</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Service Status Settings -->
+  <div class="card border-0 shadow-sm mt-4">
+    <div class="card-header bg-white">
+      <h5 class="mb-0">🔧 Status Servis</h5>
+    </div>
+    <div class="card-body">
+      <p class="text-muted">Kelola status servis yang tersedia untuk dipilih saat input servis.</p>
+      <div id="serviceStatusList">
+        <!-- Dynamic content -->
+      </div>
+      <div class="mt-3">
+        <div class="row">
+          <div class="col-md-4 mb-2">
+            <input type="text" class="form-control" id="newServiceStatus" placeholder="Nama status baru">
+          </div>
+          <div class="col-md-2 mb-2">
+            <input type="color" class="form-control form-control-color" id="newServiceStatusColor" value="#6c757d" title="Pilih warna">
+          </div>
+          <div class="col-md-3 mb-2">
+            <button type="button" class="btn btn-outline-primary w-100" id="addServiceStatus">+ Tambah Status</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sparepart Categories -->
+  <div class="card border-0 shadow-sm mt-4">
+    <div class="card-header bg-white">
+      <h5 class="mb-0">🔩 Kategori Sparepart</h5>
+    </div>
+    <div class="card-body">
+      <p class="text-muted">Kelola kategori sparepart yang tersedia.</p>
+      <div id="categoryList">
+        <!-- Dynamic content -->
+      </div>
+      <div class="mt-3">
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <input type="text" class="form-control" id="newCategory" placeholder="Nama kategori baru">
+          </div>
+          <div class="col-md-3 mb-2">
+            <button type="button" class="btn btn-outline-primary w-100" id="addCategory">+ Tambah Kategori</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vehicle Brands -->
+  <div class="card border-0 shadow-sm mt-4">
+    <div class="card-header bg-white">
+      <h5 class="mb-0">🚗 Merek Kendaraan</h5>
+    </div>
+    <div class="card-body">
+      <p class="text-muted">Kelola merek kendaraan yang tersedia untuk dipilih.</p>
+      <div id="vehicleBrandList">
+        <!-- Dynamic content -->
+      </div>
+      <div class="mt-3">
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <input type="text" class="form-control" id="newVehicleBrand" placeholder="Nama merek baru (Honda, Yamaha, dll)">
+          </div>
+          <div class="col-md-3 mb-2">
+            <button type="button" class="btn btn-outline-primary w-100" id="addVehicleBrand">+ Tambah Merek</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Management -->
+  <div class="card border-0 shadow-sm mt-4">
+    <div class="card-header bg-white">
+      <h5 class="mb-0">💾 Kelola Data</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <h6>Export Data</h6>
+          <p class="text-muted small">Unduh semua data aplikasi dalam format JSON.</p>
+          <button class="btn btn-outline-success" id="exportData">📥 Export Semua Data</button>
+        </div>
+        <div class="col-md-6 mb-3">
+          <h6>Import Data</h6>
+          <p class="text-muted small">Impor data dari file JSON sebelumnya.</p>
+          <input type="file" class="form-control" id="importFile" accept=".json">
+          <button class="btn btn-outline-warning mt-2" id="importData">📤 Import Data</button>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <h6>Reset Data</h6>
+          <p class="text-muted small">Hapus semua data dan mulai dari awal. Tindakan ini tidak dapat dibatalkan!</p>
+          <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalResetData">🗑️ Reset Semua Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Info -->
+  <div class="card border-0 shadow-sm mt-4">
+    <div class="card-header bg-white">
+      <h5 class="mb-0">ℹ️ Tentang Aplikasi</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="mb-1"><strong>Nama Aplikasi:</strong> BengkelApp</p>
+          <p class="mb-1"><strong>Versi:</strong> 1.0.0</p>
+          <p class="mb-1"><strong>Platform:</strong> Web App (PWA)</p>
+        </div>
+        <div class="col-md-6">
+          <p class="text-muted small">Aplikasi manajemen bengkel berbasis web yang membantu pengelolaan servis, pelanggan, dan sparepart.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reset Data Modal -->
+<div class="modal fade" id="modalResetData" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger">⚠️ Reset Semua Data</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Apakah Anda yakin ingin menghapus semua data?</p>
+        <p class="text-muted">Data yang akan dihapus:</p>
+        <ul>
+          <li>Semua data servis</li>
+          <li>Semua data pelanggan</li>
+          <li>Semua data sparepart</li>
+          <li>Semua pengaturan</li>
+        </ul>
+        <p class="text-danger fw-bold">Tindakan ini tidak dapat dibatalkan!</p>
+        <div class="mb-3">
+          <label for="confirmReset" class="form-label">Ketik "RESET" untuk konfirmasi:</label>
+          <input type="text" class="form-control" id="confirmReset" placeholder="RESET">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn btn-danger" id="confirmResetBtn" disabled>Ya, Hapus Semua Data</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="assets/js/app.js"></script>
+<script>
+  // Register service worker for PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then((registration) => {
+          console.log('ServiceWorker registration successful:', registration.scope);
+        })
+        .catch((error) => {
+          console.log('ServiceWorker registration failed:', error);
+        });
+    });
+  }
+</script>
+</body>
+</html>

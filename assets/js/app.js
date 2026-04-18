@@ -6,6 +6,7 @@ import { initPelangganPage } from "./modules/pelanggan.js";
 import { initServisPage } from "./modules/servis.js";
 import { initSparepartPage } from "./modules/sparepart.js";
 import { initDashboardPage } from "./modules/dashboard.js";
+import { initSettingPage } from "./modules/setting.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // ✅ Protect all pages - redirect to login if not authenticated
@@ -29,5 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if (page === "sparepart") {
     initSparepartPage();
+  }
+  if (page === "setting") {
+    initSettingPage();
   }
 });

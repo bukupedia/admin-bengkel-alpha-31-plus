@@ -42,6 +42,10 @@ export function renderNavbar() {
               <a class="nav-link ${currentPage === "sparepart" ? "active" : ""}" href="sparepart.html">⚙️ Sparepart</a>
             </li>
 
+            <li class="nav-item">
+              <a class="nav-link ${currentPage === "setting" ? "active" : ""}" href="setting.html">🔧 Pengaturan</a>
+            </li>
+
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                 👤 ${user ? user.username : 'Admin'}

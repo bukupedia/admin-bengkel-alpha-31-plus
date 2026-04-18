@@ -6,6 +6,33 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-40
 
+### Added
+
+#### Halaman Pengaturan (setting.html, setting.js)
+- Added new "Settings" page for editing application configurations
+- Added "Informasi Toko" section:
+  - Edit nama bengkel, nomor telepon, alamat, email, dan deskripsi
+- Added "Status Servis" section:
+  - Manage available service status options (default: Menunggu, Diproses, Selesai, Dibatalkan)
+  - Add/remove custom service status with color picker
+  - Protected default 4 statuses from deletion
+- Added "Kategori Sparepart" section:
+  - Manage sparepart categories (Oli, Ban, Bus, Aki, Kampas Rem, Busi, Filter, Sparepart Umum)
+  - Add/remove categories
+- Added "Merek Kendaraan" section:
+  - Manage vehicle brands (Honda, Yamaha, Suzuki, Kawasaki, TVS, Benelli, BMW, Harley-Davidson)
+  - Add/remove brands
+- Added "Kelola Data" section:
+  - Export all data to JSON file
+  - Import data from JSON file
+  - Reset all data with confirmation (type "RESET" to confirm)
+- Added "Tentang Aplikasi" section:
+  - Display app name, version, and platform information
+
+#### Navigation (navbar.js, app.js)
+- Added "Pengaturan" link in navbar navigation
+- Added setting page initialization in app.js
+
 ## [alpha-40]
 
 Codebase: alpha-39
