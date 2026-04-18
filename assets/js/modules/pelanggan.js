@@ -11,8 +11,49 @@ const ITEMS_PER_PAGE = 10;
 
 // INIT PAGE
 export function initPelangganPage() {
+  migrateCustomerData(); // Migrate old data to new structure
   renderTable();
   setupEvent();
+}
+
+// MIGRATE CUSTOMER DATA - Convert old structure to new vehicles array
+function migrateCustomerData() {
+  const data = getData(KEY);
+  let needsSave = false;
+  
+  const migratedData = data.map(customer => {
+    // If customer already has vehicles array, skip
+    if (customer.vehicles && Array.isArray(customer.vehicles)) {
+      return customer;
+    }
+    
+    // If customer has old vehicle fields, convert to vehicles array
+    if (customer.policeNumber || customer.vehicleBrand || customer.vehicleName) {
+      needsSave = true;
+      return {
+        ...customer,
+        vehicles: [{
+          id: generateId(),
+          policeNumber: customer.policeNumber || "",
+          vehicleBrand: customer.vehicleBrand || "",
+          vehicleName: customer.vehicleName || ""
+        }],
+        // Keep old fields for backward compatibility temporarily
+        _migrated: true
+      };
+    }
+    
+    // Customer with no vehicles - initialize empty array
+    needsSave = true;
+    return {
+      ...customer,
+      vehicles: []
+    };
+  });
+  
+  if (needsSave) {
+    saveData(KEY, migratedData);
+  }
 }
 
 // RENDER TABLE
@@ -27,8 +68,11 @@ function renderTable(searchQuery = "") {
     filteredData = data.filter(item => {
       const name = item.name.toLowerCase();
       const phone = item.phone ? item.phone.toLowerCase() : "";
-      const police = item.policeNumber ? item.policeNumber.toLowerCase() : "";
-      return name.includes(searchQuery) || phone.includes(searchQuery) || police.includes(searchQuery);
+      // Also search in vehicles
+      const vehicleMatch = item.vehicles && item.vehicles.some(v => 
+        (v.policeNumber && v.policeNumber.toLowerCase().includes(searchQuery))
+      );
+      return name.includes(searchQuery) || phone.includes(searchQuery) || vehicleMatch;
     });
   }
 
@@ -56,7 +100,10 @@ function renderTable(searchQuery = "") {
     // Sanitize user input before rendering
     const safeName = sanitizeHTML(item.name);
     const safePhone = sanitizeHTML(item.phone);
-    const safePolice = sanitizeHTML(item.policeNumber || '-');
+    // Get first vehicle police number for display
+    const firstVehicle = item.vehicles && item.vehicles.length > 0 ? item.vehicles[0] : null;
+    const safePolice = firstVehicle ? sanitizeHTML(firstVehicle.policeNumber) : '-';
+    const vehicleCount = item.vehicles ? item.vehicles.length : 0;
     
     // Format WhatsApp URL - add Indonesia country code (62)
     const phoneNumber = item.phone ? item.phone.replace(/[^0-9]/g, '') : '';
@@ -69,6 +116,7 @@ function renderTable(searchQuery = "") {
         <td>${safeName}</td>
         <td>${safePhone}</td>
         <td>${safePolice}</td>
+        <td><span class="badge bg-secondary">${vehicleCount} kendaraan</span></td>
         <td>
           <button class="btn btn-info btn-sm btn-detail" data-id="${item.id}" title="Detail">👁️</button>
           <a href="${waUrl}" target="_blank" class="btn btn-success btn-sm btn-whatsapp" data-phone="${item.phone}" title="Kirim WhatsApp" ${!phoneNumber ? 'style="display:none"' : ''}>💬</a>
@@ -118,8 +166,11 @@ function renderPagination(totalPages) {
     filteredData = data.filter(item => {
       const name = item.name.toLowerCase();
       const phone = item.phone ? item.phone.toLowerCase() : "";
-      const police = item.policeNumber ? item.policeNumber.toLowerCase() : "";
-      return name.includes(searchQuery) || phone.includes(searchQuery) || police.includes(searchQuery);
+      // Also search in vehicles
+      const vehicleMatch = item.vehicles && item.vehicles.some(v => 
+        (v.policeNumber && v.policeNumber.toLowerCase().includes(searchQuery))
+      );
+      return name.includes(searchQuery) || phone.includes(searchQuery) || vehicleMatch;
     });
   }
   
@@ -265,14 +316,17 @@ function setupEvent() {
     const sanitizedVehicleBrand = vehicleBrand ? vehicleBrand.substring(0, 50) : "";
     const sanitizedVehicleName = vehicleName ? vehicleName.substring(0, 50) : "";
 
-    // Add new
+    // Add new customer with vehicles array
     const newCustomer = {
       id: generateId(),
       name: sanitizedName,
       phone: sanitizedPhone,
-      policeNumber: sanitizedPolice,
-      vehicleBrand: sanitizedVehicleBrand,
-      vehicleName: sanitizedVehicleName
+      vehicles: [{
+        id: generateId(),
+        policeNumber: sanitizedPolice,
+        vehicleBrand: sanitizedVehicleBrand,
+        vehicleName: sanitizedVehicleName
+      }]
     };
     
     // Check for duplicate name
@@ -348,7 +402,7 @@ function setupEvent() {
       const sanitizedVehicleBrand = vehicleBrand ? vehicleBrand.substring(0, 50) : "";
       const sanitizedVehicleName = vehicleName ? vehicleName.substring(0, 50) : "";
 
-      // Update existing
+      // Update existing - maintain vehicles array structure
       const data = getData(KEY);
       const index = data.findIndex(c => c.id == editId);
       if (index !== -1) {
@@ -360,9 +414,23 @@ function setupEvent() {
         }
         data[index].name = sanitizedName;
         data[index].phone = sanitizedPhone;
-        data[index].policeNumber = sanitizedPolice;
-        data[index].vehicleBrand = sanitizedVehicleBrand;
-        data[index].vehicleName = sanitizedVehicleName;
+        
+        // Update first vehicle or create new vehicles array
+        if (!data[index].vehicles) {
+          data[index].vehicles = [];
+        }
+        if (data[index].vehicles.length > 0) {
+          data[index].vehicles[0].policeNumber = sanitizedPolice;
+          data[index].vehicles[0].vehicleBrand = sanitizedVehicleBrand;
+          data[index].vehicles[0].vehicleName = sanitizedVehicleName;
+        } else {
+          data[index].vehicles.push({
+            id: generateId(),
+            policeNumber: sanitizedPolice,
+            vehicleBrand: sanitizedVehicleBrand,
+            vehicleName: sanitizedVehicleName
+          });
+        }
         saveData(KEY, data);
       }
 
@@ -416,13 +484,16 @@ function editCustomer(id) {
   const customer = data.find(c => c.id == id);
   if (!customer) return;
 
+  // Get first vehicle for edit form
+  const firstVehicle = customer.vehicles && customer.vehicles.length > 0 ? customer.vehicles[0] : null;
+
   // Set values to edit form
   document.getElementById("editPelangganId").value = id;
   document.getElementById("editNamaPelanggan").value = customer.name || "";
   document.getElementById("editNoHp").value = customer.phone || "";
-  document.getElementById("editNomorPolisi").value = customer.policeNumber || "";
-  document.getElementById("editVehicleBrand").value = customer.vehicleBrand || "";
-  document.getElementById("editVehicleName").value = customer.vehicleName || "";
+  document.getElementById("editNomorPolisi").value = firstVehicle ? firstVehicle.policeNumber || "" : "";
+  document.getElementById("editVehicleBrand").value = firstVehicle ? firstVehicle.vehicleBrand || "" : "";
+  document.getElementById("editVehicleName").value = firstVehicle ? firstVehicle.vehicleName || "" : "";
   
   // Set edit ID
   document.getElementById("saveEditPelanggan").dataset.editId = id;
@@ -509,6 +580,29 @@ function showCustomerDetail(id) {
   const detailContent = document.getElementById("detailContent");
   if (!detailContent) return;
 
+  // Build vehicles list HTML
+  const vehicles = customer.vehicles || [];
+  let vehiclesHTML = '';
+  if (vehicles.length > 0) {
+    vehiclesHTML = vehicles.map((v, index) => `
+      <div class="card mb-2">
+        <div class="card-body py-2">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Kendaraan ${index + 1}</strong><br>
+              <small>
+                ${sanitizeHTML(v.policeNumber || '-')} - ${sanitizeHTML(v.vehicleBrand || '-')} ${sanitizeHTML(v.vehicleName || '-')}
+              </small>
+            </div>
+            <button class="btn btn-sm btn-outline-danger btn-delete-vehicle" data-customer-id="${customer.id}" data-vehicle-index="${index}" title="Hapus Kendaraan">🗑</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    vehiclesHTML = '<p class="text-muted">Belum ada kendaraan terdaftar</p>';
+  }
+
   detailContent.innerHTML = `
     <div class="row">
       <div class="col-md-6 mb-3">
@@ -520,24 +614,157 @@ function showCustomerDetail(id) {
         <p class="mb-0">${sanitizeHTML(customer.phone || '-')}</p>
       </div>
       <div class="col-md-6 mb-3">
-        <label class="form-label fw-bold">Nomor Polisi</label>
-        <p class="mb-0">${sanitizeHTML(customer.policeNumber || '-')}</p>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label class="form-label fw-bold">Merek Kendaraan</label>
-        <p class="mb-0">${sanitizeHTML(customer.vehicleBrand || '-')}</p>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label class="form-label fw-bold">Nama Kendaraan</label>
-        <p class="mb-0">${sanitizeHTML(customer.vehicleName || '-')}</p>
-      </div>
-      <div class="col-md-6 mb-3">
         <label class="form-label fw-bold">Total Servis</label>
         <p class="mb-0">${customerServis.length} kali</p>
       </div>
     </div>
+    <hr>
+    <div class="mb-3">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h6 class="mb-0">Kendaraan (${vehicles.length})</h6>
+        <button class="btn btn-sm btn-primary btn-add-vehicle" data-customer-id="${customer.id}">+ Tambah Kendaraan</button>
+      </div>
+      ${vehiclesHTML}
+    </div>
   `;
+
+  // Add event listener for add vehicle button
+  const addVehicleBtn = detailContent.querySelector(".btn-add-vehicle");
+  if (addVehicleBtn) {
+    addVehicleBtn.addEventListener("click", () => {
+      showAddVehicleModal(customer.id);
+    });
+  }
+
+  // Add event listeners for delete vehicle buttons
+  detailContent.querySelectorAll(".btn-delete-vehicle").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const customerId = e.target.dataset.customerId;
+      const vehicleIndex = parseInt(e.target.dataset.vehicleIndex);
+      deleteVehicle(customerId, vehicleIndex);
+    });
+  });
 
   const modal = new bootstrap.Modal(document.getElementById("modalDetailPelanggan"));
   modal.show();
+}
+
+// ADD VEHICLE MODAL
+function showAddVehicleModal(customerId) {
+  // Create modal if not exists
+  let modalAddVehicle = document.getElementById("modalAddVehicle");
+  if (!modalAddVehicle) {
+    const modalHtml = `
+      <div class="modal fade" id="modalAddVehicle">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5>Tambah Kendaraan</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" id="addVehicleCustomerId">
+              <input id="addVehiclePoliceNumber" class="form-control mb-2" placeholder="Nomor Polisi Kendaraan" required>
+              <input id="addVehicleBrand" class="form-control mb-2" placeholder="Merek Kendaraan: Honda, Yamaha, Suzuki...">
+              <input id="addVehicleName" class="form-control" placeholder="Nama Kendaraan: Beat, Mio, Nex...">
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+              <button class="btn btn-primary" id="saveAddVehicle">Simpan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.insertAdjacentHTML("beforeend", modalHtml);
+    modalAddVehicle = document.getElementById("modalAddVehicle");
+  }
+
+  // Set customer ID
+  document.getElementById("addVehicleCustomerId").value = customerId;
+
+  // Clear form
+  document.getElementById("addVehiclePoliceNumber").value = "";
+  document.getElementById("addVehicleBrand").value = "";
+  document.getElementById("addVehicleName").value = "";
+  document.getElementById("addVehiclePoliceNumber").classList.remove("is-invalid");
+
+  // Show modal
+  const modal = new bootstrap.Modal(modalAddVehicle);
+  modal.show();
+
+  // Setup save event
+  const saveBtn = document.getElementById("saveAddVehicle");
+  const newSaveBtn = saveBtn.cloneNode(true);
+  saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
+
+  newSaveBtn.addEventListener("click", () => {
+    const custId = document.getElementById("addVehicleCustomerId").value;
+    const policeInput = document.getElementById("addVehiclePoliceNumber");
+    const brandInput = document.getElementById("addVehicleBrand");
+    const nameInput = document.getElementById("addVehicleName");
+
+    const policeNumber = policeInput.value.trim();
+    const vehicleBrand = brandInput.value.trim();
+    const vehicleName = nameInput.value.trim();
+
+    // Validate police number is required
+    if (!policeNumber || policeNumber.length === 0) {
+      policeInput.classList.add("is-invalid");
+      alert("Nomor Polisi Kendaraan wajib diisi");
+      return;
+    }
+    policeInput.classList.remove("is-invalid");
+
+    // Sanitize
+    const sanitizedPolice = policeNumber.substring(0, 15).replace(/[<>]/g, "");
+    const sanitizedBrand = vehicleBrand ? vehicleBrand.substring(0, 50).replace(/[<>]/g, "") : "";
+    const sanitizedName = vehicleName ? vehicleName.substring(0, 50).replace(/[<>]/g, "") : "";
+
+    // Add vehicle to customer
+    const data = getData(KEY);
+    const customerIndex = data.findIndex(c => c.id == custId);
+    if (customerIndex !== -1) {
+      if (!data[customerIndex].vehicles) {
+        data[customerIndex].vehicles = [];
+      }
+      data[customerIndex].vehicles.push({
+        id: generateId(),
+        policeNumber: sanitizedPolice,
+        vehicleBrand: sanitizedBrand,
+        vehicleName: sanitizedName
+      });
+      saveData(KEY, data);
+
+      // Close modal and refresh detail
+      const modalInstance = bootstrap.Modal.getInstance(modalAddVehicle);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+      showCustomerDetail(custId);
+      renderTable();
+    }
+  });
+}
+
+// DELETE VEHICLE
+function deleteVehicle(customerId, vehicleIndex) {
+  const customer = getData(KEY).find(c => c.id == customerId);
+  if (!customer || !customer.vehicles || customer.vehicles.length === 0) return;
+
+  const vehicle = customer.vehicles[vehicleIndex];
+  const confirmMessage = `Hapus kendaraan ${vehicle.policeNumber || 'ini'}?`;
+
+  if (!confirm(confirmMessage)) return;
+
+  const data = getData(KEY);
+  const index = data.findIndex(c => c.id == customerId);
+  if (index !== -1) {
+    data[index].vehicles.splice(vehicleIndex, 1);
+    saveData(KEY, data);
+
+    // Refresh detail view
+    showCustomerDetail(customerId);
+    renderTable();
+  }
 }

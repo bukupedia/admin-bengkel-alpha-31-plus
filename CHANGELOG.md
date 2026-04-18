@@ -6,6 +6,26 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-39
 
+### Added
+
+#### Halaman Pelanggan (pelanggan.html, pelanggan.js)
+- Added "Jumlah Kendaraan" column in customer table to display number of vehicles owned by each customer
+- Added vehicle management feature in "Detail Pelanggan" modal:
+  - Added "Tambah Kendaraan" button to add new vehicle to customer
+  - Added delete button (🗑) on each vehicle to remove it
+  - Display all vehicles registered for the customer with police number, brand, and name
+- Added new data structure to support multiple vehicles per customer:
+  - Changed customer data from single vehicle fields (policeNumber, vehicleBrand, vehicleName) to vehicles array
+  - Each vehicle now has its own ID, policeNumber, vehicleBrand, and vehicleName
+- Added migration function to automatically convert old single-vehicle data to new vehicles array format
+
+#### Halaman Servis (servis.html, servis.js)
+- Updated customer dropdown (datalist) to display all vehicles for each customer
+- Added vehicleIndex field to track which vehicle was selected when creating a service record
+- Updated service table to display the correct vehicle based on saved vehicleIndex
+- Updated detail view to display the correct vehicle information based on saved vehicleIndex
+- Updated WhatsApp messages to use the correct vehicle information based on saved vehicleIndex
+
 ## [alpha-39]
 
 Codebase: alpha-38

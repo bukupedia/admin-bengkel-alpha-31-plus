@@ -184,35 +184,51 @@ function renderCustomerDatalist(customers = null) {
   datalist.innerHTML = "";
   custData.forEach(c => {
     const safeName = sanitizeHTML(c.name);
-    const safePolice = sanitizeHTML(c.policeNumber || "");
-    const police = safePolice ? ` (${safePolice})` : "";
-    datalist.innerHTML += `<option value="${safeName}${police}" data-id="${c.id}" data-police="${safePolice}">`;
+    // Show all vehicle police numbers for the customer
+    const vehicles = c.vehicles || [];
+    if (vehicles.length > 0) {
+      vehicles.forEach((v, index) => {
+        const safePolice = sanitizeHTML(v.policeNumber || "");
+        const police = safePolice ? ` (${safePolice})` : "";
+        const vehicleInfo = v.vehicleBrand || v.vehicleName ? ` - ${sanitizeHTML(v.vehicleBrand || '')} ${sanitizeHTML(v.vehicleName || '')}` : "";
+        datalist.innerHTML += `<option value="${safeName}${police}${vehicleInfo}" data-id="${c.id}" data-vehicle-index="${index}" data-police="${safePolice}">`;
+      });
+    } else {
+      // No vehicles - just show name
+      datalist.innerHTML += `<option value="${safeName}" data-id="${c.id}" data-vehicle-index="0" data-police="">`;
+    }
   });
   
   // Handle selection
   input.addEventListener("input", () => {
     const hiddenSelect = document.getElementById("customerSelect");
+    const vehicleIndexInput = document.getElementById("vehicleIndex");
     const selectedOption = Array.from(datalist.options).find(opt => opt.value === input.value);
     if (selectedOption) {
       hiddenSelect.value = selectedOption.dataset.id;
+      vehicleIndexInput.value = selectedOption.dataset.vehicleIndex || 0;
       input.classList.remove("is-invalid");
       customerNote.style.display = "none";
     } else if (input.value) {
       // User typed something that doesn't match any option
       hiddenSelect.value = "";
+      vehicleIndexInput.value = "";
       customerNote.textContent = "Pelanggan tidak ditemukan";
       customerNote.style.display = "block";
     } else {
       hiddenSelect.value = "";
+      vehicleIndexInput.value = "";
       customerNote.style.display = "none";
     }
   });
   
   input.addEventListener("change", () => {
     const hiddenSelect = document.getElementById("customerSelect");
+    const vehicleIndexInput = document.getElementById("vehicleIndex");
     const selectedOption = Array.from(datalist.options).find(opt => opt.value === input.value);
     if (selectedOption) {
       hiddenSelect.value = selectedOption.dataset.id;
+      vehicleIndexInput.value = selectedOption.dataset.vehicleIndex || 0;
       input.classList.remove("is-invalid");
       customerNote.style.display = "none";
     } else if (input.value) {
@@ -483,7 +499,11 @@ function renderTable(searchQuery = "", statusFilter = "") {
     filteredData = filteredData.filter(item => {
       const customer = customers.find(c => c.id == item.customerId);
       const customerName = customer ? customer.name.toLowerCase() : "";
-      const policeNumber = customer ? (customer.policeNumber || "").toLowerCase() : "";
+      // Search in all vehicles
+      let policeNumber = "";
+      if (customer && customer.vehicles && customer.vehicles.length > 0) {
+        policeNumber = customer.vehicles.map(v => (v.policeNumber || "").toLowerCase()).join(" ");
+      }
       return customerName.includes(searchQuery) || policeNumber.includes(searchQuery);
     });
   }
@@ -530,7 +550,12 @@ function renderTable(searchQuery = "", statusFilter = "") {
   paginatedData.forEach(item => {
     const customer = customers.find(c => c.id == item.customerId);
     const customerName = customer ? sanitizeHTML(customer.name) : "-";
-    const customerPoliceNumber = customer ? sanitizeHTML(customer.policeNumber || "-") : "-";
+    // Get vehicle based on saved vehicleIndex or first vehicle for backward compatibility
+    const vehicleIndex = item.vehicleIndex || 0;
+    const customerVehicle = customer && customer.vehicles && customer.vehicles.length > vehicleIndex 
+      ? customer.vehicles[vehicleIndex] 
+      : (customer && customer.vehicles && customer.vehicles.length > 0 ? customer.vehicles[0] : null);
+    const customerPoliceNumber = customerVehicle ? sanitizeHTML(customerVehicle.policeNumber || "-") : "-";
     const customerPhone = customer ? (customer.phone || "") : "";
     const safeTanggal = sanitizeHTML(item.tanggal);
     
@@ -543,10 +568,10 @@ function renderTable(searchQuery = "", statusFilter = "") {
     };
     const statusInfo = statusMap[item.status] || statusMap.menunggu;
     
-    // Get customer vehicle info
-    const customerVehicleBrand = customer ? (customer.vehicleBrand || "") : "";
-    const customerVehicleName = customer ? (customer.vehicleName || "") : "";
-    const customerPoliceNumberVal = customer ? (customer.policeNumber || "") : "";
+    // Get customer vehicle info from saved vehicleIndex (for backward compatibility)
+    const customerVehicleBrand = customerVehicle ? (customerVehicle.vehicleBrand || "") : "";
+    const customerVehicleName = customerVehicle ? (customerVehicle.vehicleName || "") : "";
+    const customerPoliceNumberVal = customerVehicle ? (customerVehicle.policeNumber || "") : "";
     
     // Check if vehicle info is complete (both brand and name are provided)
     const hasVehicleInfo = customerVehicleBrand.trim() !== "" && customerVehicleName.trim() !== "";
@@ -725,6 +750,7 @@ function setupEvent() {
   btnClearCustomer.addEventListener("click", () => {
     document.getElementById("customerInput").value = "";
     document.getElementById("customerSelect").value = "";
+    document.getElementById("vehicleIndex").value = "";
     document.getElementById("customerNote").style.display = "none";
   });
 
@@ -834,10 +860,13 @@ function setupEvent() {
     // Stock is NOT reduced here - will be reduced when status changes to "selesai"
     // This allows spareparts to remain available for other servis until job is completed
     
+    const vehicleIndex = document.getElementById("vehicleIndex").value || 0;
+    
     const newServis = {
       id: generateId(),
       tanggal,
       customerId,
+      vehicleIndex: parseInt(vehicleIndex),
       items,
       total,
       catatan: document.getElementById("catatan").value,
@@ -1246,9 +1275,14 @@ function showDetail(id) {
   const customer = customers.find(c => c.id == servis.customerId);
   
   document.getElementById("detailCustomer").textContent = customer ? customer.name : "-";
-  document.getElementById("detailPoliceNumber").textContent = customer ? (customer.policeNumber || "-") : "-";
-  document.getElementById("detailVehicleBrand").textContent = customer ? (customer.vehicleBrand || "-") : "-";
-  document.getElementById("detailVehicleName").textContent = customer ? (customer.vehicleName || "-") : "-";
+  // Get vehicle based on saved vehicleIndex (for backward compatibility)
+  const detailVehicleIndex = servis.vehicleIndex || 0;
+  const detailFirstVehicle = customer && customer.vehicles && customer.vehicles.length > detailVehicleIndex 
+    ? customer.vehicles[detailVehicleIndex] 
+    : (customer && customer.vehicles && customer.vehicles.length > 0 ? customer.vehicles[0] : null);
+  document.getElementById("detailPoliceNumber").textContent = detailFirstVehicle ? (detailFirstVehicle.policeNumber || "-") : "-";
+  document.getElementById("detailVehicleBrand").textContent = detailFirstVehicle ? (detailFirstVehicle.vehicleBrand || "-") : "-";
+  document.getElementById("detailVehicleName").textContent = detailFirstVehicle ? (detailFirstVehicle.vehicleName || "-") : "-";
   document.getElementById("detailTanggal").textContent = formatDate(servis.tanggal);
   const statusText = servis.status === "selesai" ? "Selesai" : (servis.status === "servicing" ? "Diproses" : (servis.status === "dibatalkan" ? "Dibatalkan" : "Menunggu"));
   document.getElementById("detailStatus").textContent = statusText;
@@ -1400,6 +1434,7 @@ function resetForm() {
   
   document.getElementById("customerInput").value = "";
   document.getElementById("customerSelect").value = "";
+  document.getElementById("vehicleIndex").value = "";
   document.getElementById("itemContainer").innerHTML = "";
   document.getElementById("totalDisplay").innerText = formatCurrency(0);
   document.getElementById("catatan").value = "";
