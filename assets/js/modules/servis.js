@@ -1009,7 +1009,8 @@ function addEditItemRow(existingItem = null, wasCompleted = false) {
       const stock = part.qty || 0;
       partNote.textContent = `Stok tersedia: ${stock}`;
       partNote.style.display = "block";
-      partNote.className = stock > 0 ? "part-note small text-success mt-1" : "part-note small text-danger mt-1";
+      // Show red color if stock is low (< 5), green if stock is sufficient (>= 5)
+      partNote.className = stock >= 5 ? "part-note small text-success mt-1" : "part-note small text-danger mt-1";
       
       // If was completed, stock was already reduced, so add original qty to available stock
       // If not completed, stock wasn't reduced yet, so use available stock as-is
@@ -1039,7 +1040,8 @@ function addEditItemRow(existingItem = null, wasCompleted = false) {
       const stock = parseInt(selectedOption.dataset.stock);
       partNote.textContent = `Stok tersedia: ${stock}`;
       partNote.style.display = "block";
-      partNote.className = stock > 0 ? "part-note small text-success mt-1" : "part-note small text-danger mt-1";
+      // Show red color if stock is low (< 5), green if stock is sufficient (>= 5)
+      partNote.className = stock >= 5 ? "part-note small text-success mt-1" : "part-note small text-danger mt-1";
       
       // Set max quantity based on stock
       qtyInput.max = stock;
