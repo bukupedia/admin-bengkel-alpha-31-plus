@@ -6,6 +6,26 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-38
 
+### Added
+
+#### Halaman Pengaturan (setting.html, setting.js)
+- Added halaman Pengaturan/Settings baru dengan 3 section:
+  - **Informasi Toko**: Form untuk mengedit Nama Bengkel, Nomor Telepon, Email, dan Deskripsi (disimpan ke localStorage)
+  - **Kelola Data**: Menampilkan kapasitas penyimpanan (Total Penyimpanan, Terpakai/Digunakan, Tersedia), Backup/Export ke JSON, Import dari JSON, Reset semua data dengan modal peringatan + konfirmasi
+  - **Tentang Aplikasi**: Menampilkan nama aplikasi "Bengkel App", versi "1.0.0", pengembang "Arif Budiman" dengan link WhatsApp ke 0895332782122, dan deskripsi aplikasi
+- Added toast notifications untuk success/error/warning/info messages
+
+#### Navbar (navbar.js)
+- Added menu link "⚡ Pengaturan" di navbar untuk akses halaman settings
+
+#### App (app.js)
+- Added import dan inisialisasi halaman settings
+
+### Changed
+
+#### Navbar (navbar.js)
+- Changed settings menu icon dari ⚙️ ke ⚡
+
 ## [alpha-38]
 
 Codebase: alpha-37
