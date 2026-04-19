@@ -1,0 +1,330 @@
+{
+  "shop_settings": {
+    "name": "Bengkel Maju Jaya",
+    "phone": "081234567890",
+    "address": "Jl. Raya No. 123, Jakarta Selatan",
+    "email": "info@bengkelmajujaya.com",
+    "description": "Bengkel service motor terpercaya sejak 2010"
+  },
+  "service_statuses": [
+    { "id": 1, "name": "Menunggu", "color": "#6c757d" },
+    { "id": 2, "name": "Diproses", "color": "#0d6efd" },
+    { "id": 3, "name": "Selesai", "color": "#198754" },
+    { "id": 4, "name": "Dibatalkan", "color": "#dc3545" }
+  ],
+  "categories": [
+    "Oli",
+    "Ban",
+    "Bus",
+    "Aki",
+    "Kampas Rem",
+    "Busi",
+    "Filter",
+    "Sparepart Umum"
+  ],
+  "vehicle_brands": [
+    "Honda",
+    "Yamaha",
+    "Suzuki",
+    "Kawasaki",
+    "TVS",
+    "Benelli",
+    "BMW",
+    "Harley-Davidson"
+  ],
+  "servis": [
+    {
+      "id": "srv001",
+      "customerId": "cust001",
+      "customerName": "Ahmad Wijaya",
+      "policeNumber": "B 1234 ABC",
+      "vehicleBrand": "Honda",
+      "vehicleName": "Beat",
+      "tanggal": "2024-01-15",
+      "services": [
+        { "name": "Ganti Oli", "price": 35000 },
+        { "name": "Service Ringan", "price": 25000 }
+      ],
+      "parts": [],
+      "total": 60000,
+      "status": "selesai",
+      "mechanic": "Pak Toni"
+    },
+    {
+      "id": "srv002",
+      "customerId": "cust002",
+      "customerName": "Budi Santoso",
+      "policeNumber": "D 5678 XYZ",
+      "vehicleBrand": "Yamaha",
+      "vehicleName": "Mio",
+      "tanggal": "2024-01-16",
+      "services": [
+        { "name": "Ganti Ban Depan", "price": 150000 }
+      ],
+      "parts": [
+        { "name": "Ban IRC", "price": 250000, "qty": 1 }
+      ],
+      "total": 400000,
+      "status": "selesai",
+      "mechanic": "Pak Toni"
+    },
+    {
+      "id": "srv003",
+      "customerId": "cust003",
+      "customerName": "Doni Firmansah",
+      "policeNumber": "F 9012 QRS",
+      "vehicleBrand": "Suzuki",
+      "vehicleName": "Nex",
+      "tanggal": "2024-01-17",
+      "services": [
+        { "name": "Tune Up", "price": 75000 }
+      ],
+      "parts": [
+        { "name": "Busi", "price": 15000, "qty": 1 },
+        { "name": "Oli", "price": 35000, "qty": 1 }
+      ],
+      "total": 125000,
+      "status": "diproses",
+      "mechanic": "Pak Budi"
+    },
+    {
+      "id": "srv004",
+      "customerId": "cust004",
+      "customerName": "Eko Prasetyo",
+      "policeNumber": "G 3456 LMN",
+      "vehicleBrand": "Honda",
+      "vehicleName": "Vario",
+      "tanggal": "2024-01-18",
+      "services": [
+        { "name": "Ganti Kampas Rem", "price": 45000 }
+      ],
+      "parts": [
+        { "name": "Kampas Rem", "price": 80000, "qty": 1 }
+      ],
+      "total": 125000,
+      "status": "menunggu",
+      "mechanic": "Pak Toni"
+    }
+  ],
+  "customers": [
+    {
+      "id": "cust001",
+      "name": "Ahmad Wijaya",
+      "phone": "081234567890",
+      "vehicles": [
+        { "id": "veh001", "policeNumber": "B 1234 ABC", "vehicleBrand": "Honda", "vehicleName": "Beat" }
+      ]
+    },
+    {
+      "id": "cust002",
+      "name": "Budi Santoso",
+      "phone": "087654321098",
+      "vehicles": [
+        { "id": "veh002", "policeNumber": "D 5678 XYZ", "vehicleBrand": "Yamaha", "vehicleName": "Mio" }
+      ]
+    },
+    {
+      "id": "cust003",
+      "name": "Doni Firmansah",
+      "phone": "085678901234",
+      "vehicles": [
+        { "id": "veh003", "policeNumber": "F 9012 QRS", "vehicleBrand": "Suzuki", "vehicleName": "Nex" }
+      ]
+    },
+    {
+      "id": "cust004",
+      "name": "Eko Prasetyo",
+      "phone": "089123456789",
+      "vehicles": [
+        { "id": "veh004", "policeNumber": "G 3456 LMN", "vehicleBrand": "Honda", "vehicleName": "Vario" },
+        { "id": "veh005", "policeNumber": "H 7890 OPQ", "vehicleBrand": "Yamaha", "vehicleName": "NMAX" }
+      ]
+    },
+    {
+      "id": "cust005",
+      "name": "Fajar Maulana",
+      "phone": "082345678901",
+      "vehicles": [
+        { "id": "veh006", "policeNumber": "J 1111 RST", "vehicleBrand": "Kawasaki", "vehicleName": "Ninja" }
+      ]
+    },
+    {
+      "id": "cust006",
+      "name": "Hendra Gunawan",
+      "phone": "081122334455",
+      "vehicles": [
+        { "id": "veh007", "policeNumber": "K 2222 UVW", "vehicleBrand": "Honda", "vehicleName": "PCX" }
+      ]
+    },
+    {
+      "id": "cust007",
+      "name": "Indra Jaya",
+      "phone": "085544332211",
+      "vehicles": [
+        { "id": "veh008", "policeNumber": "L 3333 XYZ", "vehicleBrand": "Yamaha", "vehicleName": "Aerox" }
+      ]
+    },
+    {
+      "id": "cust008",
+      "name": "Joko Widodo",
+      "phone": "087700112233",
+      "vehicles": [
+        { "id": "veh009", "policeNumber": "M 4444 ABC", "vehicleBrand": "Suzuki", "vehicleName": "Burgman" }
+      ]
+    },
+    {
+      "id": "cust009",
+      "name": "Kurnia Sari",
+      "phone": "081988776655",
+      "vehicles": [
+        { "id": "veh010", "policeNumber": "N 5555 DEF", "vehicleBrand": "Honda", "vehicleName": "HR-V" }
+      ]
+    },
+    {
+      "id": "cust010",
+      "name": "Lina Wahyuni",
+      "phone": "085722334411",
+      "vehicles": [
+        { "id": "veh011", "policeNumber": "P 6666 GHI", "vehicleBrand": "Yamaha", "vehicleName": "Freego" }
+      ]
+    }
+  ],
+  "parts": [
+    {
+      "id": "part001",
+      "name": "Oli Motul 10W-40",
+      "category": "Oli",
+      "price": 65000,
+      "qty": 15,
+      "supplier": "PT Sumber Baru",
+      "perusahaan": "Motul Indonesia"
+    },
+    {
+      "id": "part002",
+      "name": "Oli Federal Supreme",
+      "category": "Oli",
+      "price": 35000,
+      "qty": 20,
+      "supplier": "PT Sumber Baru",
+      "perusahaan": "Federal Oil"
+    },
+    {
+      "id": "part003",
+      "name": "Ban IRC Depan 70/90-17",
+      "category": "Ban",
+      "price": 150000,
+      "qty": 8,
+      "supplier": "PT Ban Maju",
+      "perusahaan": "IRC Tire"
+    },
+    {
+      "id": "part004",
+      "name": "Ban IRC Belakang 80/90-17",
+      "category": "Ban",
+      "price": 160000,
+      "qty": 6,
+      "supplier": "PT Ban Maju",
+      "perusahaan": "IRC Tire"
+    },
+    {
+      "id": "part005",
+      "name": "Kampas Rem Depan Honda Beat",
+      "category": "Kampas Rem",
+      "price": 45000,
+      "qty": 10,
+      "supplier": "PT Brake Indo",
+      "perusahaan": "AFC brake"
+    },
+    {
+      "id": "part006",
+      "name": "Kampas Rem Belakang Honda Beat",
+      "category": "Kampas Rem",
+      "price": 40000,
+      "qty": 12,
+      "supplier": "PT Brake Indo",
+      "perusahaan": "AFC brake"
+    },
+    {
+      "id": "part007",
+      "name": "Busi NGK BKR5E",
+      "category": "Busi",
+      "price": 18000,
+      "qty": 25,
+      "supplier": "PT Spark Indo",
+      "perusahaan": "NGK"
+    },
+    {
+      "id": "part008",
+      "name": "Busi Denso Iridium",
+      "category": "Busi",
+      "price": 45000,
+      "qty": 15,
+      "supplier": "PT Spark Indo",
+      "perusahaan": "Denso"
+    },
+    {
+      "id": "part009",
+      "name": "Filter Oli Honda",
+      "category": "Filter",
+      "price": 25000,
+      "qty": 18,
+      "supplier": "PT Filter Prima",
+      "perusahaan": "Honda Genuine Parts"
+    },
+    {
+      "id": "part010",
+      "name": "Filter Udara Yamaha Mio",
+      "category": "Filter",
+      "price": 20000,
+      "qty": 12,
+      "supplier": "PT Filter Prima",
+      "perusahaan": "Yamaha Genuine Parts"
+    },
+    {
+      "id": "part011",
+      "name": "Aki GS Astra 12V 5Ah",
+      "category": "Aki",
+      "price": 185000,
+      "qty": 4,
+      "supplier": "PT Aki Jaya",
+      "perusahaan": "GS Battery"
+    },
+    {
+      "id": "part012",
+      "name": "Aki Yuasa 12V 5Ah",
+      "category": "Aki",
+      "price": 195000,
+      "qty": 3,
+      "supplier": "PT Aki Jaya",
+      "perusahaan": "Yuasa"
+    },
+    {
+      "id": "part013",
+      "name": "Bus V-Belt Yamaha",
+      "category": "Bus",
+      "price": 35000,
+      "qty": 10,
+      "supplier": "PT Belt Indo",
+      "perusahaan": "Mitsubishi Belt"
+    },
+    {
+      "id": "part014",
+      "name": "Kabel Kick Honda Beat",
+      "category": "Sparepart Umum",
+      "price": 55000,
+      "qty": 5,
+      "supplier": "PT Electrical Indo",
+      "perusahaan": "Honda Genuine Parts"
+    },
+    {
+      "id": "part015",
+      "name": "Shock Depan Yamaha Mio",
+      "category": "Sparepart Umum",
+      "price": 285000,
+      "qty": 2,
+      "supplier": "PT Suspension Jaya",
+      "perusahaan": "Yamaha Genuine Parts"
+    }
+  ],
+  "exportedAt": "2024-01-18T10:30:00.000Z"
+}

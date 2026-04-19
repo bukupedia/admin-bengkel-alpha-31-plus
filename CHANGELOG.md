@@ -53,6 +53,14 @@ Codebase: alpha-41
   - Import data from JSON backup
   - Validate data format before import
 
+#### Sample Import Data
+- Added **sample_import_data.json** - Sample/dummy data for testing import feature:
+  - 10 customers with vehicles
+  - 4 service records with various statuses
+  - 15 spareparts across different categories
+  - Shop info (Bengkel Maju Jaya)
+  - Default categories and vehicle brands
+
 ### Changed
 
 #### Dashboard (dashboard.html)
@@ -71,6 +79,18 @@ Codebase: alpha-41
 - Added stagger animation for list items
 - Added responsive card grid
 - Added quick action button styles
+
+#### Data Import/Export (setting.js)
+- Fixed storage keys to match other modules:
+  - Changed SHOP_INFO from "bengkel_shop_info" to "shop_settings"
+  - Changed SERVICE_STATUS from "bengkel_service_status" to "service_statuses"
+  - Changed CATEGORIES from "bengkel_categories" to "categories"
+  - Changed VEHICLE_BRANDS from "bengkel_vehicle_brands" to "vehicle_brands"
+  - Changed SERVIS from "bengkel_servis" to "servis"
+  - Changed PELANGGAN from "bengkel_pelanggan" to "customers"
+  - Changed SPAREPART from "bengkel_sparepart" to "parts"
+- Updated importData() to support both old key format (with "bengkel_" prefix) and new format for backward compatibility
+- Updated exportAllData() to use consistent key names matching other modules
 
 ### Fixed
 

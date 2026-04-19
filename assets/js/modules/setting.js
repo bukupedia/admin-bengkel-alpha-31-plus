@@ -3,15 +3,15 @@
 import { getData, saveData } from "../storage.js";
 import { showToast } from "../components/ui.js";
 
-// Storage keys
+// Storage keys - harus sesuai dengan keys yang digunakan modul lain
 const STORAGE_KEYS = {
-  SHOP_INFO: "bengkel_shop_info",
-  SERVICE_STATUS: "bengkel_service_status",
-  CATEGORIES: "bengkel_categories",
-  VEHICLE_BRANDS: "bengkel_vehicle_brands",
-  SERVIS: "bengkel_servis",
-  PELANGGAN: "bengkel_pelanggan",
-  SPAREPART: "bengkel_sparepart"
+  SHOP_INFO: "shop_settings",
+  SERVICE_STATUS: "service_statuses",
+  CATEGORIES: "categories",
+  VEHICLE_BRANDS: "vehicle_brands",
+  SERVIS: "servis",
+  PELANGGAN: "customers",
+  SPAREPART: "parts"
 };
 
 // Default service status
@@ -160,13 +160,13 @@ export function deleteVehicleBrand(name) {
 // Export all data
 export function exportAllData() {
   const data = {
-    shopInfo: getShopInfo(),
-    serviceStatus: getServiceStatus(),
+    shop_settings: getShopInfo(),
+    service_statuses: getServiceStatus(),
     categories: getCategories(),
-    vehicleBrands: getVehicleBrands(),
+    vehicle_brands: getVehicleBrands(),
     servis: getData(STORAGE_KEYS.SERVIS),
-    pelanggan: getData(STORAGE_KEYS.PELANGGAN),
-    sparepart: getData(STORAGE_KEYS.SPAREPART),
+    customers: getData(STORAGE_KEYS.PELANGGAN),
+    parts: getData(STORAGE_KEYS.SPAREPART),
     exportedAt: new Date().toISOString()
   };
   
@@ -189,13 +189,14 @@ export function importData(file) {
       try {
         const data = JSON.parse(e.target.result);
         
-        if (data.shopInfo) saveData(STORAGE_KEYS.SHOP_INFO, data.shopInfo);
-        if (data.serviceStatus) saveData(STORAGE_KEYS.SERVICE_STATUS, data.serviceStatus);
+        // Support both old key format (with prefixes) and new format (without prefixes) for backward compatibility
+        if (data.shopInfo || data.shop_settings) saveData(STORAGE_KEYS.SHOP_INFO, data.shop_settings || data.shopInfo);
+        if (data.serviceStatus || data.service_statuses) saveData(STORAGE_KEYS.SERVICE_STATUS, data.service_statuses || data.serviceStatus);
         if (data.categories) saveData(STORAGE_KEYS.CATEGORIES, data.categories);
-        if (data.vehicleBrands) saveData(STORAGE_KEYS.VEHICLE_BRANDS, data.vehicleBrands);
+        if (data.vehicleBrands || data.vehicle_brands) saveData(STORAGE_KEYS.VEHICLE_BRANDS, data.vehicle_brands || data.vehicleBrands);
         if (data.servis) saveData(STORAGE_KEYS.SERVIS, data.servis);
-        if (data.pelanggan) saveData(STORAGE_KEYS.PELANGGAN, data.pelanggan);
-        if (data.sparepart) saveData(STORAGE_KEYS.SPAREPART, data.sparepart);
+        if (data.pelanggan || data.customers) saveData(STORAGE_KEYS.PELANGGAN, data.customers || data.pelanggan);
+        if (data.sparepart || data.parts) saveData(STORAGE_KEYS.SPAREPART, data.parts || data.sparepart);
         
         resolve(true);
       } catch (error) {
