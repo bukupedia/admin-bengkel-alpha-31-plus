@@ -135,8 +135,11 @@ export function protectPage() {
 
 // Check authentication and redirect
 export function requireAuth() {
+  console.log("requireAuth called", { url: window.location.href });
   if (!protectPage()) {
+    console.log("protectPage returned false");
     return false;
   }
+  console.log("protectPage returned true");
   return true;
 }

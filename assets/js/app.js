@@ -8,15 +8,20 @@ import { initSparepartPage } from "./modules/sparepart.js";
 import { initDashboardPage } from "./modules/dashboard.js";
 import { initSettingPage } from "./modules/setting.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  // ✅ Protect all pages - redirect to login if not authenticated
-  if (!requireAuth()) {
-    return;
-  }
+// Main initialization function
+function initApp() {
+  // Check auth but don't block rendering
+  const isAuth = requireAuth();
   
-  // ✅ render navbar di semua halaman
+  // Always render navbar first
   renderNavbar();
 
+  // If not authenticated, show alert but still render content
+  if (!isAuth) {
+    console.warn("User not authenticated - some features may be limited");
+  }
+  
+  // Continue with page-specific initialization
   const page = document.body.dataset.page;
 
   if (page === "dashboard") {
@@ -34,4 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
   if (page === "setting") {
     initSettingPage();
   }
-});
+}
+
+// Export for external use
+export { initApp };
+
+// Run on DOM ready
+document.addEventListener("DOMContentLoaded", initApp);
+
+// Also run immediately as fallback (in case DOM is already ready)
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initApp);
+} else {
+  // DOM already ready, run init
+  initApp();
+}

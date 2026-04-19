@@ -3,13 +3,18 @@
 import { getCurrentUser, logout } from "../modules/auth.js";
 
 export function renderNavbar() {
+  console.log("renderNavbar called");
   const navbar = document.getElementById("navbar");
   const currentPage = document.body.dataset.page;
   
   // Get current user for display
   const user = getCurrentUser();
+  console.log("renderNavbar", { user, currentPage, navbarFound: !!navbar });
 
-  if (!navbar) return;
+  if (!navbar) {
+    console.error("navbar element not found!");
+    return;
+  }
 
   navbar.innerHTML = `
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -77,10 +82,15 @@ export function renderNavbar() {
   `;
   
   // Setup logout event
-  document.getElementById("logoutBtn").addEventListener("click", (e) => {
-    e.preventDefault();
-    logout();
-  });
+  const logoutBtn = document.getElementById("logoutBtn");
+  console.log("Setting up logoutBtn listener", { found: !!logoutBtn });
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log("Logout clicked");
+      logout();
+    });
+  }
   
   // Setup theme toggle
   const themeToggle = document.getElementById("themeToggle");
