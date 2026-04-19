@@ -49,7 +49,19 @@ export function getStorageInfo() {
     const key = localStorage.key(i);
     const value = localStorage.getItem(key);
     const size = new Blob([value]).size;
-    const itemCount = value ? JSON.parse(value).length : 0;
+    
+    // Safely parse JSON with try-catch to handle invalid data
+    let itemCount = 0;
+    if (value) {
+      try {
+        const parsed = JSON.parse(value);
+        itemCount = Array.isArray(parsed) ? parsed.length : (typeof parsed === 'object' ? Object.keys(parsed).length : 0);
+      } catch (e) {
+        // If parsing fails, treat as 0 items (non-JSON or corrupted data)
+        console.warn(`getStorageInfo: Failed to parse key "${key}" -`, e.message);
+        itemCount = 0;
+      }
+    }
     
     totalSize += size;
     dataInfo[key] = {
@@ -108,13 +120,40 @@ export function importData(jsonData) {
     }
     
     let importedCount = 0;
+    const skippedKeys = [];
     
     for (const [key, value] of Object.entries(data.data)) {
       // Skip session keys
       if (key !== "admin_session" && key !== "session_fp") {
-        localStorage.setItem(key, JSON.stringify(value));
-        importedCount++;
+        // Validate that value is valid for JSON conversion
+        if (value === null || value === undefined) {
+          localStorage.setItem(key, JSON.stringify([]));
+        } else if (typeof value === 'object') {
+          // Ensure objects are properly serialized
+          localStorage.setItem(key, JSON.stringify(value));
+          importedCount++;
+        } else if (typeof value === 'string') {
+          // Try to parse strings to ensure they're valid JSON
+          try {
+            JSON.parse(value);
+            localStorage.setItem(key, value);
+            importedCount++;
+          } catch (e) {
+            // If string isn't valid JSON, store it as a JSON string
+            localStorage.setItem(key, JSON.stringify(value));
+            importedCount++;
+          }
+        } else if (typeof value === 'number' || typeof value === 'boolean') {
+          localStorage.setItem(key, JSON.stringify(value));
+          importedCount++;
+        } else {
+          skippedKeys.push(key);
+        }
       }
+    }
+    
+    if (skippedKeys.length > 0) {
+      console.warn("importData: Skipped invalid keys:", skippedKeys);
     }
     
     return { success: true, count: importedCount };
