@@ -6,6 +6,26 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-45
 
+### Fixed
+
+#### Settings Page (pengaturan.html, settings.js)
+- Fixed "Save Settings" button not responding to clicks
+- Fixed "Export Data" button not responding to clicks
+- Fixed "Import Data" button not responding to clicks
+- Fixed "Delete All Data" button not responding to clicks
+
+#### Root Cause
+- JavaScript event listeners attached with `addEventListener()` were not being triggered due to module scope isolation
+- Handler functions defined in ES modules were not accessible from the global scope
+
+#### Solution
+- Added `onclick` HTML attributes directly to buttons in pengaturan.html
+- Exposed handler functions to window object in settings.js for global access:
+  - `window.saveSettingsHandler = saveSettingsHandler`
+  - `window.exportDataHandler = exportDataHandler`
+  - `window.importDataHandler = importDataHandler`
+  - `window.deleteAllDataHandler = deleteAllDataHandler`
+
 ## [alpha-45]
 
 Codebase: alpha-44

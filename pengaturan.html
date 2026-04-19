@@ -83,7 +83,7 @@
               <input type="password" class="form-control" id="confirmPassword" autocomplete="new-password">
             </div>
             
-            <button type="button" class="btn btn-primary" id="saveSettingsBtn">💾 Simpan Pengaturan</button>
+            <button type="button" class="btn btn-primary" id="saveSettingsBtn" onclick="window.saveSettingsHandler()">💾 Simpan Pengaturan</button>
           </div>
         </div>
       </div>
@@ -129,8 +129,8 @@
             </div>
             
             <div class="d-flex gap-2">
-              <button type="button" class="btn btn-success" id="exportDataBtn">📤 Export Data</button>
-              <button type="button" class="btn btn-info" id="importDataBtn">📥 Import Data</button>
+              <button type="button" class="btn btn-success" id="exportDataBtn" onclick="window.exportDataHandler()">📤 Export Data</button>
+              <button type="button" class="btn btn-info" id="importDataBtn" onclick="window.importDataHandler()">📥 Import Data</button>
             </div>
           </div>
         </div>
@@ -143,7 +143,7 @@
             <div class="settings-section-title">⚠️ Zona Berbahaya</div>
             <p class="text-muted small">Tindakan ini tidak dapat dibatalkan. Hapus semua data akan membersihkan seluruh data pelanggan, servis, dan sparepart.</p>
             
-            <button type="button" class="btn btn-danger" id="deleteAllDataBtn">🗑️ Hapus Semua Data</button>
+            <button type="button" class="btn btn-danger" id="deleteAllDataBtn" onclick="window.deleteAllDataHandler()">🗑️ Hapus Semua Data</button>
           </div>
         </div>
       </div>

@@ -4,9 +4,14 @@ import { getData, saveData, getStorageInfo, formatBytes, exportAllData, importDa
 
 // INIT PAGE
 export function initSettingsPage() {
+  // Expose handler functions to window for onclick handlers
+  window.saveSettingsHandler = saveSettingsHandler;
+  window.exportDataHandler = exportDataHandler;
+  window.importDataHandler = importDataHandler;
+  window.deleteAllDataHandler = deleteAllDataHandler;
+  
   renderSettingsForm();
   renderStorageInfo();
-  setupEvent();
 }
 
 // Render settings form with current values
