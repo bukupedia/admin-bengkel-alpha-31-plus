@@ -901,7 +901,6 @@ function setupEvent() {
     saveData(KEY, data);
     
     // Log activity
-    const customer = customers.find(c => c.id == customerId);
     logActivity("servis", "create", "Servis baru: " + (customer ? customer.name : "-"), { servisId: newServis.id });
     
     resetForm();
