@@ -32,8 +32,7 @@ function showLowStockWarning() {
       `\n\nSegera lakukan restok untuk menjaga kelancaran servis.`;
     // Only show warning once per session (use sessionStorage to track)
     if (!sessionStorage.getItem("lowStockWarningShown")) {
-      showToast(message.replace("⚠️ Peringatan Stok Rendah:", "Stok Rendah:").split("
-")[0], "warning");
+      showToast(message, "warning");
       sessionStorage.setItem("lowStockWarningShown", "true");
     }
   }
