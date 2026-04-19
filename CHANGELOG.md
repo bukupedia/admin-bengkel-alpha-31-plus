@@ -6,6 +6,22 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-46
 
+### Fixed
+
+#### Import Data (storage.js)
+- Fixed "Unexpected token 'T'... is not valid JSON" error when importing data files
+- Error occurred because getStorageInfo() tried to JSON.parse() all localStorage values without error handling
+- When invalid/corrupted data exists in localStorage, JSON.parse() throws error
+
+#### Root Cause
+- getStorageInfo() function used JSON.parse() directly on localStorage values without try-catch
+- If any value in localStorage is not valid JSON (corrupted data or from previous imports), parsing fails
+
+#### Solution
+- Added try-catch in getStorageInfo() to safely parse JSON values
+- Now handles non-JSON values gracefully - logs warning and treats as 0 items
+- Added data type validation in importData() to ensure only valid data is stored
+
 ## [alpha-46]
 
 Codebase: alpha-45
