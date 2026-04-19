@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [alpha-46]
+
+Codebase: alpha-45
+
 ## [alpha-45]
 
 Codebase: alpha-44
