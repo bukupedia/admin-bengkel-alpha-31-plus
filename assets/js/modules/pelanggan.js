@@ -2,6 +2,7 @@
 
 import { getData, saveData } from "../storage.js";
 import { generateId, sanitizeHTML } from "../utils.js";
+import { showToast } from "../components/ui.js";
 
 const KEY = "customers";
 const SERVIS_KEY = "servis";
@@ -301,7 +302,7 @@ function setupEvent() {
     // Validation - ensure required fields are filled
     if (!name || name.length === 0) {
       nameInput.classList.add("is-invalid");
-      alert("Nama wajib diisi");
+      showToast("Nama wajib diisi", "error");
       return;
     }
     nameInput.classList.remove("is-invalid");
@@ -309,7 +310,7 @@ function setupEvent() {
     // Validate phone is required
     if (!phone || phone.length === 0) {
       phoneInput.classList.add("is-invalid");
-      alert("No. HP wajib diisi");
+      showToast("No. HP wajib diisi", "error");
       return;
     }
     phoneInput.classList.remove("is-invalid");
@@ -317,7 +318,7 @@ function setupEvent() {
     // Validate police number is required
     if (!policeNumber || policeNumber.length === 0) {
       policeInput.classList.add("is-invalid");
-      alert("Nomor Polisi Kendaraan wajib diisi");
+      showToast("Nomor Polisi Kendaraan wajib diisi", "error");
       return;
     }
     policeInput.classList.remove("is-invalid");
@@ -354,7 +355,7 @@ function setupEvent() {
     const data = getData(KEY);
     const exists = data.some(c => c.name.toLowerCase() === sanitizedName.toLowerCase());
     if (exists) {
-      alert("Nama pelanggan sudah ada!");
+      showToast("Nama pelanggan sudah ada!", "warning");
       return;
     }
     
@@ -390,7 +391,7 @@ function setupEvent() {
       // Validation - ensure required fields are filled
       if (!name || name.length === 0) {
         nameInput.classList.add("is-invalid");
-        alert("Nama wajib diisi");
+        showToast("Nama wajib diisi", "error");
         return;
       }
       nameInput.classList.remove("is-invalid");
@@ -398,7 +399,7 @@ function setupEvent() {
       // Validate phone is required
       if (!phone || phone.length === 0) {
         phoneInput.classList.add("is-invalid");
-        alert("No. HP wajib diisi");
+        showToast("No. HP wajib diisi", "error");
         return;
       }
       phoneInput.classList.remove("is-invalid");
@@ -406,7 +407,7 @@ function setupEvent() {
       // Validate police number is required
       if (!policeNumber || policeNumber.length === 0) {
         policeInput.classList.add("is-invalid");
-        alert("Nomor Polisi Kendaraan wajib diisi");
+        showToast("Nomor Polisi Kendaraan wajib diisi", "error");
         return;
       }
       policeInput.classList.remove("is-invalid");
@@ -433,7 +434,7 @@ function setupEvent() {
         // Check for duplicate name (excluding current)
         const exists = data.some(c => c.name.toLowerCase() === sanitizedName.toLowerCase() && c.id != editId);
         if (exists) {
-          alert("Nama pelanggan sudah ada!");
+          showToast("Nama pelanggan sudah ada!", "warning");
           return;
         }
         data[index].name = sanitizedName;
@@ -739,7 +740,7 @@ function showAddVehicleModal(customerId) {
     // Validate police number is required
     if (!policeNumber || policeNumber.length === 0) {
       policeInput.classList.add("is-invalid");
-      alert("Nomor Polisi Kendaraan wajib diisi");
+      showToast("Nomor Polisi Kendaraan wajib diisi", "error");
       return;
     }
     policeInput.classList.remove("is-invalid");

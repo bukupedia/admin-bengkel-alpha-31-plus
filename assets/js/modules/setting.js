@@ -1,6 +1,7 @@
 // assets/js/modules/setting.js
 
 import { getData, saveData } from "../storage.js";
+import { showToast } from "../components/ui.js";
 
 // Storage keys
 const STORAGE_KEYS = {
@@ -301,7 +302,7 @@ export function initSettingPage() {
       description: document.getElementById("shopDescription").value.trim()
     };
     saveShopInfo(shopInfo);
-    alert("✅ Informasi tokosimpan!");
+    showToast("Informasi toko berhasil disimpan!", "success");
   });
   
   // Add service status
@@ -312,7 +313,7 @@ export function initSettingPage() {
       addServiceStatus(name, color);
       document.getElementById("newServiceStatus").value = "";
       renderServiceStatus();
-      alert("✅ Status servis ditambahkan!");
+      showToast("Status servis berhasil ditambahkan!", "success");
     }
   });
   
@@ -323,7 +324,7 @@ export function initSettingPage() {
       addCategory(name);
       document.getElementById("newCategory").value = "";
       renderCategories();
-      alert("✅ Kategori ditambahkan!");
+      showToast("Kategori berhasil ditambahkan!", "success");
     }
   });
   
@@ -334,14 +335,14 @@ export function initSettingPage() {
       addVehicleBrand(name);
       document.getElementById("newVehicleBrand").value = "";
       renderVehicleBrands();
-      alert("✅ Merek kendaraan ditambahkan!");
+      showToast("Merek kendaraan berhasil ditambahkan!", "success");
     }
   });
   
   // Export data
   document.getElementById("exportData").addEventListener("click", () => {
     exportAllData();
-    alert("✅ Data berhasil diexport!");
+    showToast("Data berhasil diexport!", "success");
   });
   
   // Import data
@@ -349,7 +350,7 @@ export function initSettingPage() {
     const fileInput = document.getElementById("importFile");
     const file = fileInput.files[0];
     if (!file) {
-      alert("⚠️ Pilih file terlebih dahulu!");
+      showToast("Pilih file terlebih dahulu!", "warning");
       return;
     }
     try {
@@ -359,9 +360,9 @@ export function initSettingPage() {
       renderServiceStatus();
       renderCategories();
       renderVehicleBrands();
-      alert("✅ Data berhasil diimport!");
+      showToast("Data berhasil diimport!", "success");
     } catch (error) {
-      alert("⚠️ Gagal import data! Pastikan format file benar.");
+      showToast("Gagal import data! Pastikan format file benar.", "error");
       console.error(error);
     }
   });
@@ -385,7 +386,7 @@ export function initSettingPage() {
     renderServiceStatus();
     renderCategories();
     renderVehicleBrands();
-    alert("✅ Semua data telah direset!");
+    showToast("Semua data telah direset!", "success");
   });
 }
 
@@ -393,17 +394,17 @@ export function initSettingPage() {
 window.deleteServiceStatus = function(id) {
   const statusList = deleteServiceStatus(id);
   renderServiceStatus();
-  alert("✅ Status servis dihapus!");
+  showToast("Status servis dihapus!", "success");
 };
 
 window.deleteCategory = function(name) {
   const categories = deleteCategory(name);
   renderCategories();
-  alert("✅ Kategori dihapus!");
+  showToast("Kategori dihapus!", "success");
 };
 
 window.deleteVehicleBrand = function(name) {
   const brands = deleteVehicleBrand(name);
   renderVehicleBrands();
-  alert("✅ Merek kendaraan dihapus!");
+  showToast("Merek kendaraan dihapus!", "success");
 };

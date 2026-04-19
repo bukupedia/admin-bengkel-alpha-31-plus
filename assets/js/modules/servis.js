@@ -2,6 +2,7 @@
 
 import { getData, saveData } from "../storage.js";
 import { generateId, sanitizeHTML, formatCurrency, formatDate } from "../utils.js";
+import { showToast } from "../components/ui.js";
 
 const KEY = "servis";
 const CUSTOMER_KEY = "customers";
@@ -838,7 +839,7 @@ function setupEvent() {
     }
     
     if (errors.length > 0) {
-      alert("Validasi Gagal:\n" + errors.join("\n"));
+      showToast("Validasi Gagal: " + errors.join(", "), "error");
       return;
     }
     
@@ -1207,7 +1208,7 @@ function saveEditServis() {
   
   // Validation
   if (items.length === 0) {
-    alert("Minimal satu item servis harus ditambahkan");
+    showToast("Minimal satu item servis harus ditambahkan", "error");
     return;
   }
   
@@ -1222,7 +1223,7 @@ function saveEditServis() {
   const oldServis = data.find(s => s.id == servisId);
   
   if (!oldServis) {
-    alert("Data servis tidak ditemukan");
+    showToast("Data servis tidak ditemukan", "error");
     return;
   }
   
@@ -1258,7 +1259,7 @@ function saveEditServis() {
     if (stockErrors.length > 0) {
       // Revert the stock return
       reduceStock(oldServis.items);
-      alert("Stok Tidak Mencukupi:\n" + stockErrors.join("\n"));
+      showToast("Stok Tidak Mencukupi: " + stockErrors.join(", "), "error");
       return;
     }
     
@@ -1363,7 +1364,7 @@ function cancelServis(id) {
   const servis = data.find(s => s.id == id);
   
   if (!servis) {
-    alert("Data servis tidak ditemukan");
+    showToast("Data servis tidak ditemukan", "error");
     return;
   }
   
@@ -1401,7 +1402,7 @@ function updateStatus(id, newStatus) {
   const servis = data.find(s => s.id == id);
   
   if (!servis) {
-    alert("Data servis tidak ditemukan");
+    showToast("Data servis tidak ditemukan", "error");
     return;
   }
   
@@ -1426,7 +1427,7 @@ function updateStatus(id, newStatus) {
     });
     
     if (stockErrors.length > 0) {
-      alert("Stok Tidak Mencukupi:\n" + stockErrors.join("\n"));
+      showToast("Stok Tidak Mencukupi: " + stockErrors.join(", "), "error");
       return;
     }
     

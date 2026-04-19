@@ -2,6 +2,7 @@
 
 import { getData, saveData } from "../storage.js";
 import { generateId, sanitizeHTML, formatCurrency } from "../utils.js";
+import { showToast } from "../components/ui.js";
 
 const KEY = "parts";
 const SERVIS_KEY = "servis";
@@ -31,7 +32,8 @@ function showLowStockWarning() {
       `\n\nSegera lakukan restok untuk menjaga kelancaran servis.`;
     // Only show warning once per session (use sessionStorage to track)
     if (!sessionStorage.getItem("lowStockWarningShown")) {
-      alert(message);
+      showToast(message.replace("⚠️ Peringatan Stok Rendah:", "Stok Rendah:").split("
+")[0], "warning");
       sessionStorage.setItem("lowStockWarningShown", "true");
     }
   }
@@ -298,7 +300,7 @@ function setupEvent() {
     const data = getData(KEY);
     const exists = data.some(p => p.name.toLowerCase() === sanitizedName.toLowerCase());
     if (exists) {
-      alert("Nama sparepart sudah ada!");
+      showToast("Nama sparepart sudah ada!", "warning");
       return;
     }
     
@@ -389,7 +391,7 @@ function setupEvent() {
         // Check for duplicate name (excluding current)
         const exists = data.some(p => p.name.toLowerCase() === sanitizedName.toLowerCase() && p.id != editId);
         if (exists) {
-          alert("Nama sparepart sudah ada!");
+          showToast("Nama sparepart sudah ada!", "warning");
           return;
         }
         data[index].name = sanitizedName;
