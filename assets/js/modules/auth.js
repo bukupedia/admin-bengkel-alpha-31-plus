@@ -1,5 +1,7 @@
 // assets/js/modules/auth.js
 
+import { getAdminCredentials } from "../storage.js";
+
 const SESSION_KEY = "admin_session";
 const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 const SESSION_FINGERPRINT = "session_fp";
@@ -78,8 +80,7 @@ function isRateLimited() {
   return false;
 }
 
-// Login function - In production, this should call a secure backend API
-// Authentication should be handled server-side with proper password hashing
+// Login function - validates against stored credentials
 export function login(username, password) {
   // Check rate limiting
   if (isRateLimited()) {
@@ -91,9 +92,11 @@ export function login(username, password) {
     };
   }
   
-  // For demo purposes only - hardcoded credentials should NEVER be used in production
-  // In production: use backend API with hashed passwords and proper auth tokens
-  if (username === "admin" && password === "admin123") {
+  // Get credentials from storage (or use default)
+  const credentials = getAdminCredentials();
+  
+  // Validate against stored credentials
+  if (username === credentials.username && password === credentials.password) {
     // Reset login attempts on successful login
     loginAttempts = 0;
     

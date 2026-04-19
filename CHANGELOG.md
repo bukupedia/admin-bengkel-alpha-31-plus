@@ -6,6 +6,35 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-37
 
+### Added
+
+#### Pengaturan (pengaturan.html, settings.js)
+- Added "Pengaturan" page with the following features:
+  - Edit default WhatsApp number for sending messages to customers and suppliers
+  - Edit admin username and password
+  - Display storage usage information (total size and per data type)
+  - Import & Export data to JSON
+  - Delete all data functionality (danger zone with double confirmation)
+
+#### Storage Module (storage.js)
+- Added getStorageInfo() function to calculate storage usage
+- Added formatBytes() function for human-readable byte formatting
+- Added exportAllData() function for JSON export
+- Added importData() function for JSON import
+- Added clearAllData() function for deleting all data
+- Added getSettings() and saveSettings() functions
+- Added getAdminCredentials() and saveAdminCredentials() functions
+- Added DATA_KEYS constant for data keys
+
+#### Authentication (auth.js)
+- Updated to validate login against stored credentials from localStorage instead of hardcoded values
+
+#### Navigation (navbar.js)
+- Added "Pengaturan" menu item in navigation
+
+#### Application (app.js)
+- Added Settings page initialization
+
 ## [alpha-37]
 
 Codebase: alpha-36
