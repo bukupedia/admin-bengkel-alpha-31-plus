@@ -16,11 +16,6 @@ function initApp() {
   // Always render navbar first
   renderNavbar();
 
-  // If not authenticated, show alert but still render content
-  if (!isAuth) {
-    console.warn("User not authenticated - some features may be limited");
-  }
-  
   // Continue with page-specific initialization
   const page = document.body.dataset.page;
 

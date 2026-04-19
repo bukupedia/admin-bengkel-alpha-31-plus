@@ -3,18 +3,13 @@
 import { getCurrentUser, logout } from "../modules/auth.js";
 
 export function renderNavbar() {
-  console.log("renderNavbar called");
   const navbar = document.getElementById("navbar");
   const currentPage = document.body.dataset.page;
   
   // Get current user for display
   const user = getCurrentUser();
-  console.log("renderNavbar", { user, currentPage, navbarFound: !!navbar });
 
-  if (!navbar) {
-    console.error("navbar element not found!");
-    return;
-  }
+  if (!navbar) return;
 
   navbar.innerHTML = `
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -83,11 +78,9 @@ export function renderNavbar() {
   
   // Setup logout event
   const logoutBtn = document.getElementById("logoutBtn");
-  console.log("Setting up logoutBtn listener", { found: !!logoutBtn });
   if (logoutBtn) {
     logoutBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      console.log("Logout clicked");
       logout();
     });
   }
