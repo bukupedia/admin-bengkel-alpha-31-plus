@@ -21,6 +21,17 @@ Codebase: alpha-38
 #### App (app.js)
 - Added import dan inisialisasi halaman settings
 
+#### Fitur Dummy Data (dummy-data.json, setting.html, setting.js)
+- Added file `dummy-data.json` berisi data contoh untuk demo aplikasi:
+  - 2 user (admin dan mekanik)
+  - 5 pelanggan dengan data kendaraan
+  - 7 record servis dengan berbagai status (selesai, sedang_servis, menunggu)
+  - 15 sparepart (ban, oli, busi, rem, aki, dll)
+  - Info toko (Bengkel Maju Jaya)
+- Added tombol "📋 Load Dummy Data" di halaman Pengaturan bagian Kelola Data
+- Added fungsi `loadDummyData()` untuk memuat dummy data ke localStorage langsung dari file JSON
+- Dummy data dapat di-import melalui tombol Import atau Load Dummy Data
+
 ### Changed
 
 #### Navbar (navbar.js)

@@ -1,0 +1,439 @@
+{
+  "_exportMeta": {
+    "appName": "Bengkel App",
+    "appVersion": "1.0.0",
+    "exportedAt": "2026-04-19T00:00:00.000Z",
+    "description": "Dummy data untuk demo aplikasi Bengkel App"
+  },
+  "users": [
+    {
+      "id": "user_001",
+      "username": "admin",
+      "password": "admin123",
+      "name": "Administrator",
+      "role": "admin",
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "user_002",
+      "username": "mekanik",
+      "password": "mekanik123",
+      "name": "Ahmad Mekanik",
+      "role": "mekanik",
+      "createdAt": "2026-01-05T09:00:00.000Z"
+    }
+  ],
+  "pelanggan": [
+    {
+      "id": "cust_001",
+      "name": "Budi Santoso",
+      "phone": "0812-3456-7890",
+      "policeNumber": "B 1234 ABC",
+      "vehicleBrand": "Honda",
+      "vehicleName": "Beat Street",
+      "createdAt": "2026-01-10T10:30:00.000Z"
+    },
+    {
+      "id": "cust_002",
+      "name": "Siti Rahayu",
+      "phone": "0813-9876-5432",
+      "policeNumber": "D 5678 XYZ",
+      "vehicleBrand": "Toyota",
+      "vehicleName": "Avanza",
+      "createdAt": "2026-01-12T11:00:00.000Z"
+    },
+    {
+      "id": "cust_003",
+      "name": "Ahmad Wijaya",
+      "phone": "0856-1111-2222",
+      "policeNumber": "F 9012 LMN",
+      "vehicleBrand": "Honda",
+      "vehicleName": "Vario 125",
+      "createdAt": "2026-01-15T14:00:00.000Z"
+    },
+    {
+      "id": "cust_004",
+      "name": "Dewi Lestari",
+      "phone": "0821-3333-4444",
+      "policeNumber": "E 4567 KJP",
+      "vehicleBrand": "Yamaha",
+      "vehicleName": "Nmax",
+      "createdAt": "2026-01-18T09:30:00.000Z"
+    },
+    {
+      "id": "cust_005",
+      "name": "Hendra Gunawan",
+      "phone": "0878-5555-6666",
+      "policeNumber": "G 7890 QRS",
+      "vehicleBrand": "Suzuki",
+      "vehicleName": "Satria FU",
+      "createdAt": "2026-01-20T13:45:00.000Z"
+    }
+  ],
+  "servis": [
+    {
+      "id": "serv_001",
+      "customerId": "cust_001",
+      "customerName": "Budi Santoso",
+      "policeNumber": "B 1234 ABC",
+      "vehicle": "Honda Beat Street",
+      "serviceDate": "2026-02-01",
+      "serviceType": "Servis Rutin",
+      "complaint": "Ban belakang aus, perlu diganti",
+      "mechanic": "Ahmad Mekanik",
+      "status": "selesai",
+      "parts": [
+        {
+          "partId": "part_001",
+          "name": "Ban Dalam Honda Beat",
+          "quantity": 1,
+          "price": 85000
+        },
+        {
+          "partId": "part_005",
+          "name": "Ban Luar Michelin",
+          "quantity": 1,
+          "price": 250000
+        }
+      ],
+      "laborCost": 50000,
+      "totalCost": 385000,
+      "notes": "Servis rutin selesai, ban sudah diganti",
+      "createdAt": "2026-02-01T08:00:00.000Z"
+    },
+    {
+      "id": "serv_002",
+      "customerId": "cust_002",
+      "customerName": "Siti Rahayu",
+      "policeNumber": "D 5678 XYZ",
+      "vehicle": "Toyota Avanza",
+      "serviceDate": "2026-02-05",
+      "serviceType": "Tune Up",
+      "complaint": "Mesin tidak halus, boros BBM",
+      "mechanic": "Ahmad Mekanik",
+      "status": "selesai",
+      "parts": [
+        {
+          "partId": "part_006",
+          "name": "Busi NGK",
+          "quantity": 4,
+          "price": 45000
+        },
+        {
+          "partId": "part_007",
+          "name": "Oli Mesin Synthite",
+          "quantity": 1,
+          "price": 120000
+        },
+        {
+          "partId": "part_008",
+          "name": "Filter Oli",
+          "quantity": 1,
+          "price": 35000
+        }
+      ],
+      "laborCost": 150000,
+      "totalCost": 380000,
+      "notes": "Tune up selesai, mesin sudah halus kembali",
+      "createdAt": "2026-02-05T09:30:00.000Z"
+    },
+    {
+      "id": "serv_003",
+      "customerId": "cust_003",
+      "customerName": "Ahmad Wijaya",
+      "policeNumber": "F 9012 LMN",
+      "vehicle": "Honda Vario 125",
+      "serviceDate": "2026-02-10",
+      "serviceType": "Ganti Oli",
+      "complaint": "Oli mesin sudah habis",
+      "mechanic": "Ahmad Mekanik",
+      "status": "selesai",
+      "parts": [
+        {
+          "partId": "part_007",
+          "name": "Oli Mesin Synthite",
+          "quantity": 1,
+          "price": 120000
+        }
+      ],
+      "laborCost": 25000,
+      "totalCost": 145000,
+      "notes": "Oli sudah diganti",
+      "createdAt": "2026-02-10T10:00:00.000Z"
+    },
+    {
+      "id": "serv_004",
+      "customerId": "cust_004",
+      "customerName": "Dewi Lestari",
+      "policeNumber": "E 4567 KJP",
+      "vehicle": "Yamaha Nmax",
+      "serviceDate": "2026-02-15",
+      "serviceType": "Servis Rem",
+      "complaint": "Rem kurang responsif",
+      "mechanic": "Ahmad Mekanik",
+      "status": "selesai",
+      "parts": [
+        {
+          "partId": "part_009",
+          "name": "Kampas Rem Depan",
+          "quantity": 1,
+          "price": 75000
+        },
+        {
+          "partId": "part_010",
+          "name": "Kampas Rem Belakang",
+          "quantity": 1,
+          "price": 65000
+        }
+      ],
+      "laborCost": 75000,
+      "totalCost": 215000,
+      "notes": "Kampas rem sudah diganti, rem sudah normal",
+      "createdAt": "2026-02-15T11:00:00.000Z"
+    },
+    {
+      "id": "serv_005",
+      "customerId": "cust_005",
+      "customerName": "Hendra Gunawan",
+      "policeNumber": "G 7890 QRS",
+      "vehicle": "Suzuki Satria FU",
+      "serviceDate": "2026-03-01",
+      "serviceType": "Servis Rutin",
+      "complaint": "Service berkala 3000 km",
+      "mechanic": "Ahmad Mekanik",
+      "status": "selesai",
+      "parts": [
+        {
+          "partId": "part_007",
+          "name": "Oli Mesin Synthite",
+          "quantity": 1,
+          "price": 120000
+        },
+        {
+          "partId": "part_011",
+          "name": "Filter Udara",
+          "quantity": 1,
+          "price": 45000
+        }
+      ],
+      "laborCost": 40000,
+      "totalCost": 205000,
+      "notes": "Servis rutin selesai",
+      "createdAt": "2026-03-01T08:30:00.000Z"
+    },
+    {
+      "id": "serv_006",
+      "customerId": "cust_001",
+      "customerName": "Budi Santoso",
+      "policeNumber": "B 1234 ABC",
+      "vehicle": "Honda Beat Street",
+      "serviceDate": "2026-04-10",
+      "serviceType": "Ganti Aki",
+      "complaint": "Aki lemah, motor sulit menyala",
+      "mechanic": "Ahmad Mekanik",
+      "status": "sedang_servis",
+      "parts": [
+        {
+          "partId": "part_012",
+          "name": "Aki GS GTX 5L-BS",
+          "quantity": 1,
+          "price": 350000
+        }
+      ],
+      "laborCost": 30000,
+      "totalCost": 380000,
+      "notes": "Menunggu aki pengganti",
+      "createdAt": "2026-04-10T09:00:00.000Z"
+    },
+    {
+      "id": "serv_007",
+      "customerId": "cust_003",
+      "customerName": "Ahmad Wijaya",
+      "policeNumber": "F 9012 LMN",
+      "vehicle": "Honda Vario 125",
+      "serviceDate": "2026-04-15",
+      "serviceType": "Tune Up",
+      "complaint": "Mesin tidak optimal, tarikan lemah",
+      "mechanic": "Ahmad Mekanik",
+      "status": "menunggu",
+      "parts": [],
+      "laborCost": 100000,
+      "totalCost": 100000,
+      "notes": "Menunggu pelanggan membawa motor",
+      "createdAt": "2026-04-15T10:30:00.000Z"
+    }
+  ],
+  "parts": [
+    {
+      "id": "part_001",
+      "name": "Ban Dalam Honda Beat",
+      "deskripsi": "Ban dalam ukuran 70/90-17 untuk Honda Beat",
+      "supplier": "Budi Sales",
+      "perusahaan": "PT Jaya Abadi",
+      "telpSupplier": "021-1234567",
+      "qty": 10,
+      "price": 85000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_002",
+      "name": "Ban Dalam Yamaha Nmax",
+      "deskripsi": "Ban dalam untuk Yamaha Nmax",
+      "supplier": "Budi Sales",
+      "perusahaan": "PT Jaya Abadi",
+      "telpSupplier": "021-1234567",
+      "qty": 8,
+      "price": 95000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_003",
+      "name": "Ban Dalam Toyota Avanza",
+      "deskripsi": "Ban dalam untuk Toyota Avanza",
+      "supplier": "Heri Supplier",
+      "perusahaan": "CV Sumber Rejeki",
+      "telpSupplier": "021-7654321",
+      "qty": 4,
+      "price": 150000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_004",
+      "name": "Ban Dalam Honda Vario",
+      "deskripsi": "Ban dalam untuk Honda Vario 125",
+      "supplier": "Budi Sales",
+      "perusahaan": "PT Jaya Abadi",
+      "telpSupplier": "021-1234567",
+      "qty": 12,
+      "price": 90000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_005",
+      "name": "Ban Luar Michelin",
+      "deskripsi": "Ban luar Michelin 80/90-17",
+      "supplier": "Heri Supplier",
+      "perusahaan": "CV Sumber Rejeki",
+      "telpSupplier": "021-7654321",
+      "qty": 6,
+      "price": 250000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_006",
+      "name": "Busi NGK",
+      "deskripsi": "Busi iridium untuk motor dan mobil",
+      "supplier": "Toko Motor Jaya",
+      "perusahaan": "Toko Motor Jaya",
+      "telpSupplier": "021-9876543",
+      "qty": 20,
+      "price": 45000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_007",
+      "name": "Oli Mesin Synthite",
+      "deskripsi": "Oli mesin synthetic 1L",
+      "supplier": "Toko Oli Utama",
+      "perusahaan": "PT Oli Utama Indonesia",
+      "telpSupplier": "021-5551234",
+      "qty": 24,
+      "price": 120000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_008",
+      "name": "Filter Oli",
+      "deskripsi": "Filter oli untuk mobil Toyota",
+      "supplier": "Heri Supplier",
+      "perusahaan": "CV Sumber Rejeki",
+      "telpSupplier": "021-7654321",
+      "qty": 15,
+      "price": 35000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_009",
+      "name": "Kampas Rem Depan",
+      "deskripsi": "Kampas rem depan untuk motor",
+      "supplier": "Budi Sales",
+      "perusahaan": "PT Jaya Abadi",
+      "telpSupplier": "021-1234567",
+      "qty": 10,
+      "price": 75000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_010",
+      "name": "Kampas Rem Belakang",
+      "deskripsi": "Kampas rem belakang untuk motor",
+      "supplier": "Budi Sales",
+      "perusahaan": "PT Jaya Abadi",
+      "telpSupplier": "021-1234567",
+      "qty": 10,
+      "price": 65000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_011",
+      "name": "Filter Udara",
+      "deskripsi": "Filter udara untuk motor",
+      "supplier": "Toko Motor Jaya",
+      "perusahaan": "Toko Motor Jaya",
+      "telpSupplier": "021-9876543",
+      "qty": 12,
+      "price": 45000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_012",
+      "name": "Aki GS GTX 5L-BS",
+      "deskripsi": "Aki kering GS GTX 5L-BS",
+      "supplier": "Heri Supplier",
+      "perusahaan": "CV Sumber Rejeki",
+      "telpSupplier": "021-7654321",
+      "qty": 3,
+      "price": 350000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_013",
+      "name": "Aki Yuasa 12N5-3B",
+      "deskripsi": "Aki konvensional Yuasa",
+      "supplier": "Heri Supplier",
+      "perusahaan": "CV Sumber Rejeki",
+      "telpSupplier": "021-7654321",
+      "qty": 5,
+      "price": 280000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_014",
+      "name": "Belt V-Belt",
+      "deskripsi": "V-belt untuk motor matic",
+      "supplier": "Toko Motor Jaya",
+      "perusahaan": "Toko Motor Jaya",
+      "telpSupplier": "021-9876543",
+      "qty": 8,
+      "price": 85000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "part_015",
+      "name": "Rantai Dobel",
+      "deskripsi": "Rantai rantai motor 428H",
+      "supplier": "Toko Motor Jaya",
+      "perusahaan": "Toko Motor Jaya",
+      "telpSupplier": "021-9876543",
+      "qty": 6,
+      "price": 175000,
+      "createdAt": "2026-01-01T08:00:00.000Z"
+    }
+  ],
+  "storeInfo": {
+    "name": "Bengkel Maju Jaya",
+    "phone": "021-7654321",
+    "email": "info@bengkelmajujaya.com",
+    "description": "Bengkel terpercaya untuk mobil dan motor Anda. Layanan servis lengkap dengan sparepart berkualitas."
+  }
+}

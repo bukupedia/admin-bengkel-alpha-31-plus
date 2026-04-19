@@ -233,6 +233,53 @@ function importData(file) {
 }
 
 // ======================
+// LOAD DUMMY DATA
+// ======================
+
+async function loadDummyData() {
+  try {
+    const confirmLoad = confirm(
+      "Apakah Anda yakin ingin memuat dummy data?\n\n" +
+      "Data yang akan dimuat:\n" +
+      "- 2 User (admin, mekanik)\n" +
+      "- 5 Pelanggan\n" +
+      "- 7 Record Servis\n" +
+      "- 15 Sparepart\n" +
+      "- Info Toko\n\n" +
+      "PERINGATAN: Data yang ada akan ditimpa!"
+    );
+
+    if (!confirmLoad) {
+      return;
+    }
+
+    // Fetch dummy data from file
+    const response = await fetch("dummy-data.json");
+    if (!response.ok) {
+      throw new Error("Gagal memuat file dummy-data.json");
+    }
+
+    const data = await response.json();
+
+    // Import each data key
+    DATA_KEYS.forEach(key => {
+      if (data[key]) {
+        saveData(key, data[key]);
+      }
+    });
+
+    showToast("Dummy data berhasil dimuat!", "success");
+    updateStorageDisplay();
+    
+    // Reload store info form
+    loadStoreInfoForm();
+  } catch (error) {
+    console.error("Error loading dummy data:", error);
+    showToast("Gagal memuat dummy data: " + error.message, "error");
+  }
+}
+
+// ======================
 // RESET ALL DATA
 // ======================
 
@@ -323,6 +370,12 @@ function setupEvent() {
         importFile.value = "";
       }
     });
+  }
+
+  // Dummy Data Button
+  const dummyDataBtn = document.getElementById("dummyDataBtn");
+  if (dummyDataBtn) {
+    dummyDataBtn.addEventListener("click", loadDummyData);
   }
 
   // Reset Button
