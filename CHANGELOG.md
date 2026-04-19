@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [alpha-48]
+
+Codebase: fix-import-json-error-handling
+
 ## [alpha-47]
 
 Codebase: alpha-46
