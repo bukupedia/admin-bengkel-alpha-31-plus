@@ -26,3 +26,22 @@ export function formatDate(dateStr) {
     year: "numeric"
   });
 }
+
+// Get today's date string (YYYY-MM-DD)
+export function getTodayString() {
+  return new Date().toISOString().split('T')[0];
+}
+
+// Get yesterday's date string (YYYY-MM-DD)
+export function getYesterdayString() {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  return yesterday.toISOString().split('T')[0];
+}
+
+// Get date offset string
+export function getDateOffsetString(days) {
+  const date = new Date();
+  date.setDate(date.getDate() - days);
+  return date.toISOString().split('T')[0];
+}

@@ -59,7 +59,9 @@ export function getCurrentUser() {
   if (!session) return null;
   
   try {
-    return JSON.parse(session);
+    const sessionData = JSON.parse(session);
+    // Return username for display
+    return sessionData.username || null;
   } catch (e) {
     return null;
   }

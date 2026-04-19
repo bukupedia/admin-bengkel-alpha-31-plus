@@ -1,7 +1,7 @@
 // assets/js/modules/servis.js
 
 import { getData, saveData } from "../storage.js";
-import { generateId, sanitizeHTML, formatCurrency, formatDate } from "../utils.js";
+import { generateId, sanitizeHTML, formatCurrency, formatDate, getTodayString, getDateOffsetString } from "../utils.js";
 
 const KEY = "servis";
 const CUSTOMER_KEY = "customers";
@@ -17,31 +17,6 @@ const itemsPerPage = 10;
 
 // WhatsApp default number
 const DEFAULT_WHATSAPP_NUMBER = "0895332782122";
-
-// ======================
-// GET TODAY'S DATE STRING
-// ======================
-function getTodayString() {
-  return new Date().toISOString().split('T')[0];
-}
-
-// ======================
-// GET YESTERDAY'S DATE STRING
-// ======================
-function getYesterdayString() {
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  return yesterday.toISOString().split('T')[0];
-}
-
-// ======================
-// GET DATE OFFSET STRING
-// ======================
-function getDateOffsetString(days) {
-  const date = new Date();
-  date.setDate(date.getDate() - days);
-  return date.toISOString().split('T')[0];
-}
 
 // ======================
 // GET FILTERED DATE RANGE

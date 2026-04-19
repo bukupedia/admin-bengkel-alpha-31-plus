@@ -1,7 +1,7 @@
 // assets/js/modules/dashboard.js
 
 import { getData } from "../storage.js";
-import { formatCurrency, sanitizeHTML } from "../utils.js";
+import { formatCurrency, sanitizeHTML, getTodayString } from "../utils.js";
 
 const SERVIS_KEY = "servis";
 const CUSTOMER_KEY = "customers";
@@ -10,22 +10,6 @@ const PART_KEY = "parts";
 // INIT
 export function initDashboardPage() {
   loadDashboardData();
-}
-
-// ======================
-// GET TODAY'S DATE STRING
-// ======================
-function getTodayString() {
-  return new Date().toISOString().split('T')[0];
-}
-
-// ======================
-// GET YESTERDAY'S DATE STRING
-// ======================
-function getYesterdayString() {
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  return yesterday.toISOString().split('T')[0];
 }
 
 // ======================
@@ -85,8 +69,8 @@ function loadDashboardData() {
   renderLowStockParts(partData);
   
   // Render top selling parts
-  renderTopSellingParts(allServisData);
-  renderTopSellingPartsToday(allServisData);
+  renderTopSellingParts();
+  renderTopSellingPartsToday();
   
   // Render top customers
   renderTopCustomers(allServisData, customerData);
@@ -334,7 +318,7 @@ function renderTopCustomers(servisData, customerData) {
 // ======================
 // RENDER TOP SELLING PARTS (All Time)
 // ======================
-function renderTopSellingParts(data) {
+function renderTopSellingParts() {
   const container = document.getElementById("topSellingParts");
   if (!container) return;
   
@@ -408,7 +392,7 @@ function renderTopSellingParts(data) {
 // ======================
 // RENDER TOP SELLING PARTS (Today)
 // ======================
-function renderTopSellingPartsToday(data) {
+function renderTopSellingPartsToday() {
   const container = document.getElementById("topSellingPartsToday");
   if (!container) return;
   

@@ -48,7 +48,7 @@ export function renderNavbar() {
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                👤 ${user ? user.username : 'Admin'}
+                👤 ${user || 'Admin'}
               </a>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><span class="dropdown-item-text text-muted small">Logged in</span></li>

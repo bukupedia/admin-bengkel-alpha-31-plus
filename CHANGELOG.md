@@ -6,6 +6,37 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-44
 
+### Fixed
+
+#### Code Organization (utils.js)
+- Consolidated duplicate date utility functions that were scattered across multiple files:
+  - Added `getTodayString()` function - returns today's date as YYYY-MM-DD string
+  - Added `getYesterdayString()` function - returns yesterday's date as YYYY-MM-DD string
+  - Added `getDateOffsetString(days)` function - returns date offset from today
+
+#### Dashboard (dashboard.js)
+- Removed duplicate `getTodayString()` and `getYesterdayString()` functions
+- Now imports date utilities from utils.js
+- Fixed unused `data` parameter in `renderTopSellingParts(data)` - removed unnecessary parameter
+- Fixed unused `data` parameter in `renderTopSellingPartsToday(data)` - removed unnecessary parameter
+
+#### Servis Page (servis.js)
+- Removed duplicate `getTodayString()`, `getYesterdayString()`, and `getDateOffsetString()` functions
+- Now imports date utilities from utils.js
+
+#### Authentication (auth.js)
+- Fixed `getCurrentUser()` function to return username string directly instead of full session object
+
+#### Navigation (navbar.js)
+- Fixed undefined username display - changed from `${user ? user.username : 'Admin'}` to `${user || 'Admin'}`
+
+### Changed
+
+#### Code Quality
+- All JavaScript files validated for syntax - no errors
+- Consolidated utility functions to single source of truth in utils.js
+- Eliminated code duplication across modules
+
 ## [alpha-44]
 
 Codebase: alpha-37
