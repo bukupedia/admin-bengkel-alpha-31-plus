@@ -89,6 +89,28 @@ Codebase: alpha-41
   - Removed duplicate `const customer = customers.find(...)` since it was already defined above
   - This was causing navbar not to render because the JavaScript failed to load
 
+### Updated
+
+#### UX Improvements (alpha-42)
+- Replaced ALL native `alert()` with toast notifications:
+  - Validation errors now show as toast with "error" type
+  - Success messages now show as toast with "success" type  
+  - Duplicate warnings now show as toast with "warning" type
+  - Module files updated: pelanggan.js, servis.js, sparepart.js, setting.js
+  - Improved user experience - no more popup blocking
+
+#### Code Quality
+- Removed debug console.log statements from:
+  - auth.js (requireAuth function)
+  - navbar.js (renderNavbar function)
+  - app.js (warn message)
+- Service worker logs remain for debugging PWA issues
+
+#### Accessibility
+- Added focus states for buttons (.btn:focus)
+- Added custom focus highlight for invalid inputs (.is-invalid:focus)
+- Added smooth CSS transitions for better visual feedback
+
 ## [alpha-41]
 
 Codebase: alpha-40
