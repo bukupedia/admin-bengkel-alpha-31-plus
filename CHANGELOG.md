@@ -84,6 +84,11 @@ Codebase: alpha-41
 - Theme preference persisted to localStorage
 - Proper theme initialization on page load
 
+#### Bug Fixes
+- Fixed SyntaxError in servis.js: duplicate variable declaration (`customer`)
+  - Removed duplicate `const customer = customers.find(...)` since it was already defined above
+  - This was causing navbar not to render because the JavaScript failed to load
+
 ## [alpha-41]
 
 Codebase: alpha-40
