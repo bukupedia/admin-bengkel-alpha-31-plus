@@ -6,6 +6,15 @@ All notable changes to this project will be documented in this file.
 
 Codebase: fix-import-json-error-handling
 
+### Fixed
+
+#### Dashboard - Pelanggan Baru Counter (dashboard.js, pelanggan.js)
+- Fixed "Pelanggan Baru" in "Hari Ini" section not incrementing when adding new customer
+- Root cause: `createdAt` field was not set when creating new customer in pelanggan.js
+- Dashboard filtering logic `c.createdAt.startsWith(today)` always returned 0 because `createdAt` was undefined
+- Added `createdAt` field with today's date (YYYY-MM-DD format) when creating new customer
+- Now imports `getTodayString()` from utils.js in pelanggan.js
+
 ## [alpha-47]
 
 Codebase: alpha-46

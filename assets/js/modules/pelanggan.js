@@ -1,7 +1,7 @@
 // assets/js/modules/pelanggan.js
 
 import { getData, saveData } from "../storage.js";
-import { generateId, sanitizeHTML } from "../utils.js";
+import { generateId, sanitizeHTML, getTodayString } from "../utils.js";
 
 const KEY = "customers";
 const SERVIS_KEY = "servis";
@@ -272,7 +272,8 @@ function setupEvent() {
       phone: sanitizedPhone,
       policeNumber: sanitizedPolice,
       vehicleBrand: sanitizedVehicleBrand,
-      vehicleName: sanitizedVehicleName
+      vehicleName: sanitizedVehicleName,
+      createdAt: getTodayString()
     };
     
     // Check for duplicate name
