@@ -30,14 +30,25 @@ function renderSettingsForm() {
 // Render storage information
 function renderStorageInfo() {
   const info = getStorageInfo();
+  const MAX_STORAGE = 5 * 1024 * 1024; // 5 MB max storage
   
   document.getElementById("totalStorage").textContent = formatBytes(info.totalSize);
+  document.getElementById("totalStorageCapacity").textContent = formatBytes(MAX_STORAGE);
   
-  // Render detail table
+  // Calculate available storage
+  const availableStorage = Math.max(0, MAX_STORAGE - info.totalSize);
+  document.getElementById("totalStorageAvailable").textContent = formatBytes(availableStorage);
+  
+  // Render detail table - exclude session data (admin_session, session_fp)
   const tbody = document.getElementById("storageDetailTable");
   tbody.innerHTML = "";
   
+  const sessionKeys = ["admin_session", "session_fp"];
+  
   for (const [key, data] of Object.entries(info.dataInfo)) {
+    // Skip session keys
+    if (sessionKeys.includes(key)) continue;
+    
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${key}</td>

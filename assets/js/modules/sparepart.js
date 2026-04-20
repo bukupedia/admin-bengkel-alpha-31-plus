@@ -523,7 +523,7 @@ function showDetail(id) {
         <div class="col-md-8">${sanitizeHTML(part.telpSupplier || '-')}</div>
       </div>
       <div class="row mb-3">
-        <div class="col-md-4 fw-bold">Quantity:</div>
+        <div class="col-md-4 fw-bold">Stok:</div>
         <div class="col-md-8">${part.qty || 0}</div>
       </div>
       <div class="row mb-3">

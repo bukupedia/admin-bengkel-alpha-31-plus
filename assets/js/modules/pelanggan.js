@@ -521,7 +521,7 @@ function showCustomerDetail(id) {
         <p class="mb-0">${sanitizeHTML(customer.phone || '-')}</p>
       </div>
       <div class="col-md-6 mb-3">
-        <label class="form-label fw-bold">Nomor Polisi</label>
+        <label class="form-label fw-bold">No. Polisi/License Plate</label>
         <p class="mb-0">${sanitizeHTML(customer.policeNumber || '-')}</p>
       </div>
       <div class="col-md-6 mb-3">
@@ -529,7 +529,7 @@ function showCustomerDetail(id) {
         <p class="mb-0">${sanitizeHTML(customer.vehicleBrand || '-')}</p>
       </div>
       <div class="col-md-6 mb-3">
-        <label class="form-label fw-bold">Nama Kendaraan</label>
+        <label class="form-label fw-bold">Tipe Kendaraan</label>
         <p class="mb-0">${sanitizeHTML(customer.vehicleName || '-')}</p>
       </div>
       <div class="col-md-6 mb-3">

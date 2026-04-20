@@ -6,6 +6,30 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-48
 
+### Changed
+
+#### Halaman Sparepart (sparepart.html, sparepart.js)
+- Mengubah judul kolom "Quantity" menjadi "Stok" di tabel
+- Mengubah placeholder input Quantity di modal "Tambah Sparepart" menjadi "Stok"
+- Mengubah placeholder input Quantity di modal "Edit Sparepart" menjadi "Edit Stok"
+- Mengubah label Quantity di modal "Detail Sparepart" menjadi "Stok"
+- Mengubah tipe input "Deskripsi/Keterangan Produk" dari input menjadi textarea pada modal "Tambah Sparepart" dan "Edit Sparepart"
+
+#### Halaman Pelanggan (pelanggan.html, pelanggan.js)
+- Mengubah placeholder input Nomor Polisi di modal "Tambah Pelanggan" menjadi "No. Polisi/License Plate"
+- Mengubah placeholder input Nomor Polisi di modal "Edit Pelanggan" menjadi "No. Polisi/License Plate"
+- Mengubah placeholder input Vehicle Name di modal "Tambah Pelanggan" menjadi "Tipe Kendaraan: Beat, Mio, Nex..."
+- Mengubah placeholder input Vehicle Name di modal "Edit Pelanggan" menjadi "Tipe Kendaraan: Beat, Mio, Nex..."
+- Mengubah label "Nama Kendaraan" di modal "Detail Pelanggan" menjadi "Tipe Kendaraan"
+- Mengubah label "Nomor Polisi" di modal "Detail Pelanggan" menjadi "No. Polisi/License Plate"
+
+#### Halaman Pengaturan (pengaturan.html, settings.js)
+- Menambahkan informasi kapasitas Total Penyimpanan (5 MB)
+- Menambahkan informasi Total Penyimpanan yang digunakan
+- Menambahkan informasi Total Penyimpanan Tersedia
+- Menghilangkan tampilan data session (admin_session, session_fp) dari tabel "Informasi Penyimpanan"
+- Mengubah judul section "Zona Berbahaya" menjadi "Danger Zone"
+
 ## [alpha-48]
 
 Codebase: fix-import-json-error-handling

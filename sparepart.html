@@ -31,7 +31,7 @@
           <th>Nama</th>
           <th>Supplier</th>
           <th>Telepon</th>
-          <th>Quantity</th>
+          <th>Stok</th>
           <th>Harga</th>
           <th>Aksi</th>
         </tr>
@@ -55,7 +55,7 @@
       </div>
       <div class="modal-body">
         <input id="namaPart" class="form-control mb-2" placeholder="Nama Part" required>
-        <input id="deskripsiPart" class="form-control mb-2" placeholder="Deskripsi/Keterangan Produk">
+        <textarea id="deskripsiPart" class="form-control mb-2" placeholder="Deskripsi/Keterangan Produk" rows="3"></textarea>
         <div class="row">
           <div class="col-md-6 mb-2">
             <input id="supplierPart" class="form-control" placeholder="Nama Supplier/Sales Person" required>
@@ -67,7 +67,7 @@
         <input id="telpSupplierPart" class="form-control mb-2" placeholder="Nomor Telepon Supplier" required>
         <div class="row">
           <div class="col-md-6 mb-2">
-            <input id="qtyPart" type="number" class="form-control" placeholder="Quantity" min="0" value="0">
+            <input id="qtyPart" type="number" class="form-control" placeholder="Stok" min="0" value="0">
           </div>
           <div class="col-md-6 mb-2">
             <input id="hargaPart" type="number" class="form-control" placeholder="Harga" min="0" required>
@@ -92,7 +92,7 @@
       <div class="modal-body">
         <input type="hidden" id="editPartId">
         <input id="editNamaPart" class="form-control mb-2" placeholder="Nama Part" required>
-        <input id="editDeskripsiPart" class="form-control mb-2" placeholder="Deskripsi/Keterangan Produk">
+        <textarea id="editDeskripsiPart" class="form-control mb-2" placeholder="Deskripsi/Keterangan Produk" rows="3"></textarea>
         <div class="row">
           <div class="col-md-6 mb-2">
             <input id="editSupplierPart" class="form-control" placeholder="Nama Supplier/Sales Person" required>
@@ -104,7 +104,7 @@
         <input id="editTelpSupplierPart" class="form-control mb-2" placeholder="Nomor Telepon Supplier" required>
         <div class="row">
           <div class="col-md-6 mb-2">
-            <input id="editQtyPart" type="number" class="form-control" placeholder="Quantity" min="0" value="0">
+            <input id="editQtyPart" type="number" class="form-control" placeholder="Edit Stok" min="0" value="0">
           </div>
           <div class="col-md-6 mb-2">
             <input id="editHargaPart" type="number" class="form-control" placeholder="Harga" min="0" required>
