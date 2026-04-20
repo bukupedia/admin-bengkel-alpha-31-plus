@@ -1,0 +1,233 @@
+{
+  "exportDate": "2026-04-20T08:12:50.220Z",
+  "version": "1.0",
+  "data": {
+    "customers": [
+      {
+        "id": "mo6ekdvq8cbro71kqpi",
+        "name": "Andy",
+        "phone": "08118206376",
+        "policeNumber": "B 4251 BOS",
+        "vehicleBrand": "Honda",
+        "vehicleName": "PCX 160",
+        "createdAt": "2026-04-19"
+      },
+      {
+        "id": "mo6ema5z3mice19x8qy",
+        "name": "Arie",
+        "phone": "087810105956",
+        "policeNumber": "B 4562 TES",
+        "vehicleBrand": "Yamaha",
+        "vehicleName": "Nmax Old",
+        "createdAt": "2026-04-19"
+      },
+      {
+        "id": "mo6eounonkzcif0mnra",
+        "name": "Daniel",
+        "phone": "089612874882",
+        "policeNumber": "D 4490 SAF",
+        "vehicleBrand": "Honda",
+        "vehicleName": "Vario 150",
+        "createdAt": "2026-04-19"
+      },
+      {
+        "id": "mo6l46722rrldu4fr0b",
+        "name": "Septian",
+        "phone": "083896869400",
+        "policeNumber": "B 4689 WOM",
+        "vehicleBrand": "Yamaha",
+        "vehicleName": "Nmax Turbo",
+        "createdAt": "2026-04-20"
+      },
+      {
+        "id": "mo6lav2r65ii7l3s867",
+        "name": "Icha",
+        "phone": "6281411013411",
+        "policeNumber": "B 5264 BRT",
+        "vehicleBrand": "Honda",
+        "vehicleName": "Vario 125",
+        "createdAt": "2026-04-20"
+      }
+    ],
+    "parts": [
+      {
+        "id": "mo6dh35p3al4as475h2",
+        "name": "Yamalube Power XP Matic",
+        "deskripsi": "Oli mineral 10W-40 JASO MB API SL",
+        "supplier": "Ayu",
+        "perusahaan": "PT Motoil International",
+        "telpSupplier": "081221469978",
+        "qty": 10,
+        "price": 50000
+      },
+      {
+        "id": "mo6dn7aj4phe8nbzc3s",
+        "name": "Yamalube Super Matic",
+        "deskripsi": "Full Synthetic Oil 10W-40 JASO MB API SL",
+        "supplier": "Ayu",
+        "perusahaan": "PT. Motoil International",
+        "telpSupplier": "081221469978",
+        "qty": 10,
+        "price": 75000
+      },
+      {
+        "id": "mo6dqhwat31lcjjq4vg",
+        "name": "Yamalube Turbo Matic",
+        "deskripsi": "Full Synthetic Oil 10W-40 JASO MB API SN",
+        "supplier": "Ayu",
+        "perusahaan": "PT Motoil International",
+        "telpSupplier": "081221469978",
+        "qty": 8,
+        "price": 95000
+      },
+      {
+        "id": "mo6dtxnubxpl7o3pztw",
+        "name": "Yamalube XP-50",
+        "deskripsi": "Yamalube XP-50 20W-50 diformulasikan khusus oleh Yamaha Motor Jepang untuk sepeda motor Yamaha jenis Moped (bebek) dengan pemakaian diatas 10 tahun.",
+        "supplier": "Ayu",
+        "perusahaan": "PT Motoil International",
+        "telpSupplier": "081221469978",
+        "qty": 10,
+        "price": 40000
+      },
+      {
+        "id": "mo6e0cadvgtqi3rdyn",
+        "name": "2T Motor Oil",
+        "deskripsi": "Oli samping motor 2T semi synthetic isi 700ml",
+        "supplier": "Ayu",
+        "perusahaan": "PT Motoil International",
+        "telpSupplier": "081221469978",
+        "qty": 5,
+        "price": 50000
+      },
+      {
+        "id": "mo6e2df2lawyt6n3l4a",
+        "name": "Sport Motor Oil",
+        "deskripsi": "Yamalube Sport Motor Oil diformulasikan khusus untuk mesin motor 4-Tak modern tipe moped dan tipe sport",
+        "supplier": "Ayu",
+        "perusahaan": "PT Motoil International",
+        "telpSupplier": "081221469978",
+        "qty": 5,
+        "price": 60000
+      },
+      {
+        "id": "mo6e6zv2ui12udxs91",
+        "name": "Carb & Injector Cleaner",
+        "deskripsi": "Membersihkan endapan karbon, minyak dan sisa pembakaran yang menumpuk di dalam karburator dan injektor.",
+        "supplier": "Angga",
+        "perusahaan": "",
+        "telpSupplier": "6283807041988",
+        "qty": 5,
+        "price": 40000
+      },
+      {
+        "id": "mo6i27sult104wzuki9",
+        "name": "Deltalube Grease CVT 10gr",
+        "deskripsi": "",
+        "supplier": "Deni",
+        "perusahaan": "Deltalube Authentic",
+        "telpSupplier": "085773603182",
+        "qty": 10,
+        "price": 25000
+      },
+      {
+        "id": "mo6if14fp5qm2opeecb",
+        "name": "Filter Udara Vario 150",
+        "deskripsi": "",
+        "supplier": "Fajar",
+        "perusahaan": "Lestari Motor",
+        "telpSupplier": "6281324676071",
+        "qty": 6,
+        "price": 80000
+      }
+    ],
+    "servis": [
+      {
+        "id": "mo6ey5otruvjfjv8d7p",
+        "tanggal": "2026-04-19",
+        "customerId": "mo6ema5z3mice19x8qy",
+        "items": [
+          {
+            "partId": "mo6dqhwat31lcjjq4vg",
+            "name": "Yamalube Turbo Matic",
+            "price": 95000,
+            "qty": 1
+          }
+        ],
+        "total": 95000,
+        "catatan": "",
+        "status": "selesai"
+      },
+      {
+        "id": "mo6iqaxn0fht6eexsbhk",
+        "tanggal": "2026-04-20",
+        "customerId": "mo6eounonkzcif0mnra",
+        "items": [
+          {
+            "partId": "mo6if14fp5qm2opeecb",
+            "name": "Filter Udara Vario 150",
+            "price": 80000,
+            "qty": 1
+          }
+        ],
+        "total": 80000,
+        "catatan": "",
+        "status": "servicing"
+      },
+      {
+        "id": "mo6l5j8nk0l6suv1fdm",
+        "tanggal": "2026-04-20",
+        "customerId": "mo6l46722rrldu4fr0b",
+        "items": [
+          {
+            "partId": "mo6dqhwat31lcjjq4vg",
+            "name": "Yamalube Turbo Matic",
+            "price": 95000,
+            "qty": 1
+          }
+        ],
+        "total": 95000,
+        "catatan": "",
+        "status": "selesai"
+      },
+      {
+        "id": "mo6lcjp3drv9gtvc76q",
+        "tanggal": "2026-04-20",
+        "customerId": "mo6lav2r65ii7l3s867",
+        "items": [
+          {
+            "partId": "mo6e6zv2ui12udxs91",
+            "name": "Carb & Injector Cleaner",
+            "price": 40000,
+            "qty": 1
+          }
+        ],
+        "total": 40000,
+        "catatan": "",
+        "status": "dibatalkan"
+      },
+      {
+        "id": "mo6x1kilkh6xn231czc",
+        "tanggal": "2026-04-20",
+        "customerId": "mo6ekdvq8cbro71kqpi",
+        "items": [
+          {
+            "partId": "mo6e6zv2ui12udxs91",
+            "name": "Carb & Injector Cleaner",
+            "price": 40000,
+            "qty": 1
+          },
+          {
+            "partId": "mo6i27sult104wzuki9",
+            "name": "Deltalube Grease CVT 10gr",
+            "price": 25000,
+            "qty": 1
+          }
+        ],
+        "total": 65000,
+        "catatan": "",
+        "status": "menunggu"
+      }
+    ]
+  }
+}
