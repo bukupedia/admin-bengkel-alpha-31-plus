@@ -6,6 +6,15 @@ All notable changes to this project will be documented in this file.
 
 Codebase: alpha-50
 
+### Added
+
+#### Dummy Data (dummy_data_testing.json)
+- Added dummy data file for testing/demo purposes
+- Format follows the backup file structure (bengkel_backup_2026-04-20.json)
+- Contains 10 customers with various vehicle brands (Honda, Yamaha, Suzuki, Kawasaki)
+- Contains 15 spareparts (oils, filters, brake pads, spark plugs, V-Belt, rollers)
+- Contains 10 servis records with various statuses (selesai, servicing, menunggu, dibatalkan)
+
 ## [alpha-50]
 
 Codebase: alpha-49
