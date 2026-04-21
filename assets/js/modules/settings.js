@@ -79,18 +79,33 @@ function setupEvent() {
   document.getElementById("deleteAllDataBtn").addEventListener("click", deleteAllDataHandler);
 }
 
+// Format WhatsApp number - add Indonesia country code (62)
+function formatWhatsAppNumberForStorage(phone) {
+  if (!phone) return "";
+  const digits = phone.replace(/\D/g, "");
+  if (digits.startsWith("62")) {
+    return digits;
+  } else if (digits.startsWith("0")) {
+    return "62" + digits.substring(1);
+  }
+  return "62" + digits;
+}
+
 // Save settings handler
 function saveSettingsHandler() {
-  const whatsappNumber = document.getElementById("whatsappNumber").value.trim();
+  const whatsappNumberInput = document.getElementById("whatsappNumber").value.trim();
   const adminUsername = document.getElementById("adminUsername").value.trim();
   const adminPassword = document.getElementById("adminPassword").value.trim();
   const confirmPassword = document.getElementById("confirmPassword").value.trim();
   
   // Validate
-  if (!whatsappNumber) {
+  if (!whatsappNumberInput) {
     alert("Nomor WhatsApp tidak boleh kosong");
     return;
   }
+  
+  // Format WhatsApp number before saving
+  const whatsappNumber = formatWhatsAppNumberForStorage(whatsappNumberInput);
   
   if (!adminUsername) {
     alert("Username tidak boleh kosong");

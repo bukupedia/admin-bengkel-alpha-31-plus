@@ -59,10 +59,19 @@ function renderTable(searchQuery = "") {
     const safePolice = sanitizeHTML(item.policeNumber || '-');
     
     // Format WhatsApp URL - add Indonesia country code (62)
+    const formatWhatsAppNumber = (phone) => {
+      if (!phone) return "";
+      const digits = phone.replace(/\D/g, "");
+      if (digits.startsWith("62")) {
+        return digits;
+      } else if (digits.startsWith("0")) {
+        return "62" + digits.substring(1);
+      }
+      return "62" + digits;
+    };
     const phoneNumber = item.phone ? item.phone.replace(/[^0-9]/g, '') : '';
-    // Remove leading 0 and add Indonesia country code 62
-    const waPhoneNumber = phoneNumber.replace(/^0/, '');
-    const waUrl = waPhoneNumber ? `https://wa.me/62${waPhoneNumber}` : '#';
+    const waPhoneNumber = phoneNumber ? formatWhatsAppNumber(phoneNumber) : "";
+    const waUrl = waPhoneNumber ? `https://wa.me/${waPhoneNumber}` : '#';
     
     table.innerHTML += `
       <tr>
@@ -71,7 +80,7 @@ function renderTable(searchQuery = "") {
         <td>${safePolice}</td>
         <td>
           <button class="btn btn-info btn-sm btn-detail" data-id="${item.id}" title="Detail">👁️</button>
-          <a href="${waUrl}" target="_blank" class="btn btn-success btn-sm btn-whatsapp" data-phone="${item.phone}" title="Kirim WhatsApp" ${!phoneNumber ? 'style="display:none"' : ''}>💬</a>
+          <a href="${waUrl}" target="_blank" class="btn btn-success btn-sm btn-whatsapp" data-phone="${item.phone}" title="Kirim WhatsApp" ${!waPhoneNumber ? 'style="display:none"' : ''}>💬</a>
           <button class="btn btn-warning btn-sm btn-edit" data-id="${item.id}" title="Edit">✏️</button>
           <button class="btn btn-danger btn-sm btn-delete" data-id="${item.id}" title="Hapus">🗑</button>
         </td>

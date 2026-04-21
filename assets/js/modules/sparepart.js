@@ -95,8 +95,20 @@ function renderTable(searchQuery = "") {
     // Add warning badge for low stock (< 5)
     const lowStockWarning = safeQty < 5 ? `<span class="badge bg-warning text-dark ms-1" title="Stok rendah">⚠️</span>` : "";
     
-    const whatsappLink = item.telpSupplier 
-      ? `https://wa.me/${item.telpSupplier.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(item.supplier || 'Supplier')},%20saya%20ingin%20memesan%20${encodeURIComponent(item.name)}`
+    // Format WhatsApp number - add Indonesia country code (62)
+    const formatWhatsAppNumber = (phone) => {
+      if (!phone) return "";
+      const digits = phone.replace(/\D/g, "");
+      if (digits.startsWith("62")) {
+        return digits;
+      } else if (digits.startsWith("0")) {
+        return "62" + digits.substring(1);
+      }
+      return "62" + digits;
+    };
+    const waNumber = item.telpSupplier ? formatWhatsAppNumber(item.telpSupplier) : "";
+    const whatsappLink = waNumber 
+      ? `https://wa.me/${waNumber}?text=Halo%20${encodeURIComponent(item.supplier || 'Supplier')},%20saya%20ingin%20memesan%20${encodeURIComponent(item.name)}`
       : '#';
 
     table.innerHTML += `
@@ -110,7 +122,7 @@ function renderTable(searchQuery = "") {
           <button class="btn btn-info btn-sm btn-detail" data-id="${item.id}" title="Detail">👁️</button>
           <button class="btn btn-warning btn-sm btn-edit" data-id="${item.id}" title="Edit">✏️</button>
           <button class="btn btn-danger btn-sm btn-delete" data-id="${item.id}" title="Hapus">🗑</button>
-          ${item.telpSupplier ? `<a href="${whatsappLink}" target="_blank" class="btn btn-success btn-sm" title="WhatsApp">📱</a>` : ''}
+          ${waNumber ? `<a href="${whatsappLink}" target="_blank" class="btn btn-success btn-sm" title="WhatsApp">📱</a>` : ''}
         </td>
       </tr>
     `;
@@ -491,10 +503,22 @@ function showDetail(id) {
   if (!part) return;
 
   const detailBody = document.getElementById("detailPartBody");
-  const whatsappLink = part.telpSupplier 
-    ? `https://wa.me/${part.telpSupplier.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(part.supplier || 'Supplier')},%20saya%20ingin%20memesan%20${encodeURIComponent(part.name)}`
+  // Format WhatsApp number - add Indonesia country code (62)
+  const formatWhatsAppNumber = (phone) => {
+    if (!phone) return "";
+    const digits = phone.replace(/\D/g, "");
+    if (digits.startsWith("62")) {
+      return digits;
+    } else if (digits.startsWith("0")) {
+      return "62" + digits.substring(1);
+    }
+    return "62" + digits;
+  };
+  const waNumber = part.telpSupplier ? formatWhatsAppNumber(part.telpSupplier) : "";
+  const whatsappLink = waNumber 
+    ? `https://wa.me/${waNumber}?text=Halo%20${encodeURIComponent(part.supplier || 'Supplier')},%20saya%20ingin%20memesan%20${encodeURIComponent(part.name)}`
     : '#';
-  const whatsappButton = part.telpSupplier 
+  const whatsappButton = waNumber 
     ? `<a href="${whatsappLink}" target="_blank" class="btn btn-success">📱 Kirim WhatsApp ke Supplier</a>`
     : '<span class="text-muted">Nomor telepon supplier tidak tersedia</span>';
 

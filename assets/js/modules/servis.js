@@ -1,6 +1,6 @@
 // assets/js/modules/servis.js
 
-import { getData, saveData } from "../storage.js";
+import { getData, saveData, getSettings } from "../storage.js";
 import { generateId, sanitizeHTML, formatCurrency, formatDate, getTodayString, getDateOffsetString } from "../utils.js";
 
 const KEY = "servis";
@@ -15,8 +15,29 @@ let customDate = "";
 let currentPage = 1;
 const itemsPerPage = 10;
 
-// WhatsApp default number
-const DEFAULT_WHATSAPP_NUMBER = "0895332782122";
+// Get default WhatsApp number (from settings or fallback)
+const getDefaultWhatsAppNumber = () => {
+  const settings = getSettings();
+  const savedNumber = settings.whatsappNumber;
+  if (savedNumber) {
+    // Format the saved number properly
+    const digits = savedNumber.replace(/\D/g, "");
+    if (digits.startsWith("62")) {
+      return digits;
+    } else if (digits.startsWith("0")) {
+      return "62" + digits.substring(1);
+    }
+    return "62" + digits;
+  }
+  // Fallback to default number
+  return "62895332782122";
+};
+
+// Get settings WhatsApp number for display
+const getSettingsWhatsAppNumber = () => {
+  const settings = getSettings();
+  return settings.whatsappNumber || "";
+};
 
 // ======================
 // GET FILTERED DATE RANGE

@@ -6,6 +6,32 @@ All notable changes to this project will be documented in this f
 
 Codebase: alpha-49
 
+### Fixed
+
+#### Kode Pengiriman WhatsApp (pelanggan.js, servis.js, sparepart.js, settings.js)
+- Perbaikan format nomor WhatsApp yang salah saat nomor sudah dimulai dengan "62"
+- Kode lama menambahkan "62" tanpa pengecekan, sehingga "6281234567890" menjadi "626281234567890"
+- Menambahkan fungsi formatWhatsAppNumber() untuk memeriksa:
+  - Jika dimulai dengan "62" → tetap sesuai input
+  - Jika dimulai dengan "0" → ganti "0" dengan "62" (contoh: "0812xxx" → "62812xxx")
+  - Jika dimulai dengan angka lain → tambahkan "62" di depan
+
+#### Halaman Pelanggan (pelanggan.js)
+- Memperbaiki format URL WhatsApp dengan fungsi formatWhatsAppNumber() yang benar
+
+#### Halaman Sparepart (sparepart.js - 2 lokasi)
+- Memperbaiki format URL WhatsApp supplier di tabel dan modal detail
+- Menggunakan fungsi formatWhatsAppNumber() yang konsisten
+
+#### Halaman Servis (servis.js)
+- Mengganti DEFAULT_WHATSAPP_NUMBER dengan getDefaultWhatsAppNumber()
+- Sekarang membaca nomor WhatsApp dari settings
+- Fallback ke nomor default jika settings kosong
+
+#### Halaman Pengaturan (settings.js)
+- Menambahkan formatWhatsAppNumberForStorage() sebelum menyimpan nomor
+- Sekarang nomor disimpan dalam format yang benar untuk WhatsApp
+
 ## [alpha-49]
 
 Codebase: alpha-48
