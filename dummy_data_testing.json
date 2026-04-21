@@ -1,7 +1,12 @@
 {
-  "exportDate": "2026-04-21T10:13:02.000Z",
+  "exportDate": "2026-04-21T10:30:00.000Z",
   "version": "1.0",
   "data": {
+    "settings": {
+      "defaultWhatsApp": "6281234567890",
+      "adminUsername": "admin",
+      "adminPassword": "admin123"
+    },
     "customers": [
       {
         "id": "testcust001",
@@ -28,7 +33,7 @@
         "policeNumber": "F 9012 QRS",
         "vehicleBrand": "Suzuki",
         "vehicleName": "Nex II",
-        "createdAt": "2026-04-21"
+        "createdAt": "2026-04-20"
       },
       {
         "id": "testcust004",
@@ -42,11 +47,11 @@
       {
         "id": "testcust005",
         "name": "Rudi Hermawan",
-        "phone": "085812345678",
+        "phone": "6285812345678",
         "policeNumber": "G 7890 KOP",
         "vehicleBrand": "Kawasaki",
         "vehicleName": "Ninja RR",
-        "createdAt": "2026-04-21"
+        "createdAt": "2026-04-19"
       },
       {
         "id": "testcust006",
@@ -62,25 +67,25 @@
         "name": "Joko Pratomo",
         "phone": "082212345678",
         "policeNumber": "D 2222 BBB",
-        "vehicleBrand": "Honda",
-        "vehicleName": "Vario 160",
-        "createdAt": "2026-04-21"
+        "vehicleBrand": "",
+        "vehicleName": "",
+        "createdAt": "2026-04-20"
       },
       {
         "id": "testcust008",
         "name": "Mega Hartati",
-        "phone": "085512345678",
+        "phone": "6285512345678",
         "policeNumber": "F 3333 CCC",
         "vehicleBrand": "Yamaha",
         "vehicleName": "Mio M3",
-        "createdAt": "2026-04-21"
+        "createdAt": "2026-04-18"
       },
       {
         "id": "testcust009",
         "name": "Hendra Kurniawan",
         "phone": "081199998888",
         "policeNumber": "B 4444 DDD",
-        "vehicleBrand": "Suzuki",
+        "vehicleBrand": "",
         "vehicleName": "Addr115",
         "createdAt": "2026-04-21"
       },
@@ -91,7 +96,52 @@
         "policeNumber": "G 5555 EEE",
         "vehicleBrand": "Honda",
         "vehicleName": "Genio",
+        "createdAt": "2026-04-17"
+      },
+      {
+        "id": "testcust011",
+        "name": "Toni Sugianto",
+        "phone": "085611223344",
+        "policeNumber": "B 6666 FFF",
+        "vehicleBrand": "Honda",
+        "vehicleName": "Vario 150",
         "createdAt": "2026-04-21"
+      },
+      {
+        "id": "testcust012",
+        "name": "Rina Kusuma",
+        "phone": "081233344455",
+        "policeNumber": "D 7777 GGG",
+        "vehicleBrand": "Yamaha",
+        "vehicleName": "Nmax Turbo",
+        "createdAt": "2026-04-16"
+      },
+      {
+        "id": "testcust013",
+        "name": "Dani Firmawan",
+        "phone": "6288212345678",
+        "policeNumber": "F 8888 HHH",
+        "vehicleBrand": "Suzuki",
+        "vehicleName": "Satria FU",
+        "createdAt": "2026-04-15"
+      },
+      {
+        "id": "testcust014",
+        "name": "Wati Sari",
+        "phone": "081255667788",
+        "policeNumber": "B 9999 III",
+        "vehicleBrand": "Honda",
+        "vehicleName": "Beat POP",
+        "createdAt": "2026-04-21"
+      },
+      {
+        "id": "testcust015",
+        "name": "Asep Saepulloh",
+        "phone": "087700112233",
+        "policeNumber": "G 1010 JJJ",
+        "vehicleBrand": "",
+        "vehicleName": "",
+        "createdAt": "2026-04-14"
       }
     ],
     "parts": [
@@ -99,7 +149,7 @@
         "id": "testpart001",
         "name": "Yamalube Matic Oil",
         "deskripsi": "Oli mineral 10W-40 JASO MB",
-        "supplier": "Toko Oli Maju",
+        "supplier": "Pak Ahmad",
         "perusahaan": "PT Maju Jaya",
         "telpSupplier": "02112345678",
         "qty": 20,
@@ -109,7 +159,7 @@
         "id": "testpart002",
         "name": "Yamalube Super Matic",
         "deskripsi": "Full Synthetic 10W-40 JASO MB",
-        "supplier": "Toko Oli Maju",
+        "supplier": "Pak Ahmad",
         "perusahaan": "PT Maju Jaya",
         "telpSupplier": "02112345678",
         "qty": 15,
@@ -119,17 +169,17 @@
         "id": "testpart003",
         "name": "Yamalube Turbo Matic",
         "deskripsi": "Full Synthetic 10W-40 JASO MB SN",
-        "supplier": "Toko Oli Maju",
+        "supplier": "Pak Ahmad",
         "perusahaan": "PT Maju Jaya",
         "telpSupplier": "02112345678",
-        "qty": 12,
+        "qty": 3,
         "price": 95000
       },
       {
         "id": "testpart004",
         "name": "Yamalube XP-50",
         "deskripsi": "Oli 20W-50 untuk motor bebek",
-        "supplier": "Toko Oli Maju",
+        "supplier": "Pak Ahmad",
         "perusahaan": "PT Maju Jaya",
         "telpSupplier": "02112345678",
         "qty": 18,
@@ -139,7 +189,7 @@
         "id": "testpart005",
         "name": "2T Motor Oil",
         "deskripsi": "Oli samping 2T semi synthetic",
-        "supplier": "Toko Oli Maju",
+        "supplier": "Pak Ahmad",
         "perusahaan": "PT Maju Jaya",
         "telpSupplier": "02112345678",
         "qty": 10,
@@ -149,7 +199,7 @@
         "id": "testpart006",
         "name": "Sport Motor Oil",
         "deskripsi": "Oli untuk motor sport 4T",
-        "supplier": "Toko Oli Maju",
+        "supplier": "Pak Ahmad",
         "perusahaan": "PT Maju Jaya",
         "telpSupplier": "02112345678",
         "qty": 8,
@@ -159,10 +209,10 @@
         "id": "testpart007",
         "name": "Carb & Injector Cleaner",
         "deskripsi": "Pembersih karburator dan injektor",
-        "supplier": "Toko Part Borneo",
+        "supplier": "Pak Budi",
         "perusahaan": "Borneo Motor",
         "telpSupplier": "05411234567",
-        "qty": 15,
+        "qty": 4,
         "price": 35000
       },
       {
@@ -202,7 +252,7 @@
         "supplier": "Toko Brake Jaya",
         "perusahaan": "Brake Motor Indonesia",
         "telpSupplier": "02176543210",
-        "qty": 20,
+        "qty": 2,
         "price": 65000
       },
       {
@@ -242,8 +292,58 @@
         "supplier": "Bandi Parts",
         "perusahaan": "Altis Motor",
         "telpSupplier": "081123456789",
-        "qty": 8,
+        "qty": 1,
         "price": 95000
+      },
+      {
+        "id": "testpart016",
+        "name": "Filter Udara Nmax",
+        "deskripsi": "Filter udara Yamaha Nmax",
+        "supplier": "Fajar Motor",
+        "perusahaan": "Lestari Motor",
+        "telpSupplier": "02198765432",
+        "qty": 6,
+        "price": 65000
+      },
+      {
+        "id": "testpart017",
+        "name": "Oli Gardan",
+        "deskripsi": "Oli gardan untuk motor bebek",
+        "supplier": "Pak Ahmad",
+        "perusahaan": "PT Maju Jaya",
+        "telpSupplier": "02112345678",
+        "qty": 12,
+        "price": 25000
+      },
+      {
+        "id": "testpart018",
+        "name": "Busi GS Iridium",
+        "deskripsi": "Busi GS iridium",
+        "supplier": "Toko Busi Jakarta",
+        "perusahaan": "NGK Indonesia",
+        "telpSupplier": "02188887777",
+        "qty": 20,
+        "price": 28000
+      },
+      {
+        "id": "testpart019",
+        "name": "Kampas Rem Depan Yamaha",
+        "deskripsi": "Kampas rem depan Yamaha",
+        "supplier": "Toko Brake Jaya",
+        "perusahaan": "Brake Motor Indonesia",
+        "telpSupplier": "02176543210",
+        "qty": 18,
+        "price": 60000
+      },
+      {
+        "id": "testpart020",
+        "name": "Fan Belt",
+        "deskripsi": "Fan belt motor matic",
+        "supplier": "Bandi Parts",
+        "perusahaan": "Altis Motor",
+        "telpSupplier": "081123456789",
+        "qty": 7,
+        "price": 55000
       }
     ],
     "servis": [
@@ -413,7 +513,7 @@
       },
       {
         "id": "testserv009",
-        "tanggal": "2026-04-21",
+        "tanggal": "2026-04-20",
         "customerId": "testcust009",
         "items": [
           {
@@ -435,7 +535,7 @@
       },
       {
         "id": "testserv010",
-        "tanggal": "2026-04-21",
+        "tanggal": "2026-04-20",
         "customerId": "testcust010",
         "items": [
           {
@@ -453,7 +553,209 @@
         ],
         "total": 190000,
         "catatan": "Ganti oli turbo + roller",
+        "status": "selesai"
+      },
+      {
+        "id": "testserv011",
+        "tanggal": "2026-04-20",
+        "customerId": "testcust011",
+        "items": [
+          {
+            "partId": "testpart001",
+            "name": "Yamalube Matic Oil",
+            "price": 45000,
+            "qty": 1
+          },
+          {
+            "partId": "testpart009",
+            "name": "Filter Udara Beat",
+            "price": 55000,
+            "qty": 1
+          },
+          {
+            "partId": "testpart013",
+            "name": "Busi NGK Iridium",
+            "price": 35000,
+            "qty": 1
+          }
+        ],
+        "total": 135000,
+        "catatan": "Service besar",
+        "status": "selesai"
+      },
+      {
+        "id": "testserv012",
+        "tanggal": "2026-04-19",
+        "customerId": "testcust012",
+        "items": [
+          {
+            "partId": "testpart002",
+            "name": "Yamalube Super Matic",
+            "price": 75000,
+            "qty": 1
+          },
+          {
+            "partId": "testpart016",
+            "name": "Filter Udara Nmax",
+            "price": 65000,
+            "qty": 1
+          }
+        ],
+        "total": 140000,
+        "catatan": "Premium service",
+        "status": "selesai"
+      },
+      {
+        "id": "testserv013",
+        "tanggal": "2026-04-19",
+        "customerId": "testcust013",
+        "items": [
+          {
+            "partId": "testpart004",
+            "name": "Yamalube XP-50",
+            "price": 40000,
+            "qty": 1
+          },
+          {
+            "partId": "testpart017",
+            "name": "Oli Gardan",
+            "price": 25000,
+            "qty": 1
+          }
+        ],
+        "total": 65000,
+        "catatan": "Service motor bebek",
+        "status": "selesai"
+      },
+      {
+        "id": "testserv014",
+        "tanggal": "2026-04-18",
+        "customerId": "testcust014",
+        "items": [
+          {
+            "partId": "testpart001",
+            "name": "Yamalube Matic Oil",
+            "price": 45000,
+            "qty": 1
+          }
+        ],
+        "total": 45000,
+        "catatan": "Ganti oli",
+        "status": "selesai"
+      },
+      {
+        "id": "testserv015",
+        "tanggal": "2026-04-18",
+        "customerId": "testcust015",
+        "items": [
+          {
+            "partId": "testpart006",
+            "name": "Sport Motor Oil",
+            "price": 65000,
+            "qty": 1
+          },
+          {
+            "partId": "testpart018",
+            "name": "Busi GS Iridium",
+            "price": 28000,
+            "qty": 1
+          }
+        ],
+        "total": 93000,
+        "catatan": "Service + ganti busi",
+        "status": "selesai"
+      },
+      {
+        "id": "testserv016",
+        "tanggal": "2026-04-17",
+        "customerId": "testcust001",
+        "items": [
+          {
+            "partId": "testpart001",
+            "name": "Yamalube Matic Oil",
+            "price": 45000,
+            "qty": 1
+          }
+        ],
+        "total": 45000,
+        "catatan": "Ganti oli rutin",
+        "status": "selesai"
+      },
+      {
+        "id": "testserv017",
+        "tanggal": "2026-04-16",
+        "customerId": "testcust004",
+        "items": [
+          {
+            "partId": "testpart002",
+            "name": "Yamalube Super Matic",
+            "price": 75000,
+            "qty": 1
+          }
+        ],
+        "total": 75000,
+        "catatan": "Ganti oli",
+        "status": "selesai"
+      },
+      {
+        "id": "testserv018",
+        "tanggal": "2026-04-15",
+        "customerId": "testcust008",
+        "items": [
+          {
+            "partId": "testpart001",
+            "name": "Yamalube Matic Oil",
+            "price": 45000,
+            "qty": 1
+          },
+          {
+            "partId": "testpart013",
+            "name": "Busi NGK Iridium",
+            "price": 35000,
+            "qty": 1
+          }
+        ],
+        "total": 80000,
+        "catatan": "Tune up",
+        "status": "selesai"
+      },
+      {
+        "id": "testserv019",
+        "tanggal": "2026-04-21",
+        "customerId": "testcust011",
+        "items": [
+          {
+            "partId": "testpart019",
+            "name": "Kampas Rem Depan Yamaha",
+            "price": 60000,
+            "qty": 1
+          }
+        ],
+        "total": 60000,
+        "catatan": "Cek rem",
         "status": "menunggu"
+      },
+      {
+        "id": "testserv020",
+        "tanggal": "2026-04-21",
+        "customerId": "testcust014",
+        "items": [
+          {
+            "partId": "testpart003",
+            "name": "Yamalube Turbo Matic",
+            "price": 95000,
+            "qty": 1
+          },
+          {
+            "partId": "testpart020",
+            "name": "Fan Belt",
+            "price": 55000,
+            "qty": 1
+          }
+        ],
+        "total": 150000,
+        "catatan": "Service CVT",
+        "status": "servicing"
       }
     ]
   }
